@@ -246,7 +246,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 % \subsection{Bead tracking}
 
 % \section{Future work}
-% 
+%
 % \subsection{Bead tracking}
 % The work presented here is, so far, is a proof-of-concept demonstrated by simulation and reconstruction from ground-truth testcard objects, and requires several further steps in order apply it to real \gls{OPT} data.
 % Firstly, a bead-tracking algorithm~\cite{crockerMethodsDigitalVideo1996} will need to be created to reliably track multiple beads, concurrently, in an image series.
@@ -292,3 +292,87 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 
 %A future version of this algorithm may be able to use 3 views to produce a more faithful transformation matrix.
 %The mathematics for more than three views currently does not exist.
+
+
+\begin{figure}
+  \centering
+  \includegraphics{./figures/flOPT_principle}
+  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls{OPT} image data will have an associated \gls{R} and \gls{T} (shown here in augmented form using homogenous coordinates), these matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+   \hspace*{\fill}
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/iradon_nofilter}};
+       \node[below=of img] {\(X\)};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/iradon_filter}};
+       \node[below=of img] {\(v\)\vphantom{\(X\)}};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}\label{fig:iradon_filter}
+  \end{subfigure}
+   \hspace*{\fill}
+  \caption[Effects of filtering the result of a inverse Radon transform reconstruction]{
+  The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
+\end{figure}
+
+
+\begin{figure}
+  \centering
+   \hspace*{\fill}
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/flopt_camerman}};
+       \node[below=of img] {\(Z\)};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption{Filtered reconstruction Cameraman testcard}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/flopt_filter}};
+       \node[below=of img] {\(X\)};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption{Filtered reconstruction of Lena testcard}
+  \end{subfigure}
+   \hspace*{\fill}
+   \caption[Filtered reconstruction of the ground truth reference image using the new proposed algorithm.]{
+  Filtered reconstruction of the ground truth reference image from \figurename~\ref{fig:recon_iterative} using the new proposed algorithm.
+  }\label{fig:flopt_filter}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+   \hspace*{\fill}
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
+       \node[below=of img] {\(X\)};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
+       \node[below=of img] {\(v\)\vphantom{\(X\)}};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
+    \end{tikzpicture}
+    \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
+  \end{subfigure}
+   \hspace*{\fill}
+   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
+\end{figure}

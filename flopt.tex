@@ -70,30 +70,6 @@ When adding a systematic spatial and angular mechanical drift, the reconstructio
 
 % \section{Rotational computer tomography in microscopy}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}[t]{0.48\textwidth}
-        \centering
-        \includegraphics{./figures/coordinate_system}
-        \caption[Coordinate system]{Coordinate system used in this chapter describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(\gls{X}\).
-        }\label{fig:coordinate_system_flopt}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.48\textwidth}
-      \centering
-      \includegraphics{./figures/OPT_digram}
-      \caption[Principle of OPT]{From an angle \(\theta \), an object \(f(X,Y)\) and its projection \(P_\theta(t)\) are known.}\label{fig:OPT_digram}
-      %{Principle of \gls{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
-      % The volumetric image is later reconstructed from the set of detections (1/2D).}
-    \end{subfigure}
-    \caption[Coordinates and \gls{OPT}]{\gls{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
-            \gls{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
-            \gls{p} = \((x,y,f)\) is the ray vector to point of image plane.
-            \gls{x} = \((x,y)\) is the image plane coordinates.
-            \gls{w} = \((u,v)\) is the pixel coordinates (not shown) corresponding to the point \gls{x}.
-            The optical axis travels along the \(Z_c\) axis through the image plane.}
-    % \label{fig:aa}
-\end{figure}
-
 %Well establishjed
 %Three-dimensional imaging of anatomy in thick biological samples provides valuable data for developmental biology studies.
 %Tomographic techniques that generate 3D reconstructions from 2D images such as computed tomography (CT) and magnetic resonance imaging (MRI) are essential in medical applications to visualize morphology in large tissues and organs.
@@ -112,7 +88,8 @@ using visible light to image transparent or translucent mesoscopic samples, with
 Typically a Radon transform used to then transform this set of images into a 3D image stack in Cartesian (\(X,Y,Z\)).
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
 The \gls{Radon transform} relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
-This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as inconsistent angular steps
+This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as inconsistent angular steps.
+
 
 % There are two imaging modalities for \gls{OPT}, \gls{eOPT} and \gls{tOPT}.
 % In \gls{eOPT}, a fluorescent sample is excited using an illumination source off axis to the detection, similar to \gls{light-sheet} but the entire \gls{depth of field} of the detection of objective is illuminated.
@@ -155,6 +132,30 @@ This work presents an improved reconstruction algorithm that is robust to spatia
 \end{figure}
 
 \section{Stereoscopic imaging}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics{./figures/coordinate_system}
+        \caption[Coordinate system]{Coordinate system used in this chapter describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(\gls{X}\).
+        }\label{fig:coordinate_system_flopt}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+      \centering
+      \includegraphics{./figures/OPT_digram}
+      \caption[Principle of OPT]{From an angle \(\theta \), an object \(f(X,Y)\) and its projection \(P_\theta(t)\) are known.}\label{fig:OPT_digram}
+      %{Principle of \gls{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
+      % The volumetric image is later reconstructed from the set of detections (1/2D).}
+    \end{subfigure}
+    \caption[Coordinates and \gls{OPT}]{\gls{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
+            \gls{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
+            \gls{p} = \((x,y,f)\) is the ray vector to point of image plane.
+            \gls{x} = \((x,y)\) is the image plane coordinates.
+            \gls{w} = \((u,v)\) is the pixel coordinates (not shown) corresponding to the point \gls{x}.
+            The optical axis travels along the \(Z_c\) axis through the image plane.}
+    % \label{fig:aa}
+\end{figure}
 
 %\subsection{Projective geometry}
 
@@ -210,12 +211,6 @@ Once a sufficient amount of fiducial markers are reliably tracked from the first
 Using the factorisation one of these matrixes, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
 % Here we will discuss a reconstruction using \gls{F} but the same principle applies for \gls{Essential} and \gls{H}.
 
-\begin{figure}
-  \centering
-  \includegraphics{./figures/flOPT_principle}
-  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls{OPT} image data will have an associated \gls{R} and \gls{T} (shown here in augmented form using homogenous coordinates), these matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
-\end{figure}
-
 % Here are two ways of reconstructing using the fundamental matrix as described above.
 To reconstruct we compute \gls{F} for the current image and the first image using 5 or more fiducial markers; having additional beads helps to remove ambiguity and increase confidence in \gls{F}.
 Once \gls{F} is calculated \gls{F} is then decomposed into \(\gls{R}_n\) and \(\gls{T}_n\) between each view \(n\) and \(n+1\).
@@ -227,32 +222,6 @@ The transformation matrices that are recovered are then inverted to realign the 
 % This process is repeated for every angle the sum of these ray projection volumes is filtered using a high-pass filter; here a \gls{Ram-Lak filter} is used.
 % \footnote{Linear real (amplitude) ramp filter in Fourier space}. %: \(|v|\)}
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
-
-
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/iradon_nofilter}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/iradon_filter}};
-       \node[below=of img] {\(v\)\vphantom{\(X\)}};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}\label{fig:iradon_filter}
-  \end{subfigure}
-   \hspace*{\fill}
-  \caption[Effects of filtering the result of a inverse Radon transform reconstruction]{
-  The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
-\end{figure}
-
 
 \begin{figure}
     \centering
@@ -328,7 +297,7 @@ This is repeated for each angle with each line projection stacked to create a si
 \begin{figure}
     % \begin{subfigure}[t]{\linewidth}
         \centering
-        \includegraphics{./figures/ortho_3d_correct}
+        \includegraphics[width=0.4\textwidth]{./figures/ortho_3d_correct}
         \caption{Ground truth 3D object for reconstruction, based on the Cameraman and Lena testcard images.}\label{fig:ortho_3d_correct}
     % \end{subfigure}
 \end{figure}
@@ -406,30 +375,6 @@ This is repeated for each angle with each line projection stacked to create a si
     %TODO use different filters.
 \end{figure}
 
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/flopt_camerman}};
-       \node[below=of img] {\(Z\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption{Filtered reconstruction Cameraman testcard}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/flopt_filter}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption{Filtered reconstruction of Lena testcard}
-  \end{subfigure}
-   \hspace*{\fill}
-   \caption[Filtered reconstruction of the ground truth reference image using the new proposed algorithm.]{
-  Filtered reconstruction of the ground truth reference image from \figurename~\ref{fig:recon_iterative} using the new proposed algorithm.
-  }\label{fig:flopt_filter}
-\end{figure}
 
 In the standard approach for \gls{OPT} reconstruction, the \gls{sinugram} undergoes the inverse \gls{Radon transform}, as shown in \figurename~\ref{fig:iradon_nofilter} and then post-filtering, see \figurename~\ref{fig:iradon_filter}.
 This step is substituted for the proposed algorithm; in \figurename~\ref{fig:flopt_comparison_line_profile} the two techniques are compared for ideal conditions of smooth, predictable rotation.
@@ -449,15 +394,34 @@ This suggests that the new algorithm is producing an accurate reconstruction of 
 
 \begin{figure}
   \centering
-  \includegraphics{./figures/results/comparison_line_profile}
-  \caption[Line profile comparison of the standard and new algorithms]{Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls{Radon transform} and the new proposed algorithm.}\label{fig:flopt_comparison_line_profile}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics{./figures/results/flopt_histogram}
-  \caption[Histogram of of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}]{Histogram of of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}.
-  The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm out performs the \gls{Radon transform}}\label{fig:flopt_histogram}
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/results/comparison_line_profile}
+    % \caption[Line profile comparison of the standard and new algorithms]{Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls{Radon transform} and the new proposed algorithm.}
+    \caption{}\label{fig:flopt_comparison_line_profile}
+  \end{subfigure}\quad
+ \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/results/flopt_histogram}
+    % \caption[Histogram of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}]{Histogram of of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}.
+    % The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm out performs the \gls{Radon transform}}\label{fig:flopt_histogram}
+    \caption{}\label{fig:flopt_histogram}
+  \end{subfigure}\\
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/results/correlation_helicity}
+    % \caption[Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift]{%2D correlation of the source image shows that flOPT does not degrade under systematic drift compared to s.
+    % Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
+    % 2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas reconstruction using the standard \gls{Radon transform} is severely degraded.
+    % }
+    \caption{}\label{fig:helical_comparison}
+  \end{subfigure}
+  \caption{
+  (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls{Radon transform} and the new proposed algorithm.
+  (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}.
+  The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm out performs the \gls{Radon transform}
+  (\subref{fig:helical_comparison}): Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
+  2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas reconstruction using the standard \gls{Radon transform} is severely degraded.}
 \end{figure}
 
 %However, the proposed algorithm fairs worse in terms of contrast compared to a \gls{Radon transform}.
@@ -469,29 +433,6 @@ In \figurename~\ref{fig:helical_comparison} the respective images from each algo
 See \figurename~\ref{fig:flopt_helix_sinugram} for a \gls{sinugram} of a sample whereby a helical shift has been induced.
 When using correlation as a metric of reproduction quality, at zero helicity, the new algorithm fairs slightly worse at \SI{94}{\percent} correlation compared to the \gls{Radon transform} at \SI{96}{\percent}.
 As expected, the \gls{Radon transform} rapidly deteriorates once a systematic drift is applied; whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
-
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
-       \node[below=of img] {\(v\)\vphantom{\(X\)}};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
-    \end{tikzpicture}
-    \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
-  \end{subfigure}
-   \hspace*{\fill}
-   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
-\end{figure}
 
 \begin{figure}
   \centering
@@ -535,15 +476,6 @@ As expected, the \gls{Radon transform} rapidly deteriorates once a systematic dr
   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics{./figures/results/correlation_helicity}
-  \caption[Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift]{%2D correlation of the source image shows that flOPT does not degrade under systematic drift compared to s.
-  Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
-  2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas reconstruction using the standard \gls{Radon transform} is severely degraded.
-  }\label{fig:helical_comparison}
-\end{figure}
-
 \subsection{Recovery of R and T using matrix decomposition}
 
 To quantitatively verify that the matrix decomposition technique was valid and robust, the accuracy of the reproduction of \gls{R} and \gls{T} was tested directly.
@@ -564,39 +496,39 @@ Consistently the translational matrix (\gls{T}) was more accurately reproduced, 
     \begin{subfigure}[t]{0.5\textwidth}
       \captionsetup{width=0.8\textwidth}
       \centering
-      \includegraphics{./figures/results/helix/decompose/pc_sum_rot_alpha}
+      \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_rot_alpha}
       \caption{Rotation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_rot_alpha}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{0.5\textwidth}
       \captionsetup{width=0.8\textwidth}
       \centering
-      \includegraphics{./figures/results/helix/decompose/pc_sum_trans_alpha}
+      \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_trans_alpha}
       \caption{Translation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_trans_alpha}
     \end{subfigure}
     \bigskip
         \begin{subfigure}[t]{0.5\textwidth}
           \captionsetup{width=0.8\textwidth}
           \centering
-          \includegraphics{./figures/results/helix/decompose/pc_sum_rot_tx}
+          \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_rot_tx}
           \caption{Rotation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_rot_tx}
         \end{subfigure}\hfill
         \begin{subfigure}[t]{0.5\textwidth}
           \captionsetup{width=0.8\textwidth}
           \centering
-          \includegraphics{./figures/results/helix/decompose/pc_sum_trans_tx}
+          \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_trans_tx}
           \caption{Translation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_trans_tx}
         \end{subfigure}
     \bigskip
         \begin{subfigure}[t]{0.5\textwidth}
           \captionsetup{width=0.8\textwidth}
           \centering
-          \includegraphics{./figures/results/helix/decompose/pc_sum_rot_both}
+          \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_rot_both}
           \caption{Rotation matrix, with angular drift in \(\alpha \) and helical drift in \(x\)}\label{fig:pc_sum_rot_both}
         \end{subfigure}\hfill
         \begin{subfigure}[t]{0.5\textwidth}
           \captionsetup{width=0.8\textwidth}
           \centering
-          \includegraphics{./figures/results/helix/decompose/pc_sum_trans_both}
+          \includegraphics[width=\textwidth]{./figures/results/helix/decompose/pc_sum_trans_both}
           \caption{Translation matrix, with angular drift in \(\alpha \) and helical drift in \(X\)}\label{fig:pc_sum_trans_both}
         \end{subfigure}
           \caption[Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions]{Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions.
