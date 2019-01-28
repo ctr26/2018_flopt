@@ -33,23 +33,25 @@
 
 \title{Frame Localisation Optical Projection Tomography}
 
-\author{Craig Russell,\authormark{1*,2} Eric Rees,\authormark{1}}
+\author{Craig Russell,\authormark{1*,2}, \author{Pedro P Vallejo\authormark{1}}, Eric Rees,\authormark{1}}
 
-\address{\authormark{1}\\
-\authormark{2}\\
-\authormark{3}}
-
+\address{Department of Chemical Engineering and Biotechnology, University of Cambridge,\authormark{1}}
+\address{National Physical Laboratory, \authormark{2}}
 \email{\authormark{*}craig.russell@npl.co.uk} %% email address is required
 
 % \homepage{http:...} %% author's URL, if desired
 
 %%%%%%%%%%%%%%%%%%% abstract %%%%%%%%%%%%%%%%
 
-We present a tomographic reconstruction algorithm which is robust to mechanical jitter and systematic angular and spatial drift. The algorithm is applied to Optical Projection Tomography which relies on precise mechanical rotation and is less mechanically stable than large scale CT scanning systems, leading to reconstruction artefacts. The algorithm works by using multiple (5+) tracked fiducial beads to recover the sample pose and the image rays are then back-projected at each orientation. The quality of the reconstruction shows an improvement when comparted to the Radon transform, with a significant improvement when a systematic spatial and angular mechanical drift is introduced.
+We present a tomographic reconstruction algorithm, which is applied to Optical Projection Tomography (OPT) [1] images, that is robust to mechanical jitter and systematic angular and spatial drift.
+OPT relies on precise mechanical rotation and is less mechanically stable than large scale CT scanning systems, leading to reconstruction artefacts.
+The algorithm uses multiple (5+) tracked fiducial beads to recover the sample pose and the image rays are then back-projected at each orientation.
+The quality of the image reconstruction using the proposed algorithm shows an improvement when compared to the Radon transform.
+When adding a systematic spatial and angular mechanical drift, the reconstruction using the proposed algorithm shows a significant improvement over the Radon transform.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Frame localisation optical projection tomography}
+% \section{Frame localisation optical projection tomography}
 
 % % \epigraph{\emph{Pascale Sauvage}}{--- Pablo Vallejo}
 %
@@ -66,7 +68,7 @@ We present a tomographic reconstruction algorithm which is robust to mechanical 
 % It will be demonstrated on ground truth simulated testcard image data with motion errors compounded onto the tomographic rotation.
 % These motion errors will include systematic mechanical drift, giving a spiral path; and angular drift giving precession.
 
-\section{Rotational computer tomography in microscopy}
+% \section{Rotational computer tomography in microscopy}
 
 \begin{figure}
     \centering
@@ -107,13 +109,9 @@ using visible light to image transparent or translucent mesoscopic samples, with
 %Optical Projection Tomography was first proposed by Sharpe in 2002 [30]; it uses visible light to image and create volumetric data of transparent (naturally or artificially) mesoscopic objects (1 - 10 mm) at micron-level resolution.
 
 \gls{OPT} is based on computerised tomography techniques~\cite{kakPrinciplesComputerizedTomographic2001} in which a set of projections of a specimen are imaged as the specimen travels through a full rotation.
-Typically a Radon transform used to then transform this set of images into a
-%n  \(xyz \) image stack.
-3D image stack in Cartesian (\(X,Y,Z\)).
+Typically a Radon transform used to then transform this set of images into a 3D image stack in Cartesian (\(X,Y,Z\)).
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
-
 The \gls{Radon transform} relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
-
 This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as inconsistent angular steps
 
 % There are two imaging modalities for \gls{OPT}, \gls{eOPT} and \gls{tOPT}.
@@ -156,7 +154,6 @@ This work presents an improved reconstruction algorithm that is robust to spatia
   \caption{Reference images for \gls{OPT} reconstruction.}\label{fig:rawinputs}
 \end{figure}
 
-
 \section{Stereoscopic imaging}
 
 %\subsection{Projective geometry}
@@ -168,63 +165,12 @@ This work presents an improved reconstruction algorithm that is robust to spatia
 
 %\todo{Camera projections \ lecture notes 3}
 
-Imaging scenes in stereo allows for the triangulation of individual features in three dimensional space (know as world points) when the features or fiducial markers in one detector are uniquely identifiable (such as fluorescent beads).
-
-Triangulation requires each feature
-% in both images to be the same
-to be detected in both images of a stereo imaging system, and for these detections to be correctly associated with one another:
-this is known as the correspondence problem.
-Many methods exist to ensure that features are %
-% known and confidently the same
-detected from image data and accurately associated
-% image data from
-between two cameras or views.
+The stereoscopic imaging scenes allows for the triangulation of individual features in three dimensional space (know as world points) when the features or fiducial markers in one detector are uniquely identifiable. %(such as fluorescent beads).
+Triangulation requires that each feature is detected in both images of a stereo imaging system, and for these detections to be correctly associated with one another: this is known as the correspondence problem.
+Many methods exist to ensure that features are detected from image data and accurately associated between two cameras or views.
 Properties of scale independent features and their surrounding pixel environment in one image can be matched to a similar feature in the second image.
 
-% Now, suppose we know the relative positions of the two cameras and their respective intrinsic parameters, such as magnification and pixel offset.
-% For a single camera and given the camera parameters, we can translate pixel coordinates, \(\gls{w} = (u, v)\), into the coplanar image plane coordinates \(\gls{x}=(x, y)\):
-%
-% \begin{align}
-%     u &= u_0 + k_u x \\
-%     v &= v_0 + k_v y
-% \end{align}
-%
-% Knowing the focal length (\(f\)) of the imaging system, image plane coordinates may be projected into a ray in 3D.
-% The ray can be defined by using the point \gls{p} in camera-centred coordinates, where it crosses the image plane.
-%
-% \begin{align}
-%   \mathbf{p} = \begin{bmatrix}
-%         x\\y\\z
-%       \end{bmatrix}
-% \end{align}
-
-% From the definition of a world point, as observed through an image, we can construct a dual-view model of world points in space as in \figurename~\ref{fig:epi-polar-geom}.
-% Using a model of a system with two views allows for the triangulation of rays based on image correspondences, this is an important part of stereo-vision.
-% The most important matching constraint which can be used the \emph{epipolar constraint}, and follows directly from the fact that the rays must intersect in 3D space.
-% Epipolar constraints facilitate the search for correspondences, they constrain the search to a 1D line in each image.
-% To derive general epipolar constraints, one should consider the epipolar geometry of two cameras as seen in \figurename~\ref{fig:epi-polar-geom}
-%
-%
-% The \textbf{baseline} is defined as the line joining the optical centres.
-% An \textbf{epipole} is the point of intersection of the baseline with the image plan and there are two epipoles per feature, one for each camera.
-% An \textbf{epipolar line} is a line of intersection of the epipolar plane with an image plane.
-% It is the image in one camera of the ray from the other camera’s optical centre to the world point (\gls{X}).
-% For different world points, the epipolar plane rotates about the baseline.
-% All epipolar lines intersect the epipole.
-%
-% The epipolar line constrains the search for correspondence from a region to a line.
-% If a point feature is observed at \gls{x} in one image frame, then its location \gls{x'} in the other image frame must lie on the epipolar line.
-% We can derive an expression for the epipolar line.
-% The two camera-centered coordinate systems \gls{X_c'} and \gls{X_c} are related by a rotation, \gls{R} and translation, \gls{T} (see in \figurename~\ref{fig:epi-polar-geom}) as follows:
-%
-% \begin{align}
-%     \gls{X_c'} &= \gls{R}\gls{X_c'} + \gls{T}
-% \end{align}
-% %       \\
-% %     \intertext{Taking the vector product with \(\gls{T}\), we obtain}
-% %     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}+ \gls{T} \times \gls{T}  \\
-% %     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}\label{eq:Xprime = RTX}
-% % \end{align}
+%TODO ADD SOME STEREOIMAGING STUFF?
 
 \begin{figure}
   \centering
@@ -236,133 +182,23 @@ Properties of scale independent features and their surrounding pixel environment
   }\label{fig:epi-polar-geom}
 \end{figure}
 
-% \subsection{The Essential matrix}
-%
-% Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls{X_c'}\), we obtain:
-% \begin{align}
-%     \gls{X_c'} \cdot (\gls{T} \times \gls{X_c}) &= \gls{X_c'}\cdot (\gls{T} \times \gls{R} \gls{X_c'}) \\
-%     \gls{X_c'} \cdot (\gls{T} \times \gls{R} \gls{X_c}) &= 0
-%     \intertext{A vector product can be expressed as a matrix multiplication:}
-%     \gls{T} \times \gls{X_c} &= \gls{T_x} \gls{X_c}
-%     \intertext{where}
-%     \gls{T_x} &=\begin{bmatrix}
-%     0    & -T_z  & T_y\\
-%     T_z  & 0     & -T_x\\
-%     -T_y  & T_x   & 0
-%     \end{bmatrix}
-% \end{align}
-% So equation~\eqref{eq:Xprime = RTX} can be rewritten as:
-%
-% \begin{align}
-% \gls{X_c'} \cdot (\gls{T_x} \gls{R}\gls{X_c}) = 0 \\
-% \gls{X_c'} \gls{T} \gls{Essential} \gls{X_c}= 0 \\
-% \intertext{where}
-% \gls{Essential} = \gls{T_x} \gls{R}
-% \end{align}
-%
-% \gls{Essential} is a \(3 \times 3\) matrix known as the \emph{essential matrix}.
-% The constraint also holds for rays \gls{p}, which are parallel to the camera-centered position vectors \gls{X_c}:
-%
-% \begin{align}
-% \gls{p'}^T \gls{Essential} \gls{p} = 0 \label{eq:pEp}
-% \end{align}
-% This is the epipolar constraint.
-% If a point \gls{p} is observed in one image, then its position \gls{p'} in the other image must lie on the line defined by Equation~\eqref{eq:pEp}.
-% The essential matrix can convert from pixels on the detector to rays \gls{p} in the world, assuming a calibrated camera (intrinsic properties are known), and pixel coordinates can then be converted to image plane coordinates using:
-% \begin{align}
-% \begin{bmatrix}
-% u\\
-% v\\
-% 1
-% \end{bmatrix}
-% &=
-% \begin{bmatrix}
-% k_u & 0 & u_0 \\
-% 0 & k_v & v_0 \\
-% 0 & 0 & 1
-% \end{bmatrix}
-% \begin{bmatrix}
-% x\\
-% y\\
-% 1
-% \end{bmatrix}
-% \intertext{We can modify this to derive a relationship between pixel coordinates and rays:}
-% \begin{bmatrix}
-% u\\
-% v\\
-% 1
-% \end{bmatrix}
-% &=
-% \begin{bmatrix}
-% \frac{k_u}{f} & 0 & \frac{u_0}{f} \\
-% 0 & \frac{k_v}{f} & \frac{v_0}{f} \\
-% 0 & 0 & \frac{1}{f}
-% \end{bmatrix}
-% \begin{bmatrix}
-% x\\
-% y\\
-% f
-% \end{bmatrix}
-% \intertext{\(\widetilde{\gls{K}}\) is defined as follows:}
-% \widetilde{\gls{K}} &= \begin{bmatrix}
-% f k_u & 0 & u_0 \\
-% 0 & f k_v & v_0 \\
-% 0 & 0 & 1
-% \end{bmatrix}
-% \intertext{then we can write pixel coordinates in homogenous coordinates:}
-% \widetilde{\gls{w}} &= \widetilde{\gls{K}} \gls{p}
-% \end{align}
-%
-% \subsection{The Fundamental matrix}
-%
-% \begin{align}
-%     \intertext{From~\eqref{eq:pEp} the epipolar constraint becomes}
-%     % \mathbf{p'}^T E \mathbf{p} &= 0 \\
-%     \widetilde{\gls{w'}} ^T \widetilde{\gls{K}}^{-T} E \widetilde{\gls{K}}^{-1} \widetilde{\gls{w}}  &= 0 \\
-%     \widetilde{\gls{w'}} ^T F \widetilde{\gls{w}}  &= 0
-% \end{align}
-% %\subsubsection{Two views}
-% %\paragraph{Mapping from one camera to another}
-% %\subsubsection{Three and more views}
-% The (\(3\times3)\) matrix \gls{F}, is the called the \emph{fundamental matrix}.
-% With intrinsically calibrated cameras, structure can be recovered by triangulation.
-% First, the two projection matrices are obtained via a \gls{SVD} of the essential matrix.
-% The \gls{SVD} of the essential matrix is given by:
-%
-% \begin{align}
-%     \gls{Essential} &= \gls{K'}^T \gls{F} \gls{K} = \gls{T_x} \gls{R} = \mathbf{U}\Lambda \mathbf{V}^T\\%\gls{R} = U\LambdaV^T\\
-%     \intertext{It can be shown that}
-%     \hat{\gls{T_x}} &= U \begin{bmatrix}
-%     0 & 1 & 0 \\
-%     -1 & 0 & 0 \\
-%     0 & 0 & 0
-%     \end{bmatrix} U^T
-%     \intertext{ and }
-%     \gls{R} &= U \begin{bmatrix}
-%     0 & -1 & 0 \\
-%     1 & 0 & 0 \\
-%     0 & 0 & 1
-%     \end{bmatrix} V^T
-%     \intertext{Then, aligning the left camera and world coordinate systems gives the projection matrices:}
-%     \mathbf{P} &= \gls{K}    \begin{bmatrix}[c|c]       \mathbf{I} & \mathbf{0}   \end{bmatrix}
-%     \intertext{ and }
-%     \mathbf{P}' &= \gls{K'} \begin{bmatrix}[c|c]       \gls{R} & \gls{T}   \end{bmatrix}
-% \end{align}
-% Where \( \begin{bmatrix}[c|c] \mathbf{I} & \mathbf{0} \end{bmatrix}\) is the identity matrix augmented column-wise with a zero matrix, and the two projection matrices (\(\mathbf{P}\) and \(\mathbf{P}'\)) project from camera pixel coordinates to world coordinates.
-% Given these projection matrices, scene structure can be recovered (only up to scale, since only the magnitude of \gls{T} (|\gls{T}|) is unknown) using least squares fitting.
-% Ambiguities in \gls{T} and \gls{R} are resolved by ensuring that visible points lie in front of the two cameras.
-% As with the essential matrix, the fundamental matrix can be factorised into a skew-symmetric matrix corresponding
-% to translation and a \(3 \times 3\) non-singular matrix corresponding to rotation.
+%TODO INSERT H E F DEFINTIONS
+Coordinates in two adjaceent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the Essential matrix (\gls{Essential}) for uncalibrated cameras and the Fundamental matrix (\gls{F}) or calibrated cameras as described:
+\begin{gather}
+\gls{p'}^T \gls{Essential} \gls{p} = 0 \label{eq:pEp}\\
+\gls{Essential} = \gls{K'}^T \gls{F} \gls{K} %= \gls{T_x} \gls{R} = \mathbf{U}\Lambda \mathbf{V}^T%\gls{R} = U\LambdaV^T\\
+\end{gather}
+Where \(K\) is a matrix which converts image plane coordinates to camera pixel coordinates and where \gls{p} refers to a point in the image plane.
 
 \section{The proposed algorithm}
 
 %The rotation may also not be orthogonal to the plane of detection.
-The shift of a camera or a camera pair around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) is analogous to a transforming the sample in the fixed view of an imaging detector, as in \gls{OPT}.
+The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls{OPT} acquisition.
 During an ideal \gls{OPT} acquisition, a marker will appear to follow an elliptical path in the \(xy\) camera plane.
-In the following volume reconstruction there will then be a fitting step to recover the path of the fiducial marker, to then apply a correction before applying a \gls{Radon transform}.
-This type of reconstruction not only ignores any mechanical jitter of the sample but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)).
+During the following volume reconstruction there is a fitting step to recover the path of the fiducial marker, which is used to apply as a correction before using the inverse \gls{Radon transform}.
+This type of reconstruction not only ignores any mechanical jitter of the sample but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
 
-Using two adjacent images of a scene separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
+Using two adjacent images of a scene, separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
 
 % The inverse is also possible, given a sufficient number of known fiducial points in a scene the translation and rotation matrices can be recovered.
 
@@ -370,8 +206,8 @@ Using two adjacent images of a scene separated by some rotation and translation,
 % Errors may however then be introduced from fiducial markers mechanically slipping and localisation errors.
 % Fiducial markers in this sense refer to an accurately locatable marker common through different views in a sample.
 
-Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, any of the \glslink{fundamental matrix}{fundamental}, \glslink{essential matrix}{essential} and \Gls{homography} matrices can be computed.
-Using the factorisation one of these matrixes, between each adjacent view of a rotating scene, the translation and rotational matrices may be recovered.
+Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, any of the \glslink{fundamental matrix}{fundamental}, \glslink{essential matrix}{essential} matrices can be computed.
+Using the factorisation one of these matrixes, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
 % Here we will discuss a reconstruction using \gls{F} but the same principle applies for \gls{Essential} and \gls{H}.
 
 \begin{figure}
@@ -381,13 +217,13 @@ Using the factorisation one of these matrixes, between each adjacent view of a r
 \end{figure}
 
 % Here are two ways of reconstructing using the fundamental matrix as described above.
-The first we compute \gls{F} for the current image and the first image using 5 or more fiducial markers; having additional beads helps to remove ambiguity and increase confidence in \gls{F}.
+To reconstruct we compute \gls{F} for the current image and the first image using 5 or more fiducial markers; having additional beads helps to remove ambiguity and increase confidence in \gls{F}.
 Once \gls{F} is calculated \gls{F} is then decomposed into \(\gls{R}_n\) and \(\gls{T}_n\) between each view \(n\) and \(n+1\).
 The image at view \(n+1\) is then back projected along the virtual optical axis within a virtual volume where the sample will be reconstructed.
 The size of this back projection and virtual volume is chosen to be suitably large (so that important data is not lost).
 % Then, all the prior rotation and translation matrices are serially multiplied from \(\begin{bmatrix}[c|c] \gls{R}_0&\gls{T}_0 \end{bmatrix}\) until \(\begin{bmatrix}[c|c] \gls{R}_n&\gls{T}_n \end{bmatrix}\) % \([R_n|T_n] \)
 % , this final matrix is inverted and applied to the back projected volume.
-The transformation matrices that are recovered are then inverted to realign the back projection of the image rays in the volume to their respective original locations.
+The transformation matrices that are recovered are then inverted to realign the back projection of the image rays in the volume to their respective source positions.
 % This process is repeated for every angle the sum of these ray projection volumes is filtered using a high-pass filter; here a \gls{Ram-Lak filter} is used.
 % \footnote{Linear real (amplitude) ramp filter in Fourier space}. %: \(|v|\)}
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
@@ -416,32 +252,7 @@ The transformation matrices that are recovered are then inverted to realign the 
   \caption[Effects of filtering the result of a inverse Radon transform reconstruction]{
   The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
 \end{figure}
-%
-%
-%
-% \begin{figure}
-%   \centering
-%    \hspace*{\fill}
-%   \begin{subfigure}[t]{0.3\textwidth}
-%     \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_nofilter}
-%     \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
-%     \label{fig:iradon_nofilter}
-%   \end{subfigure}\hfill
-%   \begin{subfigure}[t]{0.3\textwidth}
-%     \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_filter}
-%     \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}
-%     \label{fig:iradon_filter}
-%   \end{subfigure}
-%      \hspace*{\fill}
-%     % \label{fig:irandons}
-%   \caption{The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
-% \end{figure}
 
-% The second approach is less prone to compound errors but relies on precise identification and tracking of fiducial markers.
-% distinction and tracking fiducials.
-% Instead of calculating \gls{F} between neighbouring images, \gls{F} is calculated between the current projection and the very first projection.
-% \gls{F} is then decomposed and the transformation matrix is inverted and applied to the back projected volume.
-% The reoriented back projected volumes are summed and finally filtered to remove the additional spatial frequencies imparted from rotating the sample.
 
 \begin{figure}
     \centering
@@ -491,7 +302,7 @@ The image of Lena with an orthogonal image of cameraman
 % % The researchers in question realised that their presentation of the scanner's capabilities at a conference lacked a test image.
 % % The nearest image to hand was a Playboy magazine with Lena Söderberg as the centrefold.
 % }
-is used here as a test image to verify the validity of each reconstruction.
+is used here as a testcard volume to verify the validity of the reconstruction.
 Superimposed on Lena are fiducial beads to track the rotation of the image, see \figurename~\ref{fig:raw_input}.
 The reference image was then rotated through \SI{128} angles over \(2\pi \) radians and projected along the \(Y\) axis and a slice in (\(X,Y\)) was taken to create a single line projection, shown three dimensionally in \figurename~\ref{fig:recon_iterative}.
 This is repeated for each angle with each line projection stacked to create a sinugram, see \figurename~\ref{fig:sinugram_stretch}.
@@ -651,36 +462,36 @@ This suggests that the new algorithm is producing an accurate reconstruction of 
 
 %However, the proposed algorithm fairs worse in terms of contrast compared to a \gls{Radon transform}.
 
-The more challenging case of a sample drifting, with a constant velocity, systematically along the \(X\) axis was then considered; this produced a helical path of a single fiducial within the sample, see \figurename~\ref{fig:flopt_helix_sinugram}.
+The more challenging case of a sample drifting, with a constant velocity and systematically along the \(X\) axis was then considered; this produced a helical path of a single fiducial within the sample, see \figurename~\ref{fig:flopt_helix_sinugram}.
 In \figurename~\ref{fig:unfilttered_reconstruction_helix_iradon}, the \gls{Radon transform} entirely fails to produce a recognisable reproduction of the test image with the addition of a slight helicity to the rotation.
 The proposed algorithm produces an equivalent result to that of a sample rotating without any systematic drift, see \figurename~\ref{fig:iradon_filter}.
 In \figurename~\ref{fig:helical_comparison} the respective images from each algorithm were compared, as before, while the helical shift was incremented.
 See \figurename~\ref{fig:flopt_helix_sinugram} for a \gls{sinugram} of a sample whereby a helical shift has been induced.
 When using correlation as a metric of reproduction quality, at zero helicity, the new algorithm fairs slightly worse at \SI{94}{\percent} correlation compared to the \gls{Radon transform} at \SI{96}{\percent}.
 As expected, the \gls{Radon transform} rapidly deteriorates once a systematic drift is applied; whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
-%
-% \begin{figure}
-%   \centering
-%    \hspace*{\fill}
-%   \begin{subfigure}[t]{0.3\textwidth}
-%     \begin{tikzpicture}[node distance=0cm]
-%       \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
-%        \node[below=of img] {\(X\)};
-%        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-%     \end{tikzpicture}
-%     \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
-%   \end{subfigure}\hfill
-%   \begin{subfigure}[t]{0.3\textwidth}
-%     \begin{tikzpicture}[node distance=0cm]
-%       \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
-%        \node[below=of img] {\(v\)\vphantom{\(X\)}};
-%        \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
-%     \end{tikzpicture}
-%     \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
-%   \end{subfigure}
-%    \hspace*{\fill}
-%    \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
-% \end{figure}
+
+\begin{figure}
+  \centering
+   \hspace*{\fill}
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
+       \node[below=of img] {\(X\)};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+    \end{tikzpicture}
+    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.3\textwidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
+       \node[below=of img] {\(v\)\vphantom{\(X\)}};
+       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
+    \end{tikzpicture}
+    \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
+  \end{subfigure}
+   \hspace*{\fill}
+   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
+\end{figure}
 
 \begin{figure}
   \centering
@@ -800,8 +611,8 @@ Consistently the translational matrix (\gls{T}) was more accurately reproduced, 
 
 A new algorithm for reconstructing OPT data has been demonstrated.
 The new algorithm uses multiple fiducial markers to recover the matrix which describes the rotation and translation of the sample.
-The quality of the reconstructions when compared to a standard \gls{Radon transform} shows a slight improvement, with a great effect when a systematic drift is introduced.
-The measure the accuracy of the decomposition of \gls{F} into \gls{R} and \gls{T} they were compared to the ground truth matrices.
+The quality of the reconstructions when compared to the standard \gls{Radon transform} shows a slight improvement, with a great effect when a systematic drift is introduced.
+The accuracy of the decomposition of \gls{F} into \gls{R} and \gls{T} were compared to the ground truth matrices.
 The element-wise absolute difference \(\left(\frac{x-y}{2(x+y)}\right)\) of each matrix was averaged across the matrix for \gls{R} and \gls{T}.
 In the worst case scenario a maximum of \SI{2}{\percent} average absolute difference was found between ground truth and recovered matrices,
 % When comparing the
@@ -810,7 +621,6 @@ In the worst case scenario a maximum of \SI{2}{\percent} average absolute differ
 % peak of \SI{2}{\percent} difference is found between the two when considering worst case scenarios;
 suggesting the technique is robust to various forms of drift and general instability.
 Such an algorithm could be used to help in minimising ghosting effects seen in real samples; particularly in samples where slipping is likely to occur such as in gels or in cheaper \gls{OPT} systems which tend to be more mechanically unstable and imprecise.
-
 
 \section{Conclusions}
 
@@ -821,60 +631,13 @@ Working with tensors is computationally and mathematically more challenging, but
 Beyond three views there currently is no mathematical framework at present for four or more views.
 If such tools did exist, it may be possible to make the algorithm described above as non-iterative and essentially a single shot reconstruction from pixels to voxels.
 
-In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
-To find such a correspondences, points with similar local texture are found and matched in between each image. %, many of these such correspondences are found
-This attempted however the errors introduced into the transformation matrices appear to make the approach untenable.
+% In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
+Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
+To find such a correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT and RANSAC. %, many of these such correspondences are found
+This was attempted however the errors introduced into the transformation matrices appear to make the approach currently untenable.
 % This technique is only valid for views with small angles between them, as would be found in \gls{OPT}.
 
 \pagebreak
-
-\section{Future work}
-
-\subsection{Bead tracking}
-The work presented here is, so far, is a proof-of-concept demonstrated by simulation and reconstruction from ground-truth testcard objects, and requires several further steps in order apply it to real \gls{OPT} data.
-Firstly, a bead-tracking algorithm~\cite{crockerMethodsDigitalVideo1996} will need to be created to reliably track multiple beads, concurrently, in an image series.
-A sensible approach would be to have a user select the fiducial markers in the image on the first frame and template match in a small window around the selection; this is similar to the algorithm described in Chapter~\ref{chapter:spt}.
-Template matching is robust to occlusions provided the fiducial is not fully eclipsed.
-If two fiducial markers occlude each other however, this algorithm may switch their identities or both tracking windows may follow one bead.
-This is a common problem in particle tracking algorithms, but is solved by using a weighted likelihood based on momentum\cite{chenouardMultipleHypothesisTracking2013}.
-
-The likelihood of a bead occlusion occurring will increase with he introduction of additional beads into the sample.
-As such occluded beads may need to be omitted. % and possibly interpolated for.
-% Egregious outliers may be found by tracking a \emph{confidence} estimator as the bead rotates as in
-% A primitive estimator would be the pixel-wise sum of intensities in the result of a correlative template matching.
-% Whilst this confidence value itself has no physical interpretation, any stark changes in the derivative will be suggestive of an occlusion or mis-tracking of some variety, see \figurename~\ref{fig:confidence_bead_tracking}.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics{./figures/results/confidence_bead_tracking}
-%   \caption{A plot of the confidence value of a single fiducial bead being tracking \emph{in vivo}.
-%   Sharp changes in the confidence value occur when the fiducial bead is occluded.
-%   The image at the origin shows the fiducial being tracked well in the first frame.
-%   (Images courtesy of Pedro Vallejo)
-%   }
-%   \label{fig:confidence_bead_tracking}
-% \end{figure}
-
-% \subsection{Multiple views tracking}
-% The theory backing the proposed algorithm relies on triangulation between two view points.
-% In this work the two view points refer to the image at frames \(n\) and \(n+1\).
-% However, it is possible to use three separate views (frames \(n\), \(n+1\) and \(n+2\)) to reconstruct a scene, one such approach being quaternion tensors.
-% Working with tensors is computationally and mathematically more challenging, but a future iteration of the algorithm presented here may benefit from using three views to provide a more accurate transformation matrix.
-% Beyond three views there currently is no mathematical framework at present for four or more views.
-% If such tools did exist, it may be possible to make the algorithm described above as non-iterative and essentially a single shot reconstruction from pixels to voxels.
-
-% \subsection{Fiducial free reconstruction}
-%
-% In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
-% To find such a correspondences, points with similar local texture are found and matched in between each image. %, many of these such correspondences are found
-% This technique is only valid for views with small angles between them, as would be found in \gls{OPT}.
-% A similar method could be introduced into the algorithm presented here, as each image should have sufficient texture, particularly when using \gls{tOPT}.
-%
-% The following chapter will move from improvements in registration using projective matrices and into improvements in resolution using on-camera slit-scanning.
-
-%A future version of this algorithm may be able to use 3 views to produce a more faithful transformation matrix.
-%The mathematics for more than three views currently does not exist.
-
 
 \section{Introduction}
 Adherence to the specifications listed in this template is essential for efficient review and publication of submissions. Proper reference format is especially important (see Section \ref{sec:refs}).
@@ -1081,6 +844,9 @@ Add references with BibTeX or manually.
 %   (Cambridge University Press, 2007).
 
 % \end{thebibliography}
+
+\pagebreak
+\include{supplemental}
 
 
 \end{document}
