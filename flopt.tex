@@ -50,7 +50,6 @@
   When adding a systematic spatial and angular mechanical drift, the reconstruction using the proposed algorithm shows a significant improvement over the Radon transform.
 \end{abstract}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \section{Frame localisation optical projection tomography}
@@ -91,7 +90,6 @@ Typically a Radon transform used to then transform this set of images into a 3D 
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
 The \gls{Radon transform} relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
 This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as inconsistent angular steps.
-
 The proposed algorithm works by triangulating points between images pairs to extract camera pose using the theoretical framework used in stereoscopic imaging.
 
 % There are two imaging modalities for \gls{OPT}, \gls{eOPT} and \gls{tOPT}.
@@ -153,18 +151,11 @@ The proposed algorithm works by triangulating points between images pairs to ext
 
 %\subsection{Camera projections}
 
-%\todo{Camera projections \ lecture notes 3}
-
 The stereoscopic imaging scenes allows for the triangulation of individual features in three dimensional space (know as world points) when the features or fiducial markers in one detector are uniquely identifiable, see Figure~\ref{fig:epi-polar-geom} for the coordinate system which descibes this geometry. %(such as fluorescent beads).
 Triangulation requires that each feature is detected in both images of a stereo imaging system, and for these detections to be correctly associated with one another, this is known as the correspondence problem.
 Many methods exist to ensure that features are detected from image data and accurately associated between two cameras or views.
 Properties of scale independent features and their surrounding pixel environment in one image can be matched to a similar feature in the second image.
 
-%TODO ADD SOME STEREOIMAGING STUFF?
-
-
-
-%TODO INSERT H E F DEFINTIONS
 Coordinates in two adjaceent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the Essential matrix (\gls{Essential}) for uncalibrated cameras and the Fundamental matrix (\gls{F}) for calibrated cameras.
 Their properties can described by:
 \begin{gather}
@@ -176,11 +167,10 @@ Where \(\gls{K}\) is a matrix which converts image plane coordinates to camera p
 \section{The proposed algorithm}
 
 %The rotation may also not be orthogonal to the plane of detection.
-The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls{OPT} acquisition. %TODO Reword
-During an ideal \gls{OPT} acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane.
-During the following volume reconstruction there is a fitting step to recover the path of the fiducial marker, which is used to apply as a correction before using the inverse \gls{Radon transform}.
+The motion of a rotating sample, as in an \gls{OPT} acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) in view of a fixed camera is analoguous to the motion of a camera with the inverse transformation matrix around the scene.
+% The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls{OPT} acquisition.
+During an ideal \gls{OPT} acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane; and for the volume reconstruction procedure there is a fitting step to recover the path of the fiducial marker, which is correct the sinogram before using the inverse \gls{Radon transform}.
 This type of reconstruction not only ignores any mechanical jitter of the sample but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
-
 Using two adjacent images of a scene, separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
 
 % The inverse is also possible, given a sufficient number of known fiducial points in a scene the translation and rotation matrices can be recovered.
@@ -234,29 +224,20 @@ The transformation matrices that are recovered are then inverted to realign the 
 % The second approach is robust against compound errors but an additional programatic step is needed to know which beads in the first image correspond to beads in the \(n^{\text{th}}\) image.
 % This can be is achieved using tracking and momentum particle tracking algorithms, though confounding issues can arise i.e.~if a particle orbits too far away from the imaging plane or occlusions occur.
 
-In both cases a decomposed \gls{F} matrix will produce four possible transformation pairs (\gls{R},\gls{T}; \gls{R},-\gls{T}; -\gls{R},\gls{T}; -\gls{R},-\gls{T}). %TODO look this up.
+In both cases a decomposed \gls{F} matrix will produce four possible transformation pairs (\gls{R},\gls{T}; \gls{R},-\gls{T}; -\gls{R},\gls{T}; -\gls{R},-\gls{T}).
 Once the transformation matrix between the current view (\(n\)) and the first view is calculated the proceeding transformation matrices are then easily chosen by similarity to the previous collected matrix and general direction of motion.
 An example of this type of selection would be:
 \begin{align}
 \min_{I(n)}\left[I(n) = \left(\begin{bmatrix}[c|c] \gls{R}_n&\gls{T}_n \end{bmatrix} - \begin{bmatrix}[c|c] \gls{R}_{n-1}&\gls{T}_{n-1} \end{bmatrix}\right)^2\right]
 \end{align}
-The first two views are more difficult to choose the correct decomposition for, but it is possible if a suitable ideal matrix is given as a comparison. %TODO reword
-Such an ideal matrix is composed using \emph{a priori} knowledge of the likely angle of rotation of the system's imaging properties.
+To find the correct matrix between the \(n=0\) and \(n=1\), each of the four are compared to an ideal matrix which is composed using \emph{a priori} knowledge of the likely angle of rotation of the system's imaging properties.
 
 \section{Verification of the proposed algorithm}
 
-To verify that the proposed algorithm successfully reconstructs the specimen%as theorised
-, it was applied to a volume of simulated data. %TODO reword
-The image of Lena with an orthogonal image of cameraman
-% \footnote{Standard reference image data
-% % The image of Lena is used as a reference to a very early full colour digital scanner.
-% % The researchers in question realised that their presentation of the scanner's capabilities at a conference lacked a test image.
-% % The nearest image to hand was a Playboy magazine with Lena Söderberg as the centrefold.
-% }
-is used here as a testcard volume to verify the validity of the reconstruction.
-Superimposed on the testcard volume are fiducial beads to track the rotation of the image, see \figurename~\ref{fig:raw_input}.
-The reference image was then rotated through \SI{128} angles over \(2\pi \) radians and projected along the \(Y\) axis and a slice in (\(X,Y\)) was taken to create a single line projection, shown three dimensionally in \figurename~\ref{fig:recon_iterative}.
-This is repeated for each angle with each line projection stacked to create a sinogram, see \figurename~\ref{fig:sinogram_stretch}.
+To verify the validity and quality of the proposed reconustrction algorithm the image of Lena superposed with an orthogonal image of Cameraman is used as a testcard volume
+Virtual fiducial beads are dispersed in the volume to track the rotation and translation of the image and shown in \figurename~\ref{fig:raw_input}.
+The reference image was then rotated through \SI{128} angles over \(2\pi \) radians and projected along the \(Y\) axis; then an image slice in (\(X,Y\)) was taken to create a single line projection, shown three dimensionally in \figurename~\ref{fig:recon_iterative}.
+This is repeated for each angle with each line projection stacked to create a sinogram.%, see \figurename~\ref{fig:sinogram_stretch}.
 
 % \begin{figure}
 %   \centering
@@ -354,9 +335,7 @@ This is repeated for each angle with each line projection stacked to create a si
     The projected image data (b),~(h),~(j) and (d),~(h),~(l), were used to iteratively generate reconstructions where the \(n^\text{th}\) reconstruction incorporates all the information from observation 0 to \(n\).
     The results are unfiltered for clarity of demonstrating the iterative reconstruction, which is applied in \figurename~\ref{fig:flopt_filter}.
     }\label{fig:recon_iterative}
-    %TODO use different filters.
 \end{figure}
-
 
 In the standard approach for \gls{OPT} reconstruction, the sinogram undergoes the inverse \gls{Radon transform}, as shown in \figurename~\ref{fig:iradon_nofilter} and then post-filtering, see \figurename~\ref{fig:iradon_filter}.
 This step is substituted for the proposed algorithm; in \figurename~\ref{fig:flopt_comparison_line_profile} the two techniques are compared for ideal conditions of smooth, predictable rotation.
@@ -433,7 +412,7 @@ As expected, the \gls{Radon transform} rapidly deteriorates once a systematic dr
       \node[below=of img] {\(v\)\vphantom{\(X\)}};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
    \end{tikzpicture}
-   \caption{Sinogram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
+   \caption{Sinogram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinogram}
  \end{subfigure}\hspace*{\fill}
   \\\vspace{\abovecaptionskip}
   \hspace*{\fill}
@@ -548,10 +527,9 @@ If such tools did exist, it may be possible to have the algorithm described abov
 
 % In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
 Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
-To find such a correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{} and RANSAC\cite{}. %, many of these such correspondences are found
+To find such a correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{} and RANSAC~\cite{}. %, many of these such correspondences are found
 This was attempted however the errors introduced into the transformation matrices appear to make the approach currently untenable.
 % This technique is only valid for views with small angles between them, as would be found in \gls{OPT}.
-
 \pagebreak
 
 \section{Introduction}
