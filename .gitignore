@@ -1,259 +1,164 @@
-## Core latex/pdflatex auxiliary files:
-*.aux
-*.lof
-*.log
-*.lot
-*.fls
-*.out
-*.toc
-*.fmt
-*.fot
-*.cb
-*.cb2
+## Core latex/pdflatex auxiliary files:## Core latex/pdflatex auxiliary files:
+*.aux*.aux *.lof *.log *.lot *.fls *.out *.toc *.fmt *.fot *.cb *.cb2 .*.lb 
+*.lof *.log## Intermediate documents: *.dvi *.xdv *-converted-to.* *.lot# 
+these rules might exclude image files for figures etc. *.fls# *.ps *.out# 
+*.eps *.toc# *.pdf *.fmt *.fot## Generated if empty string is given at "Please 
+type another file name for output:" .pdf *.cb *.cb2## Bibliography auxiliary 
+files (bibtex/biblatex/biber): *.bbl *.bcf *.blg *-blx.aux *-blx.bib *.run.xml 
 .*.lb
-
-## Intermediate documents:
-*.dvi
-*.xdv
-*-converted-to.*
-# these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
-# *.pdf
-
-## Generated if empty string is given at "Please type another file name for output:"
-.pdf
-
-## Bibliography auxiliary files (bibtex/biblatex/biber):
-*.bbl
-*.bcf
-*.blg
-*-blx.aux
-*-blx.bib
-*.run.xml
-
-## Build tool auxiliary files:
-*.fdb_latexmk
-*.synctex
-*.synctex(busy)
-*.synctex.gz
-*.synctex.gz(busy)
-*.pdfsync
-
-## Build tool directories for auxiliary files
-# latexrun
-latex.out/
-
-## Auxiliary and intermediate files from other packages:
-# algorithms
-*.alg
-*.loa
-
-# achemso
-acs-*.bib
+## Build tool auxiliary files: Intermediate documents:*.fdb_latexmk
+*.dvi*.synctex *.synctex(busy) *.synctex.gz *.synctex.gz(busy) *.pdfsync *.xdv 
+*-converted-to.*## Build tool directories for auxiliary files
+# these rules might exclude image files for figures etc.# latexrun 
+# *.pslatex.out/ *.eps *.pdf## Auxiliary and intermediate files from other 
+# packages: algorithms
+*.alg *.loa
+## Generated if empty string is given at "Please type another file name for 
+## output:"
+.pdf# achemso acs-*.bib
 
 # amsthm
-*.thm
-
-# beamer
-*.nav
-*.pre
-*.snm
-*.vrb
-
-# changes
-*.soc
-
-# comment
-*.cut
+## Bibliography auxiliary files (bibtex/biblatex/biber):*.thm
+*.bbl *.bcf# beamer *.nav *.pre *.snm *.vrb *.blg *-blx.aux# changes *.soc 
+*-blx.bib *.run.xml# comment *.cut
 
 # cprotect
-*.cpt
-
-# elsarticle (documentclass of Elsevier journals)
-*.spl
-
-# endnotes
-*.ent
-
-# fixme
-*.lox
+## Build tool auxiliary files:*.cpt
+*.fdb_latexmk *.synctex# elsarticle (documentclass of Elsevier journals) *.spl 
+*.synctex(busy) *.synctex.gz# endnotes *.ent *.synctex.gz(busy) *.pdfsync# 
+fixme *.lox
 
 # feynmf/feynmp
-*.mf
-*.mp
-*.t[1-9]
-*.t[1-9][0-9]
-*.tfm
+## Build tool directories for auxiliary files*.mf
+# latexrun*.mp
+latex.out/*.t[1-9] *.t[1-9][0-9] *.tfm
 
 #(r)(e)ledmac/(r)(e)ledpar
-*.end
-*.?end
-*.[1-9]
-*.[1-9][0-9]
-*.[1-9][0-9][0-9]
-*.[1-9]R
-*.[1-9][0-9]R
-*.[1-9][0-9][0-9]R
-*.eledsec[1-9]
-*.eledsec[1-9]R
-*.eledsec[1-9][0-9]
-*.eledsec[1-9][0-9]R
-*.eledsec[1-9][0-9][0-9]
-*.eledsec[1-9][0-9][0-9]R
+## Auxiliary and intermediate files from other packages:*.end
+# algorithms*.?end
+*.alg*.[1-9] *.[1-9][0-9] *.[1-9][0-9][0-9] *.[1-9]R *.[1-9][0-9]R 
+*.[1-9][0-9][0-9]R *.eledsec[1-9] *.eledsec[1-9]R *.eledsec[1-9][0-9] 
+*.eledsec[1-9][0-9]R *.eledsec[1-9][0-9][0-9] *.eledsec[1-9][0-9][0-9]R *.loa
+# glossaries achemso*.acn
+acs-*.bib*.acr *.glg *.glo *.gls *.glsdefs
 
-# glossaries
-*.acn
-*.acr
-*.glg
-*.glo
-*.gls
-*.glsdefs
+# gnuplottex amsthm*-gnuplottex-*
+*.thm
+# gregoriotex beamer*.gaux
+*.nav*.gtex *.pre *.snm# htlatex *.4ct *.4tc *.idv *.lg *.trc *.xref *.vrb
+# hyperref changes*.brf
+*.soc
+# knitr comment*-concordance.tex TODO Comment the next line if you want to 
+# keep your tikz graphics files
+*.cut*.tikz *-tikzDictionary
 
-# gnuplottex
+# listings cprotect*.lol
+*.cpt
+# makeidx elsarticle (documentclass of Elsevier journals)*.idx
+*.spl*.ilg *.ind *.ist
+
+# minitoc endnotes*.maf
+*.ent*.mlf *.mlt *.mtc[0-9]* *.slf[0-9]* *.slt[0-9]* *.stc[0-9]*
+
+# minted fixme_minted*
+*.lox*.pyg
+
+# morewrites feynmf/feynmp*.mw
+*.mf *.mp# nomencl *.nlg *.nlo *.nls *.t[1-9] *.t[1-9][0-9]# pax *.pax *.tfm
+# pdfpcnotes (r)(e)ledmac/(r)(e)ledpar*.pdfpc
+*.end *.?end# sagetex *.sagetex.sage *.sagetex.py *.sagetex.scmd *.[1-9] 
+*.[1-9][0-9]# scrwfile *.wrt *.[1-9][0-9][0-9] *.[1-9]R# sympy *.sout *.sympy 
+sympy-plots-for-*.tex/ *.[1-9][0-9]R *.[1-9][0-9][0-9]R# pdfcomment *.upa 
+*.upb *.eledsec[1-9] *.eledsec[1-9]R# pythontex *.pytxcode pythontex-files-*/ 
+*.eledsec[1-9][0-9] *.eledsec[1-9][0-9]R# tcolorbox *.listing 
+*.eledsec[1-9][0-9][0-9] *.eledsec[1-9][0-9][0-9]R# thmtools *.loe
+
+# TikZ & PGF glossaries*.dpth
+*.acn*.md5 *.auxlock *.acr *.glg# todonotes *.tdo *.glo *.gls# vhistory *.hst 
+*.ver *.glsdefs
+# easy-todo gnuplottex*.lod
 *-gnuplottex-*
+# xcolor gregoriotex*.xcp
+*.gaux *.gtex# xmpincl *.xmpi
 
-# gregoriotex
-*.gaux
-*.gtex
-
-# htlatex
-*.4ct
-*.4tc
-*.idv
-*.lg
-*.trc
-*.xref
-
-# hyperref
-*.brf
-
-# knitr
-*-concordance.tex
-# TODO Comment the next line if you want to keep your tikz graphics files
-*.tikz
-*-tikzDictionary
-
-# listings
-*.lol
-
-# makeidx
-*.idx
-*.ilg
-*.ind
-*.ist
-
-# minitoc
-*.maf
-*.mlf
-*.mlt
-*.mtc[0-9]*
-*.slf[0-9]*
-*.slt[0-9]*
-*.stc[0-9]*
-
-# minted
-_minted*
-*.pyg
-
-# morewrites
-*.mw
-
-# nomencl
-*.nlg
-*.nlo
-*.nls
-
-# pax
-*.pax
-
-# pdfpcnotes
-*.pdfpc
-
-# sagetex
-*.sagetex.sage
-*.sagetex.py
-*.sagetex.scmd
-
-# scrwfile
-*.wrt
-
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
-
-# pdfcomment
-*.upa
-*.upb
-
-# pythontex
-*.pytxcode
-pythontex-files-*/
-
-# tcolorbox
-*.listing
-
-# thmtools
-*.loe
-
-# TikZ & PGF
-*.dpth
-*.md5
-*.auxlock
-
-# todonotes
-*.tdo
-
-# vhistory
-*.hst
-*.ver
-
-# easy-todo
-*.lod
-
-# xcolor
-*.xcp
-
-# xmpincl
-*.xmpi
-
-# xindy
-*.xdy
-
-# xypic precompiled matrices
-*.xyc
-
-# endfloat
-*.ttt
-*.fff
-
-# Latexian
-TSWLatexianTemp*
+# xindy htlatex*.xdy
+*.4ct *.4tc# xypic precompiled matrices *.xyc *.idv *.lg# endfloat *.ttt *.fff 
+*.trc *.xref# Latexian TSWLatexianTemp*
 
 ## Editors:
-# WinEdt
-*.bak
-*.sav
+# hyperref# WinEdt
+*.brf*.bak *.sav
 
+# Texpad knitr.texpadtmp
+*-concordance.tex
+# TODO Comment the next line if you want to keep your tikz graphics files# LyX
+*.tikz*.lyx~ *-tikzDictionary
+# Kile listings*.backup
+*.lol
+# KBibTeX makeidx*~[0-9]*
+*.idx *.ilg# auto folder when using emacs and auctex ./auto/* *.el *.ind 
+*.ist# expex forward references with \gathertags *-tags.tex
+
+# standalone packages minitoc*.sta
+*.maf *.mlf *.mlt *.mtc[0-9]* *.slf[0-9]* *.slt[0-9]* *.stc[0-9]*
+# minted
+_minted* *.pyg
+# morewrites
+*.mw
+# nomencl
+*.nlg *.nlo *.nls
+# pax
+*.pax
+# pdfpcnotes
+*.pdfpc
+# sagetex
+*.sagetex.sage *.sagetex.py *.sagetex.scmd
+# scrwfile
+*.wrt
+# sympy
+*.sout *.sympy sympy-plots-for-*.tex/
+# pdfcomment
+*.upa *.upb
+# pythontex
+*.pytxcode pythontex-files-*/
+# tcolorbox
+*.listing
+# thmtools
+*.loe
+# TikZ & PGF
+*.dpth *.md5 *.auxlock
+# todonotes
+*.tdo
+# vhistory
+*.hst *.ver
+# easy-todo
+*.lod
+# xcolor
+*.xcp
+# xmpincl
+*.xmpi
+# xindy
+*.xdy
+# xypic precompiled matrices
+*.xyc
+# endfloat
+*.ttt *.fff
+# Latexian
+TSWLatexianTemp*
+## Editors:
+# WinEdt
+*.bak *.sav
 # Texpad
 .texpadtmp
-
 # LyX
 *.lyx~
-
 # Kile
 *.backup
-
 # KBibTeX
 *~[0-9]*
-
 # auto folder when using emacs and auctex
-./auto/*
-*.el
-
+./auto/* *.el
 # expex forward references with \gathertags
 *-tags.tex
-
 # standalone packages
 *.sta
