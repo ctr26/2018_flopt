@@ -89,15 +89,15 @@ The two camera-centered coordinate systems \gls{X_c'} and \gls{X_c} are related 
 %     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}\label{eq:Xprime = RTX}
 % \end{align}
 
-\begin{figure}
-  \centering
-  \includegraphics{./figures/epi-polar-geom}
-  \caption[Epi-polar geometry described for two adjacent views]{
-  Epi-polar geometry described for two adjacent views (or cameras of a scene).
-  Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
-  Transforming from right to left camera-centered coordinates (\gls{X_c'} to \gls{X_c}) requires a rotation (\gls{R}) and a translation (\gls{T}).
-  }\label{fig:epi-polar-geom}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics{./figures/epi-polar-geom}
+%   \caption[Epi-polar geometry described for two adjacent views]{
+%   Epi-polar geometry described for two adjacent views (or cameras of a scene).
+%   Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
+%   Transforming from right to left camera-centered coordinates (\gls{X_c'} to \gls{X_c}) requires a rotation (\gls{R}) and a translation (\gls{T}).
+%   }\label{fig:epi-polar-geom}
+% \end{figure}
 
 \subsection{The Essential matrix}
 
@@ -218,24 +218,24 @@ As with the essential matrix, the fundamental matrix can be factorised into a sk
 to translation and a \(3 \times 3\) non-singular matrix corresponding to rotation.
 
 
-
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_nofilter}
-    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
-    \label{fig:iradon_nofilter}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_filter}
-    \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}
-    \label{fig:iradon_filter}
-  \end{subfigure}
-     \hspace*{\fill}
-    % \label{fig:irandons}
-  \caption{The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
-\end{figure}
+%
+% \begin{figure}
+%   \centering
+%    \hspace*{\fill}
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_nofilter}
+%     \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
+%     \label{fig:iradon_nofilter}
+%   \end{subfigure}\hfill
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_filter}
+%     \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}
+%     \label{fig:iradon_filter}
+%   \end{subfigure}
+%      \hspace*{\fill}
+%     % \label{fig:irandons}
+%   \caption{The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
+% \end{figure}
 
 The second approach is less prone to compound errors but relies on precise identification and tracking of fiducial markers.
 distinction and tracking fiducials.
@@ -353,50 +353,50 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 \end{figure}
 
 
+% 
+% \begin{figure}
+%   \centering
+%    \hspace*{\fill}
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \begin{tikzpicture}[node distance=0cm]
+%       \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
+%        \node[below=of img] {\(X\)};
+%        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+%     \end{tikzpicture}
+%     \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
+%   \end{subfigure}\hfill
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \begin{tikzpicture}[node distance=0cm]
+%       \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
+%        \node[below=of img] {\(v\)\vphantom{\(X\)}};
+%        \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
+%     \end{tikzpicture}
+%     \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
+%   \end{subfigure}
+%    \hspace*{\fill}
+%    \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
+% \end{figure}
 
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/topdown_bead_paths}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/helix/sinugram_stretch}};
-       \node[below=of img] {\(v\)\vphantom{\(X\)}};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
-    \end{tikzpicture}
-    \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
-  \end{subfigure}
-   \hspace*{\fill}
-   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
-\end{figure}
-
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.75\textwidth]{./figures/results/no_helix/rawinput_colour}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-    \end{tikzpicture}
-    \caption{Ground truth image for \gls{OPT} simulations, Lena (\(f(X, Y)\)).}\label{fig:raw_input}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \begin{tikzpicture}[node distance=0cm]
-      \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/sinugram_stretch}};
-       \node[below=of img] {\(v\)\vphantom{\(X\)}};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(\theta\)};
-    \end{tikzpicture}
-    \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls{sinugram} (\(P_{\theta}(v)\)).
-    }\label{fig:sinugram_stretch}
-  \end{subfigure}
-   \hspace*{\fill}
-  \caption{Reference images for \gls{OPT} reconstruction.}\label{fig:rawinputs}
-\end{figure}
+% \begin{figure}
+%   \centering
+%    \hspace*{\fill}
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \begin{tikzpicture}[node distance=0cm]
+%       \node (img) {\includegraphics[width=0.75\textwidth]{./figures/results/no_helix/rawinput_colour}};
+%        \node[below=of img] {\(X\)};
+%        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+%     \end{tikzpicture}
+%     \caption{Ground truth image for \gls{OPT} simulations, Lena (\(f(X, Y)\)).}\label{fig:raw_input}
+%   \end{subfigure}\hfill
+%   \begin{subfigure}[t]{0.3\textwidth}
+%     \begin{tikzpicture}[node distance=0cm]
+%       \node (img) {\includegraphics[width=0.8\textwidth]{./figures/results/no_helix/sinugram_stretch}};
+%        \node[below=of img] {\(v\)\vphantom{\(X\)}};
+%        \node[left=of img,rotate=90,yshift=0.2cm] {\(\theta\)};
+%     \end{tikzpicture}
+%     \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls{sinugram} (\(P_{\theta}(v)\)).
+%     }\label{fig:sinugram_stretch}
+%   \end{subfigure}
+%    \hspace*{\fill}
+%   \caption{Reference images for \gls{OPT} reconstruction.}\label{fig:rawinputs}
+% \end{figure}
