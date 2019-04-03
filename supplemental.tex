@@ -1,9 +1,8 @@
 \section{Supplemental}
 \subsection{Reconstruction}
 
-As the sample is rotated each detector pixel collects an intensity \(I(\theta) = I_{n}e^{-k(\theta)}\) at discrete (\(n\)) angles through a full rotation of the sample; where \(I_{n}\) is the unattenuated radiation intensity from the source to the detector, \(k\) is the attenuation caused by the sample along a detected ray an \(I(n)\) is the measured intensity, see \figurename~\ref{fig:OPT_digram}.
-Rays from the sample to the detector approximate straight lines, and so the the rays reaching the detector with a line integrals.
-A projection is then the resulting intensity profile at the detector for a rotation angle, and the integral transform that results in \(P_\theta(v)\)
+As the sample is rotated, each detector pixel collects an intensity \(I(\theta) = I_{n}e^{-k(\theta)}\) at discrete (\(n\)) angles through a full rotation of the sample, where \(I_{n}\) is the unattenuated radiation intensity from the source to the detector, \(k\) is the attenuation caused by the sample along a detected ray and \(I(n)\) is the measured intensity, see \figurename~\ref{fig:OPT_digram}.
+A projection then constitues the resulting intensity profile at the detector for a rotation angle, and the integral transform that results in \(P_\theta(v)\)
 % \(f(I_i,\theta_n) \)
 is the \gls{Radon transform}.
 % This is defined mathematically as:
@@ -22,14 +21,14 @@ is the \gls{Radon transform}.
 %     \label{fig:coordinate_system_flopt}
 % \end{figure}
 
-Where \(P_\theta(v)\) is the \gls{Radon transform} of \(f(X,Y)\) which represents the contrast image of \gls{2D} slice of the specimen.
-The \gls{Radon transform} of an image produces a \gls{sinugram} as in \figurename~\ref{fig:rawinputs}
+Where \(P_\theta(v)\) is the \gls{Radon transform} of \(f(X,Y)\), which represents the contrast image of a \gls{2D} slice of the specimen.
+The \gls{Radon transform} of an image produces a \gls{sinugram}, as shown in \figurename~\ref{fig:rawinputs}
 
 
 % A parallel projection is then just the combination of line integrals  \(f(I) \) for a constant. % for a constant.
 
 An inverse \gls{Radon transform} is used to recover the original object from the projection data; which is achieved by taking the \gls{Fourier transform} of each projection measurement, then reordering the information from the sample into the respective position in Fourier space.
-This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRadio1956} (see Appendix~\ref{appendix:fourierslice} for a derivation), which states that the \gls{Fourier transform} of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample.
+This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRadio1956}, which states that the \gls{Fourier transform} of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample. The filtered back-projection at an (\(X,Y\)) point as a result of the Fourier Slice theorem is described by:
 %A high pass filter such as a ramp filter is commonly used to counter the blurring caused by this oversampling.
 % \gls{FBP} can be thought of as smearing the projection data across the image plane, and is expressed in equation form as:
 \begin{align}
@@ -37,9 +36,9 @@ f_{\text{fpb}}(X,Y) = \int_{0}^{\pi} Q_\theta (X\cos(\theta)+Y\sin(\theta),\thet
 \end{align}
 
 Where \(Q_\theta \) is the filtered projection data, and \(f_{\text{fpb}}(X,Y)\) is the back-projected image.
-A spatial filtering step is applied during back-projection to avoid spatial frequency oversampling during the object’s rotation (see \figurename~\ref{fig:iradon_filter})
-a high pass filter is commonly used to compensate for the perceived blurring.
-The blurring arises as \(Q_\theta \) is back-projected (smeared) across the image plane for each angle of reconstruction; which means that not only does the back-projection contribute at the line it is intended to (along line \(C\) in \figurename~\ref{fig:coordinate_system_flopt}), but all other points along the back-projecting ray.
+A spatial filtering step is applied during back-projection to avoid spatial frequency oversampling during the object’s rotation (see \figurename~\ref{fig:iradon_filter}).
+A high-pass filter is commonly used to compensate for the perceived blurring \cite{?}.
+The blurring arises as \(Q_\theta \) is back-projected (smeared) across the image plane for each angle of reconstruction, which means that not only does the back-projection contribute at the line at which it is intended (along line \(C\) in \figurename~\ref{fig:coordinate_system_flopt}), but at all other points along the back-projecting ray.
 % The blurring occurs as \(Q_\theta\) makes the same contribution to the reconstruction for each angle
 % will make the same contribution to the reconstruction at all of these points. Therefore, one could say that in the reconstruction process each filtered projection, Qe, is smeared back, or backprojected, over the image plane.
 
@@ -63,13 +62,13 @@ The ray can be defined by using the point \gls{p} in camera-centred coordinates,
 
 From the definition of a world point, as observed through an image, we can construct a dual-view model of world points in space as in \figurename~\ref{fig:epi-polar-geom}.
 Using a model of a system with two views allows for the triangulation of rays based on image correspondences, this is an important part of stereo-vision.
-The most important matching constraint which can be used the \emph{epipolar constraint}, and follows directly from the fact that the rays must intersect in 3D space.
-Epipolar constraints facilitate the search for correspondences, they constrain the search to a 1D line in each image.
+The most important matching constraint which can be used is the \emph{epipolar constraint}, and follows directly from the fact that the rays must intersect in 3D space.
+Epipolar constraints facilitate the search for correspondences as they constrain the search to a 1D line in each image.
 To derive general epipolar constraints, one should consider the epipolar geometry of two cameras as seen in \figurename~\ref{fig:epi-polar-geom}
 
 
 The \textbf{baseline} is defined as the line joining the optical centres.
-An \textbf{epipole} is the point of intersection of the baseline with the image plan and there are two epipoles per feature, one for each camera.
+An \textbf{epipole} is the point of intersection of the baseline with the image plane and there are two epipoles per feature, one for each camera.
 An \textbf{epipolar line} is a line of intersection of the epipolar plane with an image plane.
 It is the image in one camera of the ray from the other camera’s optical centre to the world point (\gls{X}).
 For different world points, the epipolar plane rotates about the baseline.
@@ -172,7 +171,7 @@ f k_u & 0 & u_0 \\
 0 & f k_v & v_0 \\
 0 & 0 & 1
 \end{bmatrix}
-\intertext{then we can write pixel coordinates in homogenous coordinates:}
+\intertext{pixel coordinates can then bes expressed in terms of homogenous coordinates:}
 \widetilde{\gls{w}} &= \widetilde{\gls{K}} \gls{p}
 \end{align}
 
@@ -187,7 +186,7 @@ f k_u & 0 & u_0 \\
 %\subsubsection{Two views}
 %\paragraph{Mapping from one camera to another}
 %\subsubsection{Three and more views}
-The (\(3\times3)\) matrix \gls{F}, is the called the \emph{fundamental matrix}.
+The (\(3\times3)\) matrix \gls{F} is the \emph{fundamental matrix}.
 With intrinsically calibrated cameras, structure can be recovered by triangulation.
 First, the two projection matrices are obtained via a \gls{SVD} of the essential matrix.
 The \gls{SVD} of the essential matrix is given by:
@@ -214,34 +213,31 @@ The \gls{SVD} of the essential matrix is given by:
 Where \( \begin{bmatrix}[c|c] \mathbf{I} & \mathbf{0} \end{bmatrix}\) is the identity matrix augmented column-wise with a zero matrix, and the two projection matrices (\(\mathbf{P}\) and \(\mathbf{P}'\)) project from camera pixel coordinates to world coordinates.
 Given these projection matrices, scene structure can be recovered (only up to scale, since only the magnitude of \gls{T} (|\gls{T}|) is unknown) using least squares fitting.
 Ambiguities in \gls{T} and \gls{R} are resolved by ensuring that visible points lie in front of the two cameras.
-As with the essential matrix, the fundamental matrix can be factorised into a skew-symmetric matrix corresponding
-to translation and a \(3 \times 3\) non-singular matrix corresponding to rotation.
+As with the essential matrix, the fundamental matrix can be factorised into a skew-symmetric matrix corresponding to translation and a \(3 \times 3\) non-singular matrix corresponding to rotation.
 
 
-
-\begin{figure}
-  \centering
-   \hspace*{\fill}
-  \begin{subfigure}[t]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_nofilter}
-    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
-    \label{fig:iradon_nofilter}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_filter}
-    \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}
-    \label{fig:iradon_filter}
-  \end{subfigure}
-     \hspace*{\fill}
+%\begin{figure}
+  %\centering
+   %\hspace*{\fill}
+  %\begin{subfigure}[t]{0.3\textwidth}
+    %\includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_nofilter}
+    %\caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
+    %\label{fig:iradon_nofilter}
+  %\end{subfigure}\hfill
+  %\begin{subfigure}[t]{0.3\textwidth}
+    %\includegraphics[width=\textwidth]{./figures/results/no_helix/iradon_filter}
+    %\caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}
+    %\label{fig:iradon_filter}
+  %\end{subfigure}
+     %\hspace*{\fill}
     % \label{fig:irandons}
-  \caption{The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
-\end{figure}
+  %\caption{The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
+%\end{figure}
 
-The second approach is less prone to compound errors but relies on precise identification and tracking of fiducial markers.
-distinction and tracking fiducials.
+The second approach is less prone to compound errors, but relies on precise identification and tracking of fiducial markers in terms of distinction and tracking fiducials.
 Instead of calculating \gls{F} between neighbouring images, \gls{F} is calculated between the current projection and the very first projection.
 \gls{F} is then decomposed and the transformation matrix is inverted and applied to the back projected volume.
-The reoriented back projected volumes are summed and finally filtered to remove the additional spatial frequencies imparted from rotating the sample.
+The reoriented back-projected volumes are summed and finally filtered to remove the additional spatial frequencies imparted from rotating the sample.
 
 % \subsection{Bead tracking}
 
@@ -297,7 +293,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 \begin{figure}
   \centering
   \includegraphics{./figures/flOPT_principle}
-  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls{OPT} image data will have an associated \gls{R} and \gls{T} (shown here in augmented form using homogenous coordinates), these matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
+  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls{OPT} image data will have an associated \gls{R} and \gls{T} (shown here in augmented form using homogenous coordinates). These matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
 \end{figure}
 
 
@@ -311,7 +307,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
        \node[below=of img] {\(X\)};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
+    \caption[Unfiltered iRadon]{Unfiltered reconstruction of the object using the \gls{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\textwidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -363,7 +359,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
        \node[below=of img] {\(X\)};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
+    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked}\label{fig:topdown_bead_paths}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\textwidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -386,7 +382,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
        \node[below=of img] {\(X\)};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Ground truth image for \gls{OPT} simulations, Lena (\(f(X, Y)\)).}\label{fig:raw_input}
+    \caption{Ground truth image for \gls{OPT} simulations, Lena (\(f(X, Y)\))}\label{fig:raw_input}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\textwidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -394,7 +390,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
        \node[below=of img] {\(v\)\vphantom{\(X\)}};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(\theta\)};
     \end{tikzpicture}
-    \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls{sinugram} (\(P_{\theta}(v)\)).
+    \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls{sinugram} (\(P_{\theta}(v)\))
     }\label{fig:sinugram_stretch}
   \end{subfigure}
    \hspace*{\fill}
