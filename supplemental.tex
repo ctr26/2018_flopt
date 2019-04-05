@@ -81,12 +81,10 @@ The two camera-centered coordinate systems \gls{X_c'} and \gls{X_c} are related 
 
 \begin{align}
     \gls{X_c'} &= \gls{R}\gls{X_c'} + \gls{T}
+    \intertext{Taking the vector product with \(\gls{T}\), we obtain}
+    \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}+ \gls{T} \times \gls{T}  \\
+    \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}\label{eq:Xprime = RTX}
 \end{align}
-%       \\
-%     \intertext{Taking the vector product with \(\gls{T}\), we obtain}
-%     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}+ \gls{T} \times \gls{T}  \\
-%     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}\label{eq:Xprime = RTX}
-% \end{align}
 
 \begin{figure}
   \centering
@@ -370,7 +368,7 @@ The reoriented back-projected volumes are summed and finally filtered to remove 
     \caption{Sinugram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinugram}
   \end{subfigure}
    \hspace*{\fill}
-   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
+   \caption{Comparison of the two reconstructions for sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
 \end{figure}
 
 \begin{figure}
