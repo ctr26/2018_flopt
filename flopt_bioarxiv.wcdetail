@@ -1,0 +1,22 @@
+File: flopt_bioarxiv.tex
+Encoding: utf8
+Sum count: 188
+Words in text: 163
+Words in headers: 12
+Words outside text (captions, etc.): 13
+Number of headers: 9
+Number of floats/tables/figures: 1
+Number of math inlines: 0
+Number of math displayed: 0
+Subcounts:
+  text+headers+captions (#headers/#floats/#inlines/#displayed)
+  30+4+0 (1/0/0/0) _top_
+  0+1+0 (1/0/0/0) Abstract
+  6+0+0 (0/0/0/0) main
+  0+1+0 (1/0/0/0) Section: Introduction
+  63+1+13 (1/1/0/0) Section: Results
+  1+1+0 (1/0/0/0) Section: Conclusions
+  0+1+0 (1/0/0/0) Subsection: Blabla
+  1+1+0 (1/0/0/0) Section: Conclusions
+  62+2+0 (2/0/0/0) Section: Bibliography
+

@@ -1,3 +1,38 @@
+
+\documentclass{osa-article}
+
+% \usepackage{glossaries}
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+   \hskip -\arraycolsep
+   \let\@ifnextchar\new@ifnextchar
+   \array{#1}}
+\makeatother
+
+%% Select the journal you're submitting to
+%% oe, boe, ome, osac, osajournal
+\journal{osajournal}
+% Key:
+% Express journals must have the correct journal selected:
+% {oe} Optics Express
+% {boe} Biomedical Optics Express
+% {ome} Optical Material Express
+% {osac} OSAC Continuum
+% Other OSA journals may use:
+% {osajournal} Applied Optics, Advances in Optics and Photonics, Journal of the Optical Society of America A/B, Optics Letters, Optica, Photonics Research
+
+% Uncomment if submitting to Photonics Research.
+% ONLY APPLICABLE FOR \journal{osajournal}
+% \setprjcopyright
+
+% Set the article type
+\articletype{Research Article}
+% Note that article type is not required for Express journals (OE, BOE, OME and OSAC)
+\input{preamble}
+\input{glossary}
+\begin{document}
+
+
 \title{Frame Localisation Optical Projection Tomography}
 
 \author{Craig Russell,\authormark{1*,2}, \author{Pedro P Vallejo\authormark{1}}, Eric Rees,\authormark{1}}
@@ -67,18 +102,18 @@ The proposed algorithm triangulates points between image pairs to extract camera
 % Each \gls{photosite} at the detector corresponds to a ray that has passed through the sample and been attenuated by the sample.
 % The \gls{eOPT} and \gls{tOPT} modes can work in unison to provide contextual information, with the transmission images indicating overall structure (optical density of absorption or scattering) which can be supplemented by the fluorescent signal from a label of interest.
 %
-% \begin{figure}
+% \begin{figure*}
 %   \centering
 %   \includegraphics{./figures/OPT_digram}
 %   \caption[Principle of OPT]{Principle of \gls{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
 %   The volumetric image is later reconstructed from the set of detections (1/2D).}
 %   \label{fig:OPT_digram}
-% \end{figure}
+% \end{figure*}
 
 
 \section{Stereoscopic imaging}
 
-\begin{figure}
+\begin{figure*}
     \centering
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
@@ -100,8 +135,8 @@ The proposed algorithm triangulates points between image pairs to extract camera
             \gls{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls{x}.
             The optical axis travels along the \(Z_c\) axis through the image plane.}
     % \label{fig:aa}
-\end{figure}
-\begin{figure}
+\end{figure*}
+\begin{figure*}
   \centering
   \includegraphics{./figures/epi-polar-geom}
   \caption[Epi-polar geometry described for two adjacent views]{
@@ -109,7 +144,7 @@ The proposed algorithm triangulates points between image pairs to extract camera
   Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
   Transforming from right to left camera-centered coordinates (\gls{X_c'} to \gls{X_c}) requires a rotation (\gls{R}) and a translation (\gls{T}).
   }\label{fig:epi-polar-geom}
-\end{figure}
+\end{figure*}
 
 %\subsection{Projective geometry}
 
@@ -160,7 +195,7 @@ The recovered transformation matrices are then matrix inverted and applied to th
 % \footnote{Linear real (amplitude) ramp filter in Fourier space}. %: \(|v|\)}
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
 
-\begin{figure}
+\begin{figure*}
     \centering
     \begin{subfigure}[t]{\textwidth}
       \centering
@@ -184,7 +219,7 @@ The recovered transformation matrices are then matrix inverted and applied to th
     % to align back project the datasets,
     The transformation matrices are shown in augmented form using homogenous coordinates.
     }\label{fig:flopt_algorithm} %TODO tidy
-\end{figure}
+\end{figure*}
 
 % The second approach is robust against compound errors but an additional programatic step is needed to know which beads in the first image correspond to beads in the \(n^{\text{th}}\) image.
 % This can be is achieved using tracking and momentum particle tracking algorithms, though confounding issues can arise i.e.~if a particle orbits too far away from the imaging plane or occlusions occur.
@@ -204,7 +239,7 @@ Virtual fiducial beads are dispersed in the volume to track the rotation and tra
 The reference image is then rotated through \SI{128} angles over \(2\pi \) radians and projected along the \(Y\) axis, then an image slice in (\(X,Y\)) is taken to create a single line projection, shown three dimensionally in \figurename~\ref{fig:recon_iterative}.
 This is repeated for each angle,  with each line projection stacked to create a sinogram.%, see \figurename~\ref{fig:sinogram_stretch}.
 
-% \begin{figure}
+% \begin{figure*}
 %   \centering
 %   \hfill
 %   \begin{subfigure}[t]{0.3\textwidth}
@@ -220,16 +255,16 @@ This is repeated for each angle,  with each line projection stacked to create a 
 %   \hfill
 %   \label{fig:rawinputs}
 %   \caption{Reference images for OPT reconstruction.}
-% \end{figure}
+% \end{figure*}
 
-\begin{figure}
+\begin{figure*}
     % \begin{subfigure}[t]{\linewidth}
         \centering
         \includegraphics[width=0.4\textwidth]{./figures/ortho_3d_correct}
         \caption{Ground truth 3D object for reconstruction, based on the Cameraman and Lena testcard images.}\label{fig:ortho_3d_correct}
     % \end{subfigure}
-\end{figure}
-\begin{figure}
+\end{figure*}
+\begin{figure*}
 % \ContinuedFloat{}
     \begin{subfigure}[t]{0.2\linewidth}
         \centering
@@ -300,7 +335,7 @@ This is repeated for each angle,  with each line projection stacked to create a 
     The projected image data (b),~(h),~(j) and (d),~(h),~(l), were used to iteratively generate reconstructions where the \(n^\text{th}\) reconstruction incorporates all the information from observation 0 to \(n\).
     The results are unfiltered for clarity of demonstrating the iterative reconstruction, which is applied in \figurename~\ref{fig:flopt_filter}.
     }\label{fig:recon_iterative}
-\end{figure}
+\end{figure*}
 
 In the standard approach for \gls{OPT} reconstruction, the sinogram undergoes the inverse \gls{Radon transform}, as shown in \figurename~\ref{fig:iradon_nofilter}, followed by post-filtering, as shown in \figurename~\ref{fig:iradon_filter}.
 This step is substituted for the proposed algorithm; in \figurename~\ref{fig:flopt_comparison_line_profile} the two techniques are compared for ideal conditions of smooth, predictable rotation.
@@ -316,7 +351,7 @@ The mean square errors (\gls{MSE}, see Equation~\eqref{eq:mse}) of the new algor
     \operatorname{\gls{MSE}}=\frac{1}{n}\sum_{i=1}^n{(Y_i-\hat{Y_i})}^2 \label{eq:mse} % \intertext{Where \(\hat{Y_i}\) is the ith value and Y_i }
 \end{align}
 
-\begin{figure}
+\begin{figure*}
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
@@ -346,7 +381,7 @@ The mean square errors (\gls{MSE}, see Equation~\eqref{eq:mse}) of the new algor
   The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the \gls{Radon transform}
   (\subref{fig:helical_comparison}): Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
   2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard \gls{Radon transform} is severely degraded.}
-\end{figure}
+\end{figure*}
 
 %However, the proposed algorithm fairs worse in terms of contrast compared to a \gls{Radon transform}.
 
@@ -358,7 +393,7 @@ See \figurename~\ref{fig:flopt_helix_sinogram} for a sinogram of a sample wherei
 When using correlation as a metric of reproduction quality, the new algorithm fares slightly worse at zero helicity, with \SI{94}{\percent} correlation compared to the \gls{Radon transform} at \SI{96}{\percent}.
 As expected, the \gls{Radon transform} rapidly deteriorates once a systematic drift is applied, whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
 
-\begin{figure}
+\begin{figure*}
   \centering
   \hspace*{\fill}
  \begin{subfigure}[t]{0.3\textwidth}
@@ -398,7 +433,7 @@ As expected, the \gls{Radon transform} rapidly deteriorates once a systematic dr
    \hspace*{\fill}
    % \caption{}
   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
-\end{figure}
+\end{figure*}
 
 \subsection{Recovery of R and T using matrix decomposition}
 
@@ -416,7 +451,7 @@ The translation matrix (\gls{T}) was consistently more accurately reproduced, wh
 %Textwidth is \the\textwidth
 
 
-\begin{figure}
+\begin{figure*}
   \centering
     \begin{subfigure}[t]{0.5\textwidth}
       \captionsetup{width=0.8\textwidth}
@@ -462,7 +497,7 @@ The translation matrix (\gls{T}) was consistently more accurately reproduced, wh
           Panels~(\subref{fig:pc_sum_rot_both}) and~(\subref{fig:pc_sum_trans_both}) combine the two effects.
           In all cases, the percentage error introduced by the the addition of undesirable additional movements was on the order of \SI{<2}{\percent}.
           }\label{fig:pc_sum_decompose}
-\end{figure}
+\end{figure*}
 
 \section{Discussion}
 
@@ -567,10 +602,10 @@ This was attempted in this work, however, the errors introduced into the transfo
 % %It should be an explicit summary of the paper that states the problem, the methods used, and the major results and conclusions. It also should contain the relevant key words that would allow it to be found in a cursory computerized search.
 % If the work of another author is cited in the abstract, that citation should be written out without a number, (e.g., journal, volume, first page, and year in square brackets [Opt. Express {\bfseries 22}, 1234 (2014)]), and a separate citation should be included in the body of the text. The first reference cited in the main text must be [1]. Do not include numbers, bullets, or lists inside the abstract.
 %
-% \begin{figure}[h!]
+% \begin{figure*}[h!]
 % \centering\includegraphics[width=7cm]{osafig1}
 % \caption{Sample caption (Fig. 2, \cite{Yelin:03}).}
-% \end{figure}
+% \end{figure*}
 %
 %
 % \section{Assessing final manuscript length}
@@ -582,10 +617,10 @@ This was attempted in this work, however, the errors introduced into the transfo
 %
 % OSA encourages authors to submit color figures with their manuscripts. Figures and tables should be placed in the body of the manuscript. Standard \LaTeX{} environments should be used to place tables and figures:
 % \begin{verbatim}
-% \begin{figure}[htbp]
+% \begin{figure*}[htbp]
 % \centering\includegraphics[width=7cm]{osafig1}
 % \caption{Sample caption (Fig. 2, \cite{Yelin:03}).}
-% \end{figure}
+% \end{figure*}
 % \end{verbatim}
 %
 % \subsection{Supplementary materials in OSA journals}
@@ -596,19 +631,19 @@ This was attempted in this work, however, the errors introduced into the transfo
 % \verb|\textcolor{urlblue}{Visualization 1}| is preferred to using the command\\
 % \verb|\url{Visualization 1}|.
 %
-% \begin{figure}[ht!]
+% \begin{figure*}[ht!]
 % \centering\includegraphics{osafig2}
 % \caption{(a) Three traps create three rings of magnetic nanoparticles. (b) The rings interact with one another (see \textcolor{urlblue}{Visualization 1}, \cite{Masajada:13}).}
-% \end{figure}
+% \end{figure*}
 %
 %
 % \begin{verbatim}
-% \begin{figure}[hbt!]
+% \begin{figure*}[hbt!]
 % \centering\includegraphics{opexfig2}
 % \caption{Normalized modulus distributions of transverse electrical
 % field components of the TM01 mode in PWs with (a) SiO_2 core
 % and (b) Si core}{Visualization 1}), \cite{Masajada:13}).}
-% \end{figure}
+% \end{figure*}
 % \end{verbatim}
 %
 % \section{Mathematical and scientific notation}
@@ -704,3 +739,6 @@ This was attempted in this work, however, the errors introduced into the transfo
 %
 % \pagebreak
 \include{supplemental}
+
+
+\end{document}
