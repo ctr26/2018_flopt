@@ -1,0 +1,33 @@
+
+!!! Encountered } without corresponding {. !!!
+
+!!! Encountered \end without corresponding \begin !!!
+
+!!! Reached end of file while waiting for }. !!!
+
+!!! Reached end of file while waiting for \end. !!!
+
+!!! Environment ended while waiting for nd{thebibliography}. !!!
+File: main.tex
+Encoding: utf8
+Sum count: 3380
+Words in text: 2663
+Words in headers: 29
+Words outside text (captions, etc.): 675
+Number of headers: 9
+Number of floats/tables/figures: 8
+Number of math inlines: 13
+Number of math displayed: 0
+Subcounts:
+  text+headers+captions (#headers/#floats/#inlines/#displayed)
+  13+14+0 (1/0/0/0) _top_
+  103+1+0 (1/0/0/0) Abstract
+  12+0+0 (0/0/0/0) main
+  320+1+162 (1/2/0/0) Section: Introduction
+  881+4+383 (1/4/12/0) Section: The design and construction
+  222+2+0 (1/0/0/0) Section: Sample preparation
+  258+4+130 (1/2/0/0) Subsection: Sample mounting and positioning
+  328+1+0 (1/0/1/0) Section: Conclusions
+  526+2+0 (2/0/0/0) Section: Bibliography
+
+(errors:5)
