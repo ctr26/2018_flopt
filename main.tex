@@ -59,14 +59,7 @@
 %TC:break Abstract
 %the command above serves to have a word count for the abstract
 \linenumbers
-\begin{abstract}
- Implementations of light-sheet microscopes are often incompatible with standard methods of sample mounting.
- Light-sheet microscopy uses orthogonal illumination and detection to create a thin sheet of light which does not illuminate the sample outside of the depth of field of the detection axis.
- Typically, this configuration involves a pair of orthogonal objectives which constrains the positioning of a length of coverslips or microscopes in range of the detection objective.
- Here we present an open-hardware sample mounting system for light-sheet microscopes using large detection objectives, built using 3D printed components and demonstrate the chamber's efficacy on live biological samples in a custom light-sheet microscope. %R1C1 + R1C2
 
-
-\end{abstract}
 %TC:break main
 %the command above serves to have a word count for the abstract
 
@@ -83,13 +76,13 @@
 %the command above ignores this section for word count
 
 
-% \begin{abstract}
-%   We present a tomographic reconstruction algorithm, which is applied to Optical Projection Tomography (OPT) [1] images, that is robust to mechanical jitter and systematic angular and spatial drift.
-%   OPT relies on precise mechanical rotation and is less mechanically stable than large-scale CT scanning systems, leading to reconstruction artefacts.
-%   The algorithm uses multiple (5+) tracked fiducial beads to recover the sample pose and the image rays are then back-projected at each orientation.
-%   The quality of the image reconstruction using the proposed algorithm shows an improvement when compared to the Radon transform.
-%   Moreover, when adding a systematic spatial and angular mechanical drift, the reconstruction shows a significant improvement over the Radon transform.
-% \end{abstract}
+\begin{abstract}
+  We present a tomographic reconstruction algorithm, which is applied to Optical Projection Tomography (OPT) [1] images, that is robust to mechanical jitter and systematic angular and spatial drift.
+  OPT relies on precise mechanical rotation and is less mechanically stable than large-scale CT scanning systems, leading to reconstruction artefacts.
+  The algorithm uses multiple (5+) tracked fiducial beads to recover the sample pose and the image rays are then back-projected at each orientation.
+  The quality of the image reconstruction using the proposed algorithm shows an improvement when compared to the Radon transform.
+  Moreover, when adding a systematic spatial and angular mechanical drift, the reconstruction shows a significant improvement over the Radon transform.
+\end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -119,32 +112,32 @@
 %Micro-MRI can also achieve resolution in the micron scale, however the cost and size of MRI instruments can be prohibitive for many applications[21].
 %Furthermore, neither of these techniques can exploit the plethora of information that can be extracted through fluorescence microscopy.
 
-Sharpe~\emph{et. al} proposed \gls{OPT}~\cite{sharpeOpticalProjectionTomography2002}
+Sharpe~\emph{et. al} proposed \gls*{OPT}~\cite{sharpeOpticalProjectionTomography2002}
 using visible light to image transparent or translucent mesoscopic samples, with micrometer resolution.
-\gls{OPT} addresses the scale gap between photographic techniques (for samples typically larger than \SI{10}{\milli\meter}), and light microscopy techniques (samples smaller than \SI{1}{\milli\meter}) to image biological samples in the \SIrange{1}{10}{\milli\meter} range.
-% \gls{OPT} is non-invasive optically but may require specialist invasive preparation for its samples.
+\gls*{OPT} addresses the scale gap between photographic techniques (for samples typically larger than \SI{10}{\milli\meter}), and light microscopy techniques (samples smaller than \SI{1}{\milli\meter}) to image biological samples in the \SIrange{1}{10}{\milli\meter} range.
+% \gls*{OPT} is non-invasive optically but may require specialist invasive preparation for its samples.
 
 %Optical Projection Tomography was first proposed by Sharpe in 2002 [30]; it uses visible light to image and create volumetric data of transparent (naturally or artificially) mesoscopic objects (1 - 10 mm) at micron-level resolution.
 
-\gls{OPT} is based on computerised tomography techniques~\cite{kakPrinciplesComputerizedTomographic2001} in which a set of projections of a specimen are imaged as the specimen travels through a full rotation.
+\gls*{OPT} is based on computerised tomography techniques~\cite{kakPrinciplesComputerizedTomographic2001} in which a set of projections of a specimen are imaged as the specimen travels through a full rotation.
 Typically, a Radon transform is then used to transform this set of images into a 3D image stack in Cartesian coordinates (\(X,Y,Z\)).
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
-The \gls{Radon transform} relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
+The \gls*{Radon transform} relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
 This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as to inconsistent angular steps.
 The proposed algorithm triangulates points between image pairs to extract camera pose using the theoretical framework used in stereoscopic imaging. %TODO reword
 
-% There are two imaging modalities for \gls{OPT}, \gls{eOPT} and \gls{tOPT}.
-% In \gls{eOPT}, a fluorescent sample is excited using an illumination source off axis to the detection, similar to \gls{light-sheet} but the entire \gls{depth of field} of the detection of objective is illuminated.
+% There are two imaging modalities for \gls*{OPT}, \gls*{eOPT} and \gls*{tOPT}.
+% In \gls*{eOPT}, a fluorescent sample is excited using an illumination source off axis to the detection, similar to \gls*{light-sheet} but the entire \gls*{depth of field} of the detection of objective is illuminated.
 % % without the excitation being shaped into a sheet.
 % Scattered illumination photons are rejected at the detector using an appropriate filter.
 % In tOPT, a white-light source with a diffuser and a collimator is placed along the optical axis to provide near-collimated, uniform illumination onto the sample for transmission to a detector opposite (see \figurename~\ref{fig:OPT_digram}).
-% Each \gls{photosite} at the detector corresponds to a ray that has passed through the sample and been attenuated by the sample.
-% The \gls{eOPT} and \gls{tOPT} modes can work in unison to provide contextual information, with the transmission images indicating overall structure (optical density of absorption or scattering) which can be supplemented by the fluorescent signal from a label of interest.
+% Each \gls*{photosite} at the detector corresponds to a ray that has passed through the sample and been attenuated by the sample.
+% The \gls*{eOPT} and \gls*{tOPT} modes can work in unison to provide contextual information, with the transmission images indicating overall structure (optical density of absorption or scattering) which can be supplemented by the fluorescent signal from a label of interest.
 %
 % \begin{figure*}
 %   \centering
 %   \includegraphics{./figures/OPT_digram}
-%   \caption[Principle of OPT]{Principle of \gls{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
+%   \caption[Principle of OPT]{Principle of \gls*{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
 %   The volumetric image is later reconstructed from the set of detections (1/2D).}
 %   \label{fig:OPT_digram}
 % \end{figure*}
@@ -157,21 +150,21 @@ The proposed algorithm triangulates points between image pairs to extract camera
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
         \includegraphics{./figures/coordinate_system}
-        \caption[Coordinate system]{Coordinate system describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(\gls{X}\).
+        \caption[Coordinate system]{Coordinate system describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(\gls*{X}\).
         }\label{fig:coordinate_system_flopt}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{0.48\linewidth}
       \centering
       \includegraphics{./figures/OPT_digram}
       \caption[Principle of OPT]{From an angle \(\theta \), an object \(f(X,Y)\) and its projection \(P_\theta(\nu)\) are known.}\label{fig:OPT_digram}
-      %{Principle of \gls{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
+      %{Principle of \gls*{OPT}, a respective rotation between the sample and the detector illumination pair is iterated.
       % The volumetric image is later reconstructed from the set of detections (1/2D).}
     \end{subfigure}
-    \caption[Coordinates and \gls{OPT}]{\gls{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
-            \gls{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
-            \gls{p} = \((x,y,f)\) is the ray vector to point of image plane.
-            \gls{x} = \((x,y)\) is the image plane coordinates.
-            \gls{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls{x}.
+    \caption[Coordinates and \gls*{OPT}]{\gls*{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
+            \gls*{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
+            \gls*{p} = \((x,y,f)\) is the ray vector to point of image plane.
+            \gls*{x} = \((x,y)\) is the image plane coordinates.
+            \gls*{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls*{x}.
             The optical axis travels along the \(Z_c\) axis through the image plane.}
     % \label{fig:aa}
 \end{figure*}
@@ -181,7 +174,7 @@ The proposed algorithm triangulates points between image pairs to extract camera
   \caption[Epi-polar geometry described for two adjacent views]{
   Epi-polar geometry described for two adjacent views (or cameras of a scene).
   Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
-  Transforming from right to left camera-centered coordinates (\gls{X_c'} to \gls{X_c}) requires a rotation (\gls{R}) and a translation (\gls{T}).
+  Transforming from right to left camera-centered coordinates (\gls*{X_c'} to \gls*{X_c}) requires a rotation (\gls*{R}) and a translation (\gls*{T}).
   }\label{fig:epi-polar-geom}
 \end{figure*}
 
@@ -197,20 +190,20 @@ Triangulation requires that each feature is detected in both images of a stereo 
 This is known as the correspondence problem.
 Various methods exist to ensure that features are detected from image data and accurately associated between two cameras or views \cite{?} and the properties of scale-independent features and their surrounding pixel environment in one image can thus be matched to a similar feature in a second image.
 
-Coordinates in two adjacent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls{Essential}) for uncalibrated cameras and the fundamental matrix (\gls{F}) for calibrated cameras.
+Coordinates in two adjacent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
 Their properties are described by:
 \begin{gather}
-\gls{p'}^T \gls{Essential} \gls{p} = 0 \label{eq:pEp}\\
-\gls{Essential} = \gls{K'}^T \gls{F} \gls{K} %= \gls{T_x} \gls{R} = \mathbf{U}\Lambda \mathbf{V}^T%\gls{R} = U\LambdaV^T\\
+\gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}\\
+\gls*{Essential} = \gls*{K'}^T \gls*{F} \gls*{K} %= \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T%\gls*{R} = U\LambdaV^T\\
 \end{gather}
-Where \(\gls{K}\) is a matrix that converts image plane coordinates to camera pixel coordinates and where \gls{p} refers to a point in the image plane.
+Where \(\gls*{K}\) is a matrix that converts image plane coordinates to camera pixel coordinates and where \gls*{p} refers to a point in the image plane.
 
 \section*{The proposed algorithm}
 
 %The rotation may also not be orthogonal to the plane of detection.
-The motion of a rotating sample, as in an \gls{OPT} acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) in view of a fixed camera is analogous to the motion of a camera with the inverse transformation matrix around the scene. %TODO reword
-% The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls{R} & \gls{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls{OPT} acquisition.
-During an ideal \gls{OPT} acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane. For the volume reconstruction procedure, there is a fitting step to recover the path of the fiducial marker, which is used to correct the sinogram before applying the inverse \gls{Radon transform}. This type of reconstruction not only ignores any mechanical jitter of the sample, but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
+The motion of a rotating sample, as in an \gls*{OPT} acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) in view of a fixed camera is analogous to the motion of a camera with the inverse transformation matrix around the scene. %TODO reword
+% The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls*{OPT} acquisition.
+During an ideal \gls*{OPT} acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane. For the volume reconstruction procedure, there is a fitting step to recover the path of the fiducial marker, which is used to correct the sinogram before applying the inverse \gls*{Radon transform}. This type of reconstruction not only ignores any mechanical jitter of the sample, but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
 Using two adjacent images of a scene, separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
 
 % The inverse is also possible, given a sufficient number of known fiducial points in a scene the translation and rotation matrices can be recovered.
@@ -219,18 +212,18 @@ Using two adjacent images of a scene, separated by some rotation and translation
 % Errors may however then be introduced from fiducial markers mechanically slipping and localisation errors.
 % Fiducial markers in this sense refer to an accurately locatable marker common through different views in a sample.
 
-Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, either of the \glslink{fundamental matrix}{fundamental} or \glslink{essential matrix}{essential} matrices can be computed. Using the factorisation of one of these matrices, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
-% Here we will discuss a reconstruction using \gls{F} but the same principle applies for \gls{Essential} and \gls{H}.
+Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, either of the \glslink*{fundamental matrix}{fundamental} or \glslink*{essential matrix}{essential} matrices can be computed. Using the factorisation of one of these matrices, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
+% Here we will discuss a reconstruction using \gls*{F} but the same principle applies for \gls*{Essential} and \gls*{H}.
 
 % Here are two ways of reconstructing using the fundamental matrix as described above.
-To reconstruct the image, we compute \gls{F} for the current image and the first image using 5 or more fiducial markers; having additional beads helps to remove ambiguity and increase confidence in \gls{F}.
-Once \gls{F} is calculated, it is decomposed into \(\gls{R}_n\) and \(\gls{T}_n\) between each view \(n\) and \(n+1\).
+To reconstruct the image, we compute \gls*{F} for the current image and the first image using 5 or more fiducial markers; having additional beads helps to remove ambiguity and increase confidence in \gls*{F}.
+Once \gls*{F} is calculated, it is decomposed into \(\gls*{R}_n\) and \(\gls*{T}_n\) between each view \(n\) and \(n+1\).
 The image at view \(n+1\) is then back projected along the virtual optical axis within a virtual volume where the sample will be reconstructed.
 The size of this back projection and virtual volume is chosen to be suitably large, preventing the loss of important data.
-% Then, all the prior rotation and translation matrices are serially multiplied from \(\begin{bmatrix}[c|c] \gls{R}_0&\gls{T}_0 \end{bmatrix}\) until \(\begin{bmatrix}[c|c] \gls{R}_n&\gls{T}_n \end{bmatrix}\) % \([R_n|T_n] \)
+% Then, all the prior rotation and translation matrices are serially multiplied from \(\begin{bmatrix}[c|c] \gls*{R}_0&\gls*{T}_0 \end{bmatrix}\) until \(\begin{bmatrix}[c|c] \gls*{R}_n&\gls*{T}_n \end{bmatrix}\) % \([R_n|T_n] \)
 % , this final matrix is inverted and applied to the back projected volume.
 The recovered transformation matrices are then matrix inverted and applied to the back projection of the image to realign the rays in the volume to their respective source positions. %TODO hard sentence.
-% This process is repeated for every angle the sum of these ray projection volumes is filtered using a high-pass filter; here a \gls{Ram-Lak filter} is used.
+% This process is repeated for every angle the sum of these ray projection volumes is filtered using a high-pass filter; here a \gls*{Ram-Lak filter} is used.
 % \footnote{Linear real (amplitude) ramp filter in Fourier space}. %: \(|v|\)}
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
 
@@ -248,12 +241,12 @@ The recovered transformation matrices are then matrix inverted and applied to th
       \includegraphics{./figures/flopt_algorithm}
       \caption{Reconstruction method, solving the inverse problem.}\label{fig:flopt_algorithm_inverse}
     \end{subfigure}
-    \caption[Simulation of \gls{OPT} data incorporating rotational and translational offsets, and the proposed reconstruction algorithm]{
+    \caption[Simulation of \gls*{OPT} data incorporating rotational and translational offsets, and the proposed reconstruction algorithm]{
     % Two dimensional representation of the reconstruction algorithm.
-    The simulation of \gls{OPT} data incorporating rotational and translational offsets, and the proposed reconstruction algorithm.
-    (\subref{fig:flopt_algorithm_forward}): The \(n\) projections of the object (\(\Sigma \)), at rotation (\(\gls{R}_1\) to \(\gls{R}_n\)) and translation (\(\gls{T}_1\) to \(\gls{T}_n\)), produces \(n\) frames of image data.
-    During the \gls{OPT} measurement, \(n\) projections of the object \(\Sigma \) are observed with rotations \(\gls{R}_1\) to \(\gls{R}_n\) and corresponding translations \(\gls{T}_1\) to \(\gls{T}_n\) where the translations account for imperfect alignment.
-    (\subref{fig:flopt_algorithm_inverse}): In the reconstruction algorithm, the rotational and translational matrices are recovered (\(\gls{R}_1'\) to \(\gls{R}_n'\) and \(\gls{T}_1'\) to \(\gls{T}_n'\)) from triangulation of the fiducial markers.
+    The simulation of \gls*{OPT} data incorporating rotational and translational offsets, and the proposed reconstruction algorithm.
+    (\subref{fig:flopt_algorithm_forward}): The \(n\) projections of the object (\(\Sigma \)), at rotation (\(\gls*{R}_1\) to \(\gls*{R}_n\)) and translation (\(\gls*{T}_1\) to \(\gls*{T}_n\)), produces \(n\) frames of image data.
+    During the \gls*{OPT} measurement, \(n\) projections of the object \(\Sigma \) are observed with rotations \(\gls*{R}_1\) to \(\gls*{R}_n\) and corresponding translations \(\gls*{T}_1\) to \(\gls*{T}_n\) where the translations account for imperfect alignment.
+    (\subref{fig:flopt_algorithm_inverse}): In the reconstruction algorithm, the rotational and translational matrices are recovered (\(\gls*{R}_1'\) to \(\gls*{R}_n'\) and \(\gls*{T}_1'\) to \(\gls*{T}_n'\)) from triangulation of the fiducial markers.
     These transformation matrices are then used to obtain a contribution to the volumetric reconstruction from each observed frame and the summated reconstruction is assembled from the \(n\) frames.
     The now realigned back projections are summed to produce an unfiltered back projection.
     % and inversely applied
@@ -265,11 +258,11 @@ The recovered transformation matrices are then matrix inverted and applied to th
 % The second approach is robust against compound errors but an additional programatic step is needed to know which beads in the first image correspond to beads in the \(n^{\text{th}}\) image.
 % This can be is achieved using tracking and momentum particle tracking algorithms, though confounding issues can arise i.e.~if a particle orbits too far away from the imaging plane or occlusions occur.
 
-In both cases, a decomposed \gls{F} matrix will produce four possible transformation pairs (\gls{R},\gls{T}; \gls{R},-\gls{T}; -\gls{R},\gls{T}; -\gls{R},-\gls{T}).
+In both cases, a decomposed \gls*{F} matrix will produce four possible transformation pairs (\gls*{R},\gls*{T}; \gls*{R},-\gls*{T}; -\gls*{R},\gls*{T}; -\gls*{R},-\gls*{T}).
 Once the transformation matrix between the current view (\(n\)) and the first view is calculated, the proceeding transformation matrices are then easily chosen by similarity to the previously collected matrix and general direction of motion.
 An example of this type of selection would be:
 \begin{align}
-\min_{I(n)}\left[I(n) = \left(\begin{bmatrix}[c|c] \gls{R}_n&\gls{T}_n \end{bmatrix} - \begin{bmatrix}[c|c] \gls{R}_{n-1}&\gls{T}_{n-1} \end{bmatrix}\right)^2\right]
+\min_{I(n)}\left[I(n) = \left(\begin{bmatrix}[c|c] \gls*{R}_n&\gls*{T}_n \end{bmatrix} - \begin{bmatrix}[c|c] \gls*{R}_{n-1}&\gls*{T}_{n-1} \end{bmatrix}\right)^2\right]
 \end{align}
 To find the correct matrix between the \(n=0\) and \(n=1\) orientations, each of the four matrices are compared to an ideal matrix which is composed using \emph{a priori} knowledge of the likely angle of rotation of the system's imaging properties.
 
@@ -378,18 +371,18 @@ This is repeated for each angle,  with each line projection stacked to create a 
     }\label{fig:recon_iterative}
 \end{figure*}
 
-In the standard approach for \gls{OPT} reconstruction, the sinogram undergoes the inverse \gls{Radon transform}, as shown in \figurename~\ref{fig:iradon_nofilter}, followed by post-filtering, as shown in \figurename~\ref{fig:iradon_filter}.
+In the standard approach for \gls*{OPT} reconstruction, the sinogram undergoes the inverse \gls*{Radon transform}, as shown in \figurename~\ref{fig:iradon_nofilter}, followed by post-filtering, as shown in \figurename~\ref{fig:iradon_filter}.
 This step is substituted for the proposed algorithm; in \figurename~\ref{fig:flopt_comparison_line_profile} the two techniques are compared for ideal conditions of smooth, predictable rotation.
 The proposed algorithm produces %(see )
 a faithful reconstruction on the original image, as shown in \figurename~\ref{fig:flopt_filter}. %with some minor deviations.
 % there is good overlap between the two,
-\figurename~\ref{fig:flopt_histogram} illustrates the strong overlap of the images produced by the new algorithm and the \gls{Radon transform} when considering the histogram of the absolute pixel-wise difference between the original source image and the respective reconstructions.
+\figurename~\ref{fig:flopt_histogram} illustrates the strong overlap of the images produced by the new algorithm and the \gls*{Radon transform} when considering the histogram of the absolute pixel-wise difference between the original source image and the respective reconstructions.
 The proposed algorithm generates lower deviance from the source image than the Radon transform.
-The mean square errors (\gls{MSE}, see Equation~\eqref{eq:mse}) of the new algorithm and the \gls{Radon transform} are \SI{15.01}{\percent} and \SI{14.84}{\percent}, respectively, see \figurename~\ref{fig:flopt_histogram} for a histogram of a pixel-wise comparison.
+The mean square errors (\gls*{MSE}, see Equation~\eqref{eq:mse}) of the new algorithm and the \gls*{Radon transform} are \SI{15.01}{\percent} and \SI{14.84}{\percent}, respectively, see \figurename~\ref{fig:flopt_histogram} for a histogram of a pixel-wise comparison.
 %, see \figurename~\ref{fig:flopt_histogram}
 
 \begin{align}
-    \operatorname{\gls{MSE}}=\frac{1}{n}\sum_{i=1}^n{(Y_i-\hat{Y_i})}^2 \label{eq:mse} % \intertext{Where \(\hat{Y_i}\) is the ith value and Y_i }
+    \operatorname{\gls*{MSE}}=\frac{1}{n}\sum_{i=1}^n{(Y_i-\hat{Y_i})}^2 \label{eq:mse} % \intertext{Where \(\hat{Y_i}\) is the ith value and Y_i }
 \end{align}
 
 \begin{figure*}
@@ -397,42 +390,42 @@ The mean square errors (\gls{MSE}, see Equation~\eqref{eq:mse}) of the new algor
   \begin{subfigure}[t]{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/comparison_line_profile}
-    % \caption[Line profile comparison of the standard and new algorithms]{Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls{Radon transform} and the new proposed algorithm.}
+    % \caption[Line profile comparison of the standard and new algorithms]{Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls*{Radon transform} and the new proposed algorithm.}
     \caption{}\label{fig:flopt_comparison_line_profile}
   \end{subfigure}\quad
  \begin{subfigure}[t]{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/flopt_histogram}
-    % \caption[Histogram of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}]{Histogram of of pixel values compared between reconstructions using flOPT and the \gls{Radon transform}.
-    % The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm out performs the \gls{Radon transform}}\label{fig:flopt_histogram}
+    % \caption[Histogram of pixel values compared between reconstructions using flOPT and the \gls*{Radon transform}]{Histogram of of pixel values compared between reconstructions using flOPT and the \gls*{Radon transform}.
+    % The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm out performs the \gls*{Radon transform}}\label{fig:flopt_histogram}
     \caption{}\label{fig:flopt_histogram}
   \end{subfigure}\\
   \begin{subfigure}[t]{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/correlation_helicity}
     % \caption[Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift]{%2D correlation of the source image shows that flOPT does not degrade under systematic drift compared to s.
-    % Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
-    % 2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas reconstruction using the standard \gls{Radon transform} is severely degraded.
+    % Comparison of standard and proposed \gls*{OPT} reconstruction algorithms for acquisitions with drift.
+    % 2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas reconstruction using the standard \gls*{Radon transform} is severely degraded.
     % }
     \caption{}\label{fig:helical_comparison}
   \end{subfigure}
   \caption{
-  (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls{Radon transform} and the new proposed algorithm.
-  (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using the new proposed flOPT algorithm and the \gls{Radon transform}.
-  The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the \gls{Radon transform}
-  (\subref{fig:helical_comparison}): Comparison of standard and proposed \gls{OPT} reconstruction algorithms for acquisitions with drift.
-  2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard \gls{Radon transform} is severely degraded.}
+  (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard \gls*{Radon transform} and the new proposed algorithm.
+  (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using the new proposed flOPT algorithm and the \gls*{Radon transform}.
+  The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the \gls*{Radon transform}
+  (\subref{fig:helical_comparison}): Comparison of standard and proposed \gls*{OPT} reconstruction algorithms for acquisitions with drift.
+  2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard \gls*{Radon transform} is severely degraded.}
 \end{figure*}
 
-%However, the proposed algorithm fairs worse in terms of contrast compared to a \gls{Radon transform}.
+%However, the proposed algorithm fairs worse in terms of contrast compared to a \gls*{Radon transform}.
 
 The more challenging case of a sample drifting systematically along the \(X\) axis, with a constant velocity, was then considered. This drift produced a helical path of a single fiducial within the sample, see \figurename~\ref{fig:flopt_helix_sinogram}.
-In \figurename~\ref{fig:unfilttered_reconstruction_helix_iradon}, the \gls{Radon transform} fails to produce a recognisable reproduction of the test image with the addition of a slight helicity to the rotation.
+In \figurename~\ref{fig:unfilttered_reconstruction_helix_iradon}, the \gls*{Radon transform} fails to produce a recognisable reproduction of the test image with the addition of a slight helicity to the rotation.
 The proposed algorithm produces an equivalent result to that of a sample rotating without any systematic drift, see \figurename~\ref{fig:iradon_filter}.
 In \figurename~\ref{fig:helical_comparison} the respective reconstructions from each algorithm were compared, as before, while the helical shift was incremented.
 See \figurename~\ref{fig:flopt_helix_sinogram} for a sinogram of a sample wherein a helical shift has been induced.
-When using correlation as a metric of reproduction quality, the new algorithm fares slightly worse at zero helicity, with \SI{94}{\percent} correlation compared to the \gls{Radon transform} at \SI{96}{\percent}.
-As expected, the \gls{Radon transform} rapidly deteriorates once a systematic drift is applied, whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
+When using correlation as a metric of reproduction quality, the new algorithm fares slightly worse at zero helicity, with \SI{94}{\percent} correlation compared to the \gls*{Radon transform} at \SI{96}{\percent}.
+As expected, the \gls*{Radon transform} rapidly deteriorates once a systematic drift is applied, whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
 
 \begin{figure*}
   \centering
@@ -461,7 +454,7 @@ As expected, the \gls{Radon transform} rapidly deteriorates once a systematic dr
        \node[below=of img] {\(X\)};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Unfiltered reconstruction using a \gls{Radon transform}.}\label{fig:unfilttered_reconstruction_helix_iradon}
+    \caption{Unfiltered reconstruction using a \gls*{Radon transform}.}\label{fig:unfilttered_reconstruction_helix_iradon}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -476,15 +469,15 @@ As expected, the \gls{Radon transform} rapidly deteriorates once a systematic dr
   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
 \end{figure*}
 
-\subsection{Recovery of R and T using matrix decomposition}
+\subsection*{Recovery of R and T using matrix decomposition}\\
 
-To quantitatively verify that the matrix decomposition technique was valid and robust, the accuracy of the reproduction of \gls{R} and \gls{T} was tested directly.
-The original \gls{R} and \gls{T} matrices were computed and compared to \gls{R} and \gls{T} generated from matrix decomposition. This absolute difference was computed element-wise in each matrix and then an average for each matrix was taken.
+To quantitatively verify that the matrix decomposition technique was valid and robust, the accuracy of the reproduction of \gls*{R} and \gls*{T} was tested directly.
+The original \gls*{R} and \gls*{T} matrices were computed and compared to \gls*{R} and \gls*{T} generated from matrix decomposition. This absolute difference was computed element-wise in each matrix and then an average for each matrix was taken.
 Overall, the worst-case scenario produced a percentage error of \SI{2}{\percent} (see \figurename~\ref{fig:pc_sum_decompose} for full statistics).
-The accuracy of the calculated \gls{R} and \gls{T} deteriorated when adding in additional degrees of combined movement, but with no correlation between the degree of helicity and the error produced.
+The accuracy of the calculated \gls*{R} and \gls*{T} deteriorated when adding in additional degrees of combined movement, but with no correlation between the degree of helicity and the error produced.
 % but the severity of this movement appeared to no trending effect.
-The translation matrix (\gls{T}) was consistently more accurately reproduced, which is likely due to it having fewer available degrees of freedom.
-% Consistently the translational matrix (\gls{T}) was more accurately reproduced, this is likely due to there being fewer of degrees of freedom for errors to spread over.
+The translation matrix (\gls*{T}) was consistently more accurately reproduced, which is likely due to it having fewer available degrees of freedom.
+% Consistently the translational matrix (\gls*{T}) was more accurately reproduced, this is likely due to there being fewer of degrees of freedom for errors to spread over.
 
 %The images produced are a more faithful reproduction of the source image as the degree of helicity is increased.
 %This effect may be due to the additional sampling induced by adding another degree of movement, that is the systematic drift.
@@ -544,16 +537,16 @@ The translation matrix (\gls{T}) was consistently more accurately reproduced, wh
 
 A new algorithm for reconstructing OPT data has been demonstrated.
 The new algorithm uses multiple fiducial markers to recover the matrix which describes the rotation and translation of the sample.
-The quality of the reconstructions shows a slight improvement when compared to the standard \gls{Radon transform}, with a great effect when a systematic drift is introduced.
-The accuracy of the decomposition of \gls{F} into \gls{R} and \gls{T} was compared to the ground truth matrices.
-The element-wise absolute difference \(\left(\frac{x-y}{2(x+y)}\right)\) of each matrix was averaged across the matrix for \gls{R} and \gls{T}.
+The quality of the reconstructions shows a slight improvement when compared to the standard \gls*{Radon transform}, with a great effect when a systematic drift is introduced.
+The accuracy of the decomposition of \gls*{F} into \gls*{R} and \gls*{T} was compared to the ground truth matrices.
+The element-wise absolute difference \(\left(\frac{x-y}{2(x+y)}\right)\) of each matrix was averaged across the matrix for \gls*{R} and \gls*{T}.
 In the worst-case scenario, a maximum of \SI{2}{\percent} average absolute difference was found between ground truth and recovered matrices,
 % When comparing the
 % expected matrices to the recovered matrices a
 % ground truth matrices to the recovered matrices were compared using the average of the element-wise using square differences
 % peak of \SI{2}{\percent} difference is found between the two when considering worst case scenarios;
 suggesting that the technique is robust to various forms of drift and general instability.
-Such an algorithm could be used to minimise ghosting effects seen in real samples, particularly in samples where slipping is likely to occur, such as in gels or in cheaper \gls{OPT} systems which tend to be more mechanically unstable and imprecise.
+Such an algorithm could be used to minimise ghosting effects seen in real samples, particularly in samples where slipping is likely to occur, such as in gels or in cheaper \gls*{OPT} systems which tend to be more mechanically unstable and imprecise.
 
 \section*{Future work}
 
@@ -569,7 +562,7 @@ If such tools were to be developed, it may be possible to have the algorithm des
 Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
 To find such correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{?} and RANSAC~\cite{?}. %, many of these such correspondences are found
 This was attempted in this work, however, the errors introduced into the transformation matrices make this approach currently inviable.
-% This technique is only valid for views with small angles between them, as would be found in \gls{OPT}.
+% This technique is only valid for views with small angles between them, as would be found in \gls*{OPT}.
 \pagebreak
 %
 % \section*{Introduction}
