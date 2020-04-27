@@ -47,12 +47,12 @@
 \shorttitle{flOPT}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-\author[1,\Letter]{Craig Russell}
+\author[1,2]{Craig Russell}
 \author[1,\Letter]{Eric Rees}
 
 
 \affil[1]{Dept. of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K.}
-\affil[2]{EBI}
+\affil[2]{European Bioinformatics Institute}
 
 \maketitle
 
@@ -188,7 +188,7 @@ The proposed algorithm triangulates points between image pairs to extract camera
 When the features or fiducial markers in one view are uniquely identifiable, the stereoscopic imaging of scenes allows for the triangulation of individual features in three dimensional space (known as world points), see Figure~\ref{fig:epi-polar-geom} for the coordinate system which describes this geometry. %(such as fluorescent beads).
 Triangulation requires that each feature is detected in both images of a stereo imaging system and for these detections to be correctly associated with one another.
 This is known as the correspondence problem.
-Various methods exist to ensure that features are detected from image data and accurately associated between two cameras or views \cite{?} and the properties of scale-independent features and their surrounding pixel environment in one image can thus be matched to a similar feature in a second image.
+Various methods exist to ensure that features are detected from image data and accurately associated between two cameras or views~\cite{szeliskiComputerVisionAlgorithms2010} and the properties of scale-independent features and their surrounding pixel environment in one image can thus be matched to a similar feature in a second image.
 
 Coordinates in two adjacent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
 Their properties are described by:
@@ -269,7 +269,7 @@ To find the correct matrix between the \(n=0\) and \(n=1\) orientations, each of
 \section*{Verification of the proposed algorithm}
 
 To verify the validity and quality of the proposed reconstruction algorithm, the image of Lena, superposed with an orthogonal image of Cameraman, is used as a testcard volume.
-Virtual fiducial beads are dispersed in the volume to track the rotation and translation of the image and shown in \figurename~\ref{fig:raw_input}.
+Virtual fiducial beads are dispersed in the volume to track the rotation and translation of the image.% and shown in \figurename~\ref{fig:raw_input}.
 The reference image is then rotated through \SI{128} angles over \(2\pi \) radians and projected along the \(Y\) axis, then an image slice in (\(X,Y\)) is taken to create a single line projection, shown three dimensionally in \figurename~\ref{fig:recon_iterative}.
 This is repeated for each angle,  with each line projection stacked to create a sinogram.%, see \figurename~\ref{fig:sinogram_stretch}.
 
@@ -469,8 +469,7 @@ As expected, the \gls*{Radon transform} rapidly deteriorates once a systematic d
   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
 \end{figure*}
 
-\subsection*{Recovery of R and T using matrix decomposition}\\
-
+\subsection*{Recovery of R and T using matrix decomposition}
 To quantitatively verify that the matrix decomposition technique was valid and robust, the accuracy of the reproduction of \gls*{R} and \gls*{T} was tested directly.
 The original \gls*{R} and \gls*{T} matrices were computed and compared to \gls*{R} and \gls*{T} generated from matrix decomposition. This absolute difference was computed element-wise in each matrix and then an average for each matrix was taken.
 Overall, the worst-case scenario produced a percentage error of \SI{2}{\percent} (see \figurename~\ref{fig:pc_sum_decompose} for full statistics).
@@ -553,17 +552,49 @@ Such an algorithm could be used to minimise ghosting effects seen in real sample
 The proposed algorithm relies on triangulation between two view points.
 % In this work the two view points refer to the image at frames \(n\) and \(n+1\).
 However, it is possible to use three separate views %(frames \(n\), \(n+1\) and \(n+2\))
-to reconstruct a scene, one such approach being quaternion tensors \cite{?}.
+to reconstruct a scene, one such approach being quaternion tensors \cite{hartleyMultipleViewGeometry}.
 Working with tensors is more complex, but a future iteration of the algorithm presented here may benefit from using three views to provide a more accurate transformation matrix.
 Beyond three views, there is currently no mathematical framework for four or more views.
 If such tools were to be developed, it may be possible to have the algorithm described above be a non-iterative, single-shot reconstruction from pixels to voxels.
 
 % In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
 Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
-To find such correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{?} and RANSAC~\cite{?}. %, many of these such correspondences are found
+To find such correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{loweObjectRecognitionLocal1999} and RANSAC~\cite{fischlerRandomSampleConsensus1981}. %, many of these such correspondences are found
 This was attempted in this work, however, the errors introduced into the transformation matrices make this approach currently inviable.
 % This technique is only valid for views with small angles between them, as would be found in \gls*{OPT}.
+
+\begin{acknowledgements}
+% \blindtext
+\end{acknowledgements}
+
+\section*{Bibliography}
+\bibliography{filler,thesis,xtrareferences}
+%% You can use these special %TC: tags to ignore certain parts of the text.
+%TC:ignore
+%the command above ignores this section for word count
+\onecolumn
+\newpage
+%
+% \section*{Word Counts}
+% This section is \textit{not} included in the word count.
+% \subsection*{Notes on Nature Methods Brief Communication}
+% \begin{itemize}
+% \item Abstract: 3 sentences, 70 words.
+% \item Main text: 3 pages, 2 figures, 1000-1500 words, more figures possible if under 3 pages
+% \end{itemize}
+
+% \subsection*{Statistics on word count}
+% \detailtexcount
+% \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Supplementary Information %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
+
+\captionsetup*{format=largeformat}
+
+
 %
 % \section*{Introduction}
 % Adherence to the specifications listed in this template is essential for efficient review and publication of submissions. Proper reference format is especially important (see Section \ref{sec:refs}).
