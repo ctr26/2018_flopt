@@ -5,7 +5,7 @@ As the sample is rotated each detector pixel collects an intensity \(I(\theta) =
 Rays from the sample to the detector approximate straight lines, and so the the rays reaching the detector with a line integrals.
 A projection is then the resulting intensity profile at the detector for a rotation angle, and the integral transform that results in \(P_\theta(v)\)
 % \(f(I_i,\theta_n) \)
-is the \gls{Radon transform}.
+is the \gls*{Radon transform}.
 % This is defined mathematically as:
 
 \begin{align}
@@ -22,16 +22,17 @@ is the \gls{Radon transform}.
 %     \label{fig:coordinate_system_flopt}
 % \end{figure}
 
-Where \(P_\theta(v)\) is the \gls{Radon transform} of \(f(X,Y)\) which represents the contrast image of \gls{2D} slice of the specimen.
-The \gls{Radon transform} of an image produces a \gls{sinugram} as in \figurename~\ref{fig:rawinputs}
+Where \(P_\theta(v)\) is the \gls*{Radon transform} of \(f(X,Y)\) which represents the contrast image of \gls*{2D} slice of the specimen.
+The \gls*{Radon transform} of an image produces a \gls*{sinugram}.% as in \figurename~\ref{fig:rawinputs}
 
 
 % A parallel projection is then just the combination of line integrals  \(f(I) \) for a constant. % for a constant.
 
-An inverse \gls{Radon transform} is used to recover the original object from the projection data; which is achieved by taking the \gls{Fourier transform} of each projection measurement, then reordering the information from the sample into the respective position in Fourier space.
-This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRadio1956} (see Appendix~\ref{appendix:fourierslice} for a derivation), which states that the \gls{Fourier transform} of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample.
+An inverse \gls*{Radon transform} is used to recover the original object from the projection data; which is achieved by taking the \gls*{Fourier transform} of each projection measurement, then reordering the information from the sample into the respective position in Fourier space.
+This is valid due to the Fourier Slice theorem%~\cite{bracewellStripIntegrationRadio1956}
+, which states that the \gls*{Fourier transform} of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample.
 %A high pass filter such as a ramp filter is commonly used to counter the blurring caused by this oversampling.
-% \gls{FBP} can be thought of as smearing the projection data across the image plane, and is expressed in equation form as:
+% \gls*{FBP} can be thought of as smearing the projection data across the image plane, and is expressed in equation form as:
 \begin{align}
 f_{\text{fpb}}(X,Y) = \int_{0}^{\pi} Q_\theta (X\cos(\theta)+Y\sin(\theta),\theta)dXdY
 \end{align}
@@ -45,7 +46,7 @@ The blurring arises as \(Q_\theta \) is back-projected (smeared) across the imag
 
 
 Now, suppose we know the relative positions of the two cameras and their respective intrinsic parameters, such as magnification and pixel offset.
-For a single camera and given the camera parameters, we can translate pixel coordinates, \(\gls{w} = (u, v)\), into the coplanar image plane coordinates \(\gls{x}=(x, y)\):
+For a single camera and given the camera parameters, we can translate pixel coordinates, \(\gls*{w} = (u, v)\), into the coplanar image plane coordinates \(\gls*{x}=(x, y)\):
 
 \begin{align}
     u &= u_0 + k_u x \\
@@ -53,7 +54,7 @@ For a single camera and given the camera parameters, we can translate pixel coor
 \end{align}
 
 Knowing the focal length (\(f\)) of the imaging system, image plane coordinates may be projected into a ray in 3D.
-The ray can be defined by using the point \gls{p} in camera-centred coordinates, where it crosses the image plane.
+The ray can be defined by using the point \gls*{p} in camera-centred coordinates, where it crosses the image plane.
 
 \begin{align}
   \mathbf{p} = \begin{bmatrix}
@@ -71,22 +72,22 @@ To derive general epipolar constraints, one should consider the epipolar geometr
 The \textbf{baseline} is defined as the line joining the optical centres.
 An \textbf{epipole} is the point of intersection of the baseline with the image plan and there are two epipoles per feature, one for each camera.
 An \textbf{epipolar line} is a line of intersection of the epipolar plane with an image plane.
-It is the image in one camera of the ray from the other camera’s optical centre to the world point (\gls{X}).
+It is the image in one camera of the ray from the other camera’s optical centre to the world point (\gls*{X}).
 For different world points, the epipolar plane rotates about the baseline.
 All epipolar lines intersect the epipole.
 
 The epipolar line constrains the search for correspondence from a region to a line.
-If a point feature is observed at \gls{x} in one image frame, then its location \gls{x'} in the other image frame must lie on the epipolar line.
+If a point feature is observed at \gls*{x} in one image frame, then its location \gls*{x'} in the other image frame must lie on the epipolar line.
 We can derive an expression for the epipolar line.
-The two camera-centered coordinate systems \gls{X_c'} and \gls{X_c} are related by a rotation, \gls{R} and translation, \gls{T} (see in \figurename~\ref{fig:epi-polar-geom}) as follows:
+The two camera-centered coordinate systems \gls*{X_c'} and \gls*{X_c} are related by a rotation, \gls*{R} and translation, \gls*{T} (see in \figurename~\ref{fig:epi-polar-geom}) as follows:
 
 \begin{align}
-    \gls{X_c'} &= \gls{R}\gls{X_c'} + \gls{T}
+    \gls*{X_c'} &= \gls*{R}\gls*{X_c'} + \gls*{T} \label{eq:Xprime = RTX}
 \end{align}
 %       \\
-%     \intertext{Taking the vector product with \(\gls{T}\), we obtain}
-%     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}+ \gls{T} \times \gls{T}  \\
-%     \gls{T} \times \gls{X_c'} &= \gls{T} \times \gls{R}\gls{X_c}\label{eq:Xprime = RTX}
+%     \intertext{Taking the vector product with \(\gls*{T}\), we obtain}
+%     \gls*{T} \times \gls*{X_c'} &= \gls*{T} \times \gls*{R}\gls*{X_c}+ \gls*{T} \times \gls*{T}  \\
+%     \gls*{T} \times \gls*{X_c'} &= \gls*{T} \times \gls*{R}\gls*{X_c}\label{eq:Xprime = RTX}
 % \end{align}
 
 % \begin{figure}
@@ -95,20 +96,20 @@ The two camera-centered coordinate systems \gls{X_c'} and \gls{X_c} are related 
 %   \caption[Epi-polar geometry described for two adjacent views]{
 %   Epi-polar geometry described for two adjacent views (or cameras of a scene).
 %   Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
-%   Transforming from right to left camera-centered coordinates (\gls{X_c'} to \gls{X_c}) requires a rotation (\gls{R}) and a translation (\gls{T}).
+%   Transforming from right to left camera-centered coordinates (\gls*{X_c'} to \gls*{X_c}) requires a rotation (\gls*{R}) and a translation (\gls*{T}).
 %   }\label{fig:epi-polar-geom}
 % \end{figure}
 
 \subsection{The Essential matrix}
 
-Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls{X_c'}\), we obtain:
+Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls*{X_c'}\), we obtain:
 \begin{align}
-    \gls{X_c'} \cdot (\gls{T} \times \gls{X_c}) &= \gls{X_c'}\cdot (\gls{T} \times \gls{R} \gls{X_c'}) \\
-    \gls{X_c'} \cdot (\gls{T} \times \gls{R} \gls{X_c}) &= 0
+    \gls*{X_c'} \cdot (\gls*{T} \times \gls*{X_c}) &= \gls*{X_c'}\cdot (\gls*{T} \times \gls*{R} \gls*{X_c'}) \\
+    \gls*{X_c'} \cdot (\gls*{T} \times \gls*{R} \gls*{X_c}) &= 0
     \intertext{A vector product can be expressed as a matrix multiplication:}
-    \gls{T} \times \gls{X_c} &= \gls{T_x} \gls{X_c}
+    \gls*{T} \times \gls*{X_c} &= \gls*{T_x} \gls*{X_c}
     \intertext{where}
-    \gls{T_x} &=\begin{bmatrix}
+    \gls*{T_x} &=\begin{bmatrix}
     0    & -T_z  & T_y\\
     T_z  & 0     & -T_x\\
     -T_y  & T_x   & 0
@@ -117,21 +118,21 @@ Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls{X_c'}\), we obt
 So equation~\eqref{eq:Xprime = RTX} can be rewritten as:
 
 \begin{align}
-\gls{X_c'} \cdot (\gls{T_x} \gls{R}\gls{X_c}) = 0 \\
-\gls{X_c'} \gls{T} \gls{Essential} \gls{X_c}= 0 \\
+\gls*{X_c'} \cdot (\gls*{T_x} \gls*{R}\gls*{X_c}) = 0 \\
+\gls*{X_c'} \gls*{T} \gls*{Essential} \gls*{X_c}= 0 \\
 \intertext{where}
-\gls{Essential} = \gls{T_x} \gls{R}
+\gls*{Essential} = \gls*{T_x} \gls*{R}
 \end{align}
 
-\gls{Essential} is a \(3 \times 3\) matrix known as the \emph{essential matrix}.
-The constraint also holds for rays \gls{p}, which are parallel to the camera-centered position vectors \gls{X_c}:
+\gls*{Essential} is a \(3 \times 3\) matrix known as the \emph{essential matrix}.
+The constraint also holds for rays \gls*{p}, which are parallel to the camera-centered position vectors \gls*{X_c}:
 
 \begin{align}
-\gls{p'}^T \gls{Essential} \gls{p} = 0 \label{eq:pEp}
+\gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}
 \end{align}
 This is the epipolar constraint.
-If a point \gls{p} is observed in one image, then its position \gls{p'} in the other image must lie on the line defined by Equation~\eqref{eq:pEp}.
-The essential matrix can convert from pixels on the detector to rays \gls{p} in the world, assuming a calibrated camera (intrinsic properties are known), and pixel coordinates can then be converted to image plane coordinates using:
+If a point \gls*{p} is observed in one image, then its position \gls*{p'} in the other image must lie on the line defined by Equation~\eqref{eq:pEp}.
+The essential matrix can convert from pixels on the detector to rays \gls*{p} in the world, assuming a calibrated camera (intrinsic properties are known), and pixel coordinates can then be converted to image plane coordinates using:
 \begin{align}
 \begin{bmatrix}
 u\\
@@ -166,14 +167,14 @@ x\\
 y\\
 f
 \end{bmatrix}
-\intertext{\(\widetilde{\gls{K}}\) is defined as follows:}
-\widetilde{\gls{K}} &= \begin{bmatrix}
+\intertext{\(\widetilde{\gls*{K}}\) is defined as follows:}
+\widetilde{\gls*{K}} &= \begin{bmatrix}
 f k_u & 0 & u_0 \\
 0 & f k_v & v_0 \\
 0 & 0 & 1
 \end{bmatrix}
 \intertext{then we can write pixel coordinates in homogenous coordinates:}
-\widetilde{\gls{w}} &= \widetilde{\gls{K}} \gls{p}
+\widetilde{\gls*{w}} &= \widetilde{\gls*{K}} \gls*{p}
 \end{align}
 
 \subsection{The Fundamental matrix}
@@ -181,39 +182,39 @@ f k_u & 0 & u_0 \\
 \begin{align}
     \intertext{From~\eqref{eq:pEp} the epipolar constraint becomes}
     % \mathbf{p'}^T E \mathbf{p} &= 0 \\
-    \widetilde{\gls{w'}} ^T \widetilde{\gls{K}}^{-T} E \widetilde{\gls{K}}^{-1} \widetilde{\gls{w}}  &= 0 \\
-    \widetilde{\gls{w'}} ^T F \widetilde{\gls{w}}  &= 0
+    \widetilde{\gls*{w'}} ^T \widetilde{\gls*{K}}^{-T} E \widetilde{\gls*{K}}^{-1} \widetilde{\gls*{w}}  &= 0 \\
+    \widetilde{\gls*{w'}} ^T F \widetilde{\gls*{w}}  &= 0
 \end{align}
 %\subsubsection{Two views}
 %\paragraph{Mapping from one camera to another}
 %\subsubsection{Three and more views}
-The (\(3\times3)\) matrix \gls{F}, is the called the \emph{fundamental matrix}.
+The (\(3\times3)\) matrix \gls*{F}, is the called the \emph{fundamental matrix}.
 With intrinsically calibrated cameras, structure can be recovered by triangulation.
-First, the two projection matrices are obtained via a \gls{SVD} of the essential matrix.
-The \gls{SVD} of the essential matrix is given by:
+First, the two projection matrices are obtained via a \gls*{SVD} of the essential matrix.
+The \gls*{SVD} of the essential matrix is given by:
 
 \begin{align}
-    \gls{Essential} &= \gls{K'}^T \gls{F} \gls{K} = \gls{T_x} \gls{R} = \mathbf{U}\Lambda \mathbf{V}^T\\%\gls{R} = U\LambdaV^T\\
+    \gls*{Essential} &= \gls*{K'}^T \gls*{F} \gls*{K} = \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T\\%\gls*{R} = U\LambdaV^T\\
     \intertext{It can be shown that}
-    \hat{\gls{T_x}} &= U \begin{bmatrix}
+    \hat{\gls*{T_x}} &= U \begin{bmatrix}
     0 & 1 & 0 \\
     -1 & 0 & 0 \\
     0 & 0 & 0
     \end{bmatrix} U^T
     \intertext{ and }
-    \gls{R} &= U \begin{bmatrix}
+    \gls*{R} &= U \begin{bmatrix}
     0 & -1 & 0 \\
     1 & 0 & 0 \\
     0 & 0 & 1
     \end{bmatrix} V^T
     \intertext{Then, aligning the left camera and world coordinate systems gives the projection matrices:}
-    \mathbf{P} &= \gls{K}    \begin{bmatrix}[c|c]       \mathbf{I} & \mathbf{0}   \end{bmatrix}
+    \mathbf{P} &= \gls*{K}    \begin{bmatrix}[c|c]       \mathbf{I} & \mathbf{0}   \end{bmatrix}
     \intertext{ and }
-    \mathbf{P}' &= \gls{K'} \begin{bmatrix}[c|c]       \gls{R} & \gls{T}   \end{bmatrix}
+    \mathbf{P}' &= \gls*{K'} \begin{bmatrix}[c|c]       \gls*{R} & \gls*{T}   \end{bmatrix}
 \end{align}
 Where \( \begin{bmatrix}[c|c] \mathbf{I} & \mathbf{0} \end{bmatrix}\) is the identity matrix augmented column-wise with a zero matrix, and the two projection matrices (\(\mathbf{P}\) and \(\mathbf{P}'\)) project from camera pixel coordinates to world coordinates.
-Given these projection matrices, scene structure can be recovered (only up to scale, since only the magnitude of \gls{T} (|\gls{T}|) is unknown) using least squares fitting.
-Ambiguities in \gls{T} and \gls{R} are resolved by ensuring that visible points lie in front of the two cameras.
+Given these projection matrices, scene structure can be recovered (only up to scale, since only the magnitude of \gls*{T} (|\gls*{T}|) is unknown) using least squares fitting.
+Ambiguities in \gls*{T} and \gls*{R} are resolved by ensuring that visible points lie in front of the two cameras.
 As with the essential matrix, the fundamental matrix can be factorised into a skew-symmetric matrix corresponding
 to translation and a \(3 \times 3\) non-singular matrix corresponding to rotation.
 
@@ -224,7 +225,7 @@ to translation and a \(3 \times 3\) non-singular matrix corresponding to rotatio
 %    \hspace*{\fill}
 %   \begin{subfigure}[t]{0.3\linewidth}
 %     \includegraphics[width=\linewidth]{./figures/results/no_helix/iradon_nofilter}
-%     \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}%TODO equation???
+%     \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls*{Radon transform}}%TODO equation???
 %     \label{fig:iradon_nofilter}
 %   \end{subfigure}\hfill
 %   \begin{subfigure}[t]{0.3\linewidth}
@@ -239,8 +240,8 @@ to translation and a \(3 \times 3\) non-singular matrix corresponding to rotatio
 
 The second approach is less prone to compound errors but relies on precise identification and tracking of fiducial markers.
 distinction and tracking fiducials.
-Instead of calculating \gls{F} between neighbouring images, \gls{F} is calculated between the current projection and the very first projection.
-\gls{F} is then decomposed and the transformation matrix is inverted and applied to the back projected volume.
+Instead of calculating \gls*{F} between neighbouring images, \gls*{F} is calculated between the current projection and the very first projection.
+\gls*{F} is then decomposed and the transformation matrix is inverted and applied to the back projected volume.
 The reoriented back projected volumes are summed and finally filtered to remove the additional spatial frequencies imparted from rotating the sample.
 
 % \subsection{Bead tracking}
@@ -248,7 +249,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 % \section{Future work}
 %
 % \subsection{Bead tracking}
-% The work presented here is, so far, is a proof-of-concept demonstrated by simulation and reconstruction from ground-truth testcard objects, and requires several further steps in order apply it to real \gls{OPT} data.
+% The work presented here is, so far, is a proof-of-concept demonstrated by simulation and reconstruction from ground-truth testcard objects, and requires several further steps in order apply it to real \gls*{OPT} data.
 % Firstly, a bead-tracking algorithm~\cite{crockerMethodsDigitalVideo1996} will need to be created to reliably track multiple beads, concurrently, in an image series.
 % A sensible approach would be to have a user select the fiducial markers in the image on the first frame and template match in a small window around the selection; this is similar to the algorithm described in Chapter~\ref{chapter:spt}.
 % Template matching is robust to occlusions provided the fiducial is not fully eclipsed.
@@ -285,8 +286,8 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 %
 % In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
 % To find such a correspondences, points with similar local texture are found and matched in between each image. %, many of these such correspondences are found
-% This technique is only valid for views with small angles between them, as would be found in \gls{OPT}.
-% A similar method could be introduced into the algorithm presented here, as each image should have sufficient texture, particularly when using \gls{tOPT}.
+% This technique is only valid for views with small angles between them, as would be found in \gls*{OPT}.
+% A similar method could be introduced into the algorithm presented here, as each image should have sufficient texture, particularly when using \gls*{tOPT}.
 %
 % The following chapter will move from improvements in registration using projective matrices and into improvements in resolution using on-camera slit-scanning.
 
@@ -297,7 +298,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 \begin{figure}
   \centering
   \includegraphics{./figures/flOPT_principle}
-  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls{OPT} image data will have an associated \gls{R} and \gls{T} (shown here in augmented form using homogenous coordinates), these matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
+  \caption[Principles of the proposed algorithm]{Principles of the proposed algorithm. Each successive frame of \gls*{OPT} image data will have an associated \gls*{R} and \gls*{T} (shown here in augmented form using homogenous coordinates), these matrices can be recovered from comparing the fiducial marker positions in each frame (\(n\)) and its successor (\(n+1\)).}
 \end{figure}
 
 
@@ -311,7 +312,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
        \node[below=of img] {\(X\)};
        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
+    \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the \gls*{Radon transform}}\label{fig:iradon_nofilter}%TODO equation???
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -386,7 +387,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 %        \node[below=of img] {\(X\)};
 %        \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
 %     \end{tikzpicture}
-%     \caption{Ground truth image for \gls{OPT} simulations, Lena (\(f(X, Y)\)).}\label{fig:raw_input}
+%     \caption{Ground truth image for \gls*{OPT} simulations, Lena (\(f(X, Y)\)).}\label{fig:raw_input}
 %   \end{subfigure}\hfill
 %   \begin{subfigure}[t]{0.3\linewidth}
 %     \begin{tikzpicture}[node distance=0cm]
@@ -394,9 +395,9 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 %        \node[below=of img] {\(v\)\vphantom{\(X\)}};
 %        \node[left=of img,rotate=90,yshift=0.2cm] {\(\theta\)};
 %     \end{tikzpicture}
-%     \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls{sinugram} (\(P_{\theta}(v)\)).
+%     \caption{Image of Lena (\figurename~\ref{fig:raw_input}) after rotation and projection in 2D, giving the \gls*{sinugram} (\(P_{\theta}(v)\)).
 %     }\label{fig:sinugram_stretch}
 %   \end{subfigure}
 %    \hspace*{\fill}
-%   \caption{Reference images for \gls{OPT} reconstruction.}\label{fig:rawinputs}
+%   \caption{Reference images for \gls*{OPT} reconstruction.}\label{fig:rawinputs}
 % \end{figure}
