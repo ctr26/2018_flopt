@@ -1,4 +1,6 @@
 
+!!! %TC:endignore without corresponding %TC:ignore. !!!
+
 !!! Encountered } without corresponding {. !!!
 
 !!! Encountered \end without corresponding \begin !!!
@@ -8,26 +10,42 @@
 !!! Reached end of file while waiting for \end. !!!
 
 !!! Environment ended while waiting for nd{thebibliography}. !!!
+
+!!! Encountered } without corresponding {. !!!
+
+!!! Encountered \end without corresponding \begin !!!
+
+!!! Reached end of file while waiting for }. !!!
+
+!!! Reached end of file while waiting for \end. !!!
+
+!!! Environment ended while waiting for nd{thebibliography}. !!!
+
+!!! Reached end of file while waiting for %TC:endignore. !!!
+
+!!! Reached end of file while waiting for \end. !!!
+
+!!! Environment ended while waiting for nd{document}. !!!
 File: main.tex
 Encoding: utf8
-Sum count: 3380
-Words in text: 2663
-Words in headers: 29
-Words outside text (captions, etc.): 675
-Number of headers: 9
+Sum count: 3803
+Words in text: 2947
+Words in headers: 30
+Words outside text (captions, etc.): 739
+Number of headers: 11
 Number of floats/tables/figures: 8
-Number of math inlines: 13
-Number of math displayed: 0
+Number of math inlines: 85
+Number of math displayed: 2
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
-  13+14+0 (1/0/0/0) _top_
-  103+1+0 (1/0/0/0) Abstract
-  12+0+0 (0/0/0/0) main
-  320+1+162 (1/2/0/0) Section: Introduction
-  881+4+383 (1/4/12/0) Section: The design and construction
-  222+2+0 (1/0/0/0) Section: Sample preparation
-  258+4+130 (1/2/0/0) Subsection: Sample mounting and positioning
-  328+1+0 (1/0/1/0) Section: Conclusions
-  526+2+0 (2/0/0/0) Section: Bibliography
+  12+5+0 (1/0/0/0) _top_
+  282+1+0 (1/0/1/0) main
+  189+2+132 (1/2/13/0) Section: Stereoscopic imaging
+  418+3+142 (1/1/29/1) Section: The proposed algorithm
+  388+5+303 (1/4/32/1) Section: Verification of the proposed algorithm
+  125+8+162 (1/1/9/0) Subsection: Recovery of R and T using matrix decomposition
+  164+1+0 (1/0/1/0) Section: Discussion
+  164+2+0 (1/0/0/0) Section: Future work
+  1205+3+0 (3/0/0/0) Section: Bibliography
 
-(errors:5)
+(errors:14)
