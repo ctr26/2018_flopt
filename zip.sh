@@ -1,1 +1,1 @@
-zip -r osa_submit.zip ./ -x ".*"
+zip -r +osa_submit.zip ./ -x ".*" -x ".zip"
