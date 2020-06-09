@@ -1,8 +1,9 @@
-\def\osa{} %% set to true
+% \def\osa{} %% set to true
 
 \ifdefined\osa
     \documentclass{osa-article}
     \usepackage{subcaption}
+    \journal{osac}
 
 \else
     \documentclass[times, twoside, watermark]{zHenriquesLab-StyleBioRxiv}
@@ -10,7 +11,7 @@
 \fi
 %% Select the journal you're submitting to
 %% oe, boe, ome, osac, osajournal
-\journal{osac}
+
 
 % \usepackage{blindtext}
 \usepackage{siunitx}
@@ -1273,5 +1274,5 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 % \end{figure}
 
 
-\immediate\write18{bash zip.sh}
+% \immediate\write18{bash zip.sh}
 \end{document}
