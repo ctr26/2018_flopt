@@ -1,0 +1,55 @@
+
+Reviewer Comments:
+
+Reviewer 1
+The authors present a new algorithm for reconstruction of objects of size 1 - 10 mm at micrometer resolution from optical projection data. The proposed method is claimed to be robust to jitter and misalignments that are unfortunately common in most imaging systems. The essential idea of the paper is to triangulate points corresponding to fiducial markers between image pairs to determine the unique pose (3D rotation + translation), which could be different from the parameters read out from the digital motors in the imaging system.  The ideas presented in the paper are mathematically sound, and the results on the quality of reconstruction as compared to those obtained from traditional Radon transforms are encouraging. I recommend the publication of the paper in Scientific Reports after the authors have addressed the following points:
+
+* 1. The authors describe the details of the method in the section labelled "The proposed algorithm". It took me a few read throughs to grasp the order of operations, i.e. F is computed by comparing to 1st image, but ambiguity is resolved by comparing to (n-1)th image. It will be helpful to add a flowchart/pseudo-code either to the main text or supplementary.
+
+The reader is correct in their understanding of the algorithm and this comment has been addressed by adding pseudo-code in in algorithm 1 (line 261 tex)
+
+* 2. Have the authors tested the robustness of the method in the presence of noise? A comment on this in the discussion or section on future work is recommended.
+
+We have added a comment about this at the end of the article; in short we purposefully try and avoid the issue of noise in this work by leaning on well established field of point localisation, furthermore we assume very bright and plentiful points and focus squarely on how best to reconstruct a 3D assuming this.
+
+* 3. The unique {R|T} pair is chosen based on the minimum L2 norm between transformation matrices for successive image pairs. Is this still a good measure if there are large angular gaps?
+
+
+The algorithm produces 4 candidate matrices, the full single value decomposition produces 8 candidate matrices of which 4 are behind the camera and are immediately discarded. Of the remaining 4 matrices 2 have sign differences and of the last incorrect matrix it will be pi rotated from the correct answer. So, for the L2 norm to fail to correctly choose the right F or R,T pair, the step size would have to be approaching a quarter of the entire rotation of the sample, at which point, if the image were recovered, the quality of the image would be poor. 
+
+4. The quality of reconstruction is compared between flOPT and tradition Radon transforms. Have the authors attempted to correct for misaligned data with methods commonly used in electron- and X-ray tomography such as cross-correlation and projection-matching before feeding into the reconstruction pipeline? 
+
+We demonstrated the comparison of flOPT vs radon transforms to show that the signal loss is fairly immediate even with small errors from non-circular paths. We would also like to follow technique presented here up with real data, comparing known 2D correction methods in the tomography field vs our fuller 3D model, however the this paper as intended for now is theoretical and working with simulated data. As such we are grateful for the direction on what would be known methods to compare to, but we feel this is beyond the scope of this article.
+
+5. Figure 8. shows the most important results of the paper, but its presentation needs major revision. There are missing subtitles and legends which makes it difficult to understand what is being compared. Angle alpha is given in the title, but not mentioned in the text (the angles in the text are theta, phi, psi).
+The subplots are all of different sizes. 
+
+We agree with the reader that these graphs are quite important and should be displayed better, as such these graphs have been updated by using box plots and have been made bigger clarity sake.
+
+*6. Code availability section is missing from the main text.
+
+Code is now publicly available using github and zenodo. (Added ln 660 tex)
+
+Minor points: 
+1. flOPT is mentioned in figures only -- might help to introduce the abbreviation in the abstract.
+
+Added (tex line 138)
+
+2. In general there many punctuation and grammar issues, and typos that will hopefully get corrected during the editing stage. I found the following:
+   a. Typo in Fig 5: "The projected image data (b), (f), (j) ....." 
+   b. In Equation 4., what are Y_i and Y^{hat}_i?
+   c. "Sinugram" line 223
+   d. Is there a typo in SI Eq. 11?
+
+3. References missing for Fourier Slice Theorem, filtered back-projection, etc.
+
+Added my thorough references throughout
+
+4. The authors comment that the accuracy of the recovered matrices deteriorates with additional degrees of freedom. Which particular motions are difficult to recover, i.e. in-plane translations vs translations along optical axis, or rotations about optical axis vs axes perpendicular to it?
+
+Translations along the optical axis are especially confounding for when combined with small angle steps as the scale of the object does not change (or is slight) as microscope lenses tend to be telecentric. 
+
+Reviewer 2
+This paper reports on efforts to develop tomographic reconstruction algorithm for OPT. I can see the potential utility in this area. However, the proposed algorithm is demonstrated in a limited sense, with just one simulated data and the comparison with Radon transform. There are a number of publications on OPT algorithms, especially on how to correct the shifts. There is also a technique named Helical optical projection tomography, which uses a translation of the sample in the vertical direction during the image acquisition process with its own reconstruction approach. I suggest that the paper should include a  thorough investigation on the background, at least a number of algorithm developed for OPT reconstruction, especially for the shift correction. The fair comparison of this proposed algorithm with other existing methods should also be included and appropriately discussed. More experimetnal OPT data should be used to evaluate all the methods before the conclusions. The whole presentation should be extensively edited for clarity.
+
+Our claim is that we go beyond purely correcting shifts for a later Radon transform and generate a more complete general model for inverting the tomographic process. Large intentional and easy to correct shifts in the image plane would perform equally as well with the algorithm as any other purpose built approach. Our approach intends to be general, and as such does encompass shift corrections; precise and explicitly better in  systems where engineering stability has not been optimised. We have no obvious means of acquiring the requisite data discussed and as this is a theory paper for a novel algorithm we believe that synthetic simulated data is sufficient. Our simulation includes many aggregated simulated results showing it's efficacy in cases that are intractable for shift-correction only algorithms (see Fig. 6). We have edited the document for clarity and referenced Helical OPT as well as other reconstruct algorithms for OPT.

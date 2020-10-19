@@ -41,6 +41,11 @@
 \usepackage{url}
 \usepackage{graphbox}
 \usepackage{lineno}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+
 % \usepackage[utf8x]{inputenc}
 
  % \usepackage{url}
@@ -88,49 +93,48 @@
 
 
 \ifdefined\osa
-    \author{Craig Russell,\authormark{1} and Eric Rees,\authormark{2,*}}
+  \author{Craig Russell,\authormark{1} and Eric Rees,\authormark{2,*}}
 
-    \address{\authormark{1}Dept. of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K. \\
+  \address{\authormark{1}Dept. of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K. \\
     \authormark{2} European Bioinformatics Institute, Wellcome Genome Campus, Cambridge CB10 1SD}
-    \email{\authormark{*}ctr26@ebi.ac.uk} %% email address is required
+  \email{\authormark{*}ctr26@ebi.ac.uk} %% email address is required
 \else
-    \title{Frame Localisation Optical Projection Tomography}
-    \shorttitle{flOPT}
-    % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-    \author[1,2]{Craig Russell}
-    \author[1,\Letter]{Eric Rees}
+  \title{Frame Localisation Optical Projection Tomography}
+  \shorttitle{flOPT}
+  % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
+  \author[1,2]{Craig Russell}
+  \author[1,\Letter]{Pedro Vallejo}
+  \author[1,\Letter]{Eric Rees}
 
 
-    \affil[1]{Dept.~of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K.}
-    \affil[2]{European Bioinformatics Institute}
 
-    \maketitle
+  \affil[1]{Dept.~of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K.}
+  \affil[2]{European Bioinformatics Institute}
 
-    %TC:break Abstract
-    %the command above serves to have a word count for the abstract
-    \linenumbers
+  \maketitle
 
-    %TC:break main
-    %the command above serves to have a word count for the abstract
+  %TC:break Abstract
+  %the command above serves to have a word count for the abstract
+  \linenumbers
 
-    \begin{keywords}
-     OPT, reconstruction, CT, 3D-imaging,
-    \end{keywords}
+  %TC:break main
+  %the command above serves to have a word count for the abstract
 
-    \begin{corrauthor}
-     %\texttt{r.henriques{@}ucl.ac.uk}
-     ctr26\at ebi.ac.uk
-    \end{corrauthor}
+  \begin{keywords}
+    OPT, reconstruction, CT, 3D-imaging,
+  \end{keywords}
 
-    %TC:endignore
-    %the command above ignores this section for word count
+  \begin{corrauthor}
+    %\texttt{r.henriques{@}ucl.ac.uk}
+    ctr26\at ebi.ac.uk
+  \end{corrauthor}
+
+  %TC:endignore
+  %the command above ignores this section for word count
 \fi
 
-
-
-
 \begin{abstract}
-  We present a tomographic reconstruction algorithm, which is applied to Optical Projection Tomography (OPT) images, that is robust to mechanical jitter and systematic angular and spatial drift.
+  We present a tomographic reconstruction algorithm (flOPT), which is applied to Optical Projection Tomography (OPT) images, that is robust to mechanical jitter and systematic angular and spatial drift.
   OPT relies on precise mechanical rotation and is less mechanically stable than large-scale computer tomography (CT) scanning systems, leading to reconstruction artefacts.
   The algorithm uses multiple (5+) tracked fiducial beads to recover the sample pose and the image rays are then back-projected at each orientation.
   The quality of the image reconstruction using the proposed algorithm shows an improvement when compared to the Radon transform.
@@ -176,9 +180,9 @@ OPT is based on computerised tomography techniques~\cite{kakPrinciplesComputeriz
 Typically, a Radon transform is then used to transform this set of images into a 3D image stack in Cartesian coordinates (\(X,Y,Z\)).
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
 The Radon transform relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
-This work presents an improved reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as to inconsistent angular steps.
+Prior to the radon transform an attempt is made to find the centre of rotation (CORs) and correct the image shift~\cite{dongAutomatedRecoveryCenter2013,arranzHelicalOpticalProjection2013,zhangZOPTOpenSource2020}; this step is both computationally expensive, error prone and incomplete with regards to all available degrees of freedom.
+This work presents an improved general reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as to inconsistent angular steps.
 The proposed algorithm triangulates points between image pairs to extract camera pose using the theoretical framework used in stereoscopic imaging. %TODO reword
-
 % There are two imaging modalities for OPT, eOPT and tOPT.
 % In eOPT, a fluorescent sample is excited using an illumination source off axis to the detection, similar to light-sheet but the entire depth of field of the detection of objective is illuminated.
 % % without the excitation being shaped into a sheet.
@@ -199,35 +203,35 @@ The proposed algorithm triangulates points between image pairs to extract camera
 \section*{Stereoscopic imaging}
 
 \begin{figure*}
+  \centering
+  \begin{subfigure}[t]{0.48\linewidth}
     \centering
-    \begin{subfigure}[t]{0.48\linewidth}
-        \centering
-        \includegraphics{./figures/coordinate_system}
-        \caption[Coordinate system]{Coordinate system describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(X\).
-        }\label{fig:coordinate_system_flopt}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.48\linewidth}
-      \centering
-      \includegraphics{./figures/OPT_digram}
-      \caption[Principle of OPT]{From an angle \(\theta \), an object \(f(X,Y)\) and its projection \(P_\theta(\nu)\) are known.}\label{fig:OPT_digram}
-      %{Principle of OPT, a respective rotation between the sample and the detector illumination pair is iterated.
-      % The volumetric image is later reconstructed from the set of detections (1/2D).}
-    \end{subfigure}
-    \caption[Coordinates and OPT]{\gls*{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
-            \gls*{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
-            \gls*{p} = \((x,y,f)\) is the ray vector to point of image plane.
-            \gls*{x} = \((x,y)\) is the image plane coordinates.
-            \gls*{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls*{x}.
-            The optical axis travels along the \(Z_c\) axis through the image plane.}
-    % \label{fig:aa}
+    \includegraphics{./figures/coordinate_system}
+    \caption[Coordinate system]{Coordinate system describing a camera with an associated image plane one focal distance \(f\) away, imaging an object at point \(X\).
+    }\label{fig:coordinate_system_flopt}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\linewidth}
+    \centering
+    \includegraphics{./figures/OPT_digram}
+    \caption[Principle of OPT]{From an angle \(\theta \), an object \(f(X,Y)\) and its projection \(P_\theta(\nu)\) are known.}\label{fig:OPT_digram}
+    %{Principle of OPT, a respective rotation between the sample and the detector illumination pair is iterated.
+    % The volumetric image is later reconstructed from the set of detections (1/2D).}
+  \end{subfigure}
+  \caption[Coordinates and OPT]{\gls*{X_c} = \((X_c,Y_c,Z_c)\) is the camera-centered coordinate point in 3D space.
+    \gls*{X} = \((X,Y,Z)\) is the world coordinate point in 3D space.
+    \gls*{p} = \((x,y,f)\) is the ray vector to point of image plane.
+    \gls*{x} = \((x,y)\) is the image plane coordinates.
+    \gls*{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls*{x}.
+    The optical axis travels along the \(Z_c\) axis through the image plane.}
+  % \label{fig:aa}
 \end{figure*}
 \begin{figure*}
   \centering
   \includegraphics{./figures/epi-polar-geom}
   \caption[Epi-polar geometry described for two adjacent views]{
-  Epi-polar geometry described for two adjacent views (or cameras of a scene).
-  Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
-  Transforming from right to left camera-centered coordinates (\gls*{X_c'} to \gls*{X_c}) requires a rotation (\gls*{R}) and a translation (\gls*{T}).
+    Epi-polar geometry described for two adjacent views (or cameras of a scene).
+    Coordinates as expressed in \figurename~\ref{fig:coordinate_system_flopt} with prime notation (\('\)) denoting the additional right camera view.
+    Transforming from right to left camera-centered coordinates (\gls*{X_c'} to \gls*{X_c}) requires a rotation (\gls*{R}) and a translation (\gls*{T}).
   }\label{fig:epi-polar-geom}
 \end{figure*}
 
@@ -246,17 +250,51 @@ Various methods exist to ensure that features are detected from image data and a
 Coordinates in two adjacent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
 Their properties are described by:
 \begin{gather}
-\gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}\\
-\gls*{Essential} = \gls*{K'}^T \gls*{F} \gls*{K} %= \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T%\gls*{R} = U\LambdaV^T\\
+  \gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}\\
+  \gls*{Essential} = \gls*{K'}^T \gls*{F} \gls*{K} %= \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T%\gls*{R} = U\LambdaV^T\\
 \end{gather}
 Where \(\gls*{K}\) is a matrix that converts image plane coordinates to camera pixel coordinates and where \gls*{p} refers to a point in the image plane.
 
-\section*{The proposed algorithm}
+\section*{The proposed algorithm (flOPT)}
+
+% R1.2
+\begin{algorithm}
+  \begin{algorithmic}
+    \caption{The proposed flOPT algorithm, where:
+      \emph{localiseFiducials} generates a 2D coordinate list from an image containing punctate fiducials
+      \emph{findHomography} generates \(\mathbf{F}_n\) between a pair of 2D coordinate lists
+      \emph{chooseBestHomography} is a function that chooses the most likely homography matrix \(\mathbf{F}_n\) but minimising the least squares difference between \(\mathbf{F}_{n-1}\) and the four candidate \(\mathbf{F}_{n,\{0,1,2,3\}}\) matrices.
+      \emph{decomposeHomography} factorises \(\mathbf{F}_n\) into affine rotation and translation matrices (\(\mathbf{R}_n\) and  \(\mathbf{T}_n\)).
+      \emph{affineHomogenise} merges the separate affine matrices into a more manageable homogenous matrix.
+      \emph{spatialFilter} finally corrects the image using standard computer tomography filters.
+    }
+    \STATE \(n \leftarrow 1\)
+    \STATE \(\mathbf{x} \leftarrow \text{localiseFiducials}(I_0)\)
+    \WHILE{\(n \leq k\)}
+    \STATE \(\mathbf{x}' \leftarrow \text{localiseBeads}(I_n)\)
+    \STATE \(\mathbf{F}_{n,\{0,1,2,3\}} \leftarrow \text{findHomography}(\mathbf{x},\mathbf{x}')\)
+    \STATE \(\mathbf{F}_n \leftarrow \text{chooseBestHomography}(\mathbf{F}_{n,\{0,1,2,3\}}, \mathbf{F}_{n-1} )\)
+    \STATE \(\mathbf{R}_n, \mathbf{T}_n \leftarrow \text{decomposeHomography}(\mathbf{F}_n)\)
+    % \STATE decompose F to find R and T
+    % \STATE [R|T] affineHomogenise(R_n,T_N)
+    %\STATE \(\mathbf{R_n}, \mathbf{T_n} \leftarrow \text{decomposeHomography}(\mathbf{F})\)
+    \STATE \([\mathbf{R}_n |\mathbf{T}_n] \leftarrow \text{affineHomogenise}(\mathbf{R}_n, \mathbf{T}_n)\)
+    % \STATE invert [R|T] and apply to I i+1
+    \STATE \(I^\text{*}_{n} \leftarrow [\mathbf{R}_n |\mathbf{T}_n]^{-1} \cdot I_{n}\)
+    \STATE \(I_\text{unfiltered} \leftarrow \sum_{n=0}^k I^*_{n}\)
+    \STATE \(n \leftarrow n\)
+    \ENDWHILE
+    \STATE \(I_\text{final} \leftarrow \text{spatialFilter}(I_\text{unfiltered})\)
+    \RETURN \(I_\text{final}\)
+  \end{algorithmic}
+\end{algorithm}
 
 %The rotation may also not be orthogonal to the plane of detection.
 The motion of a rotating sample, as in an OPT acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) in view of a fixed camera is analogous to the motion of a camera with the inverse transformation matrix around the scene. %TODO reword
 % The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls*{OPT} acquisition.
-During an ideal OPT acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane. For the volume reconstruction procedure, there is a fitting step to recover the path of the fiducial marker, which is used to correct the sinogram before applying the inverse Radon transform. This type of reconstruction not only ignores any mechanical jitter of the sample, but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
+During an ideal OPT acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane.
+For the volume reconstruction procedure, there is a fitting step to recover the path of the fiducial marker, which is used to correct the sinogram before applying the inverse Radon transform.
+This type of reconstruction not only ignores any mechanical jitter of the sample, but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
 Using two adjacent images of a scene, separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
 
 % The inverse is also possible, given a sufficient number of known fiducial points in a scene the translation and rotation matrices can be recovered.
@@ -281,20 +319,20 @@ The recovered transformation matrices are then matrix inverted and applied to th
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
 
 \begin{figure*}
+  \centering
+  \begin{subfigure}[t]{\linewidth}
     \centering
-    \begin{subfigure}[t]{\linewidth}
-      \centering
-      \includegraphics{./figures/flopt_algorithm_forward}
-      \caption{Forward model}\label{fig:flopt_algorithm_forward}
+    \includegraphics{./figures/flopt_algorithm_forward}
+    \caption{Forward model}\label{fig:flopt_algorithm_forward}
   \end{subfigure}
   \\\vspace{\abovecaptionskip}
   % \quad
-    \begin{subfigure}[t]{\linewidth}
-      \centering
-      \includegraphics{./figures/flopt_algorithm}
-      \caption{Reconstruction method, solving the inverse problem.}\label{fig:flopt_algorithm_inverse}
-    \end{subfigure}
-    \caption[Simulation of OPT data incorporating rotational and translational offsets, and the proposed reconstruction algorithm]{
+  \begin{subfigure}[t]{\linewidth}
+    \centering
+    \includegraphics{./figures/flopt_algorithm}
+    \caption{Reconstruction method, solving the inverse problem.}\label{fig:flopt_algorithm_inverse}
+  \end{subfigure}
+  \caption[Simulation of OPT data incorporating rotational and translational offsets, and the proposed reconstruction algorithm]{
     % Two dimensional representation of the reconstruction algorithm.
     The simulation of OPT data incorporating rotational and translational offsets, and the proposed reconstruction algorithm.
     (\subref{fig:flopt_algorithm_forward}): The \(n\) projections of the object (\(\Sigma \)), at rotation (\(\gls*{R}_1\) to \(\gls*{R}_n\)) and translation (\(\gls*{T}_1\) to \(\gls*{T}_n\)), produces \(n\) frames of image data.
@@ -305,7 +343,7 @@ The recovered transformation matrices are then matrix inverted and applied to th
     % and inversely applied
     % to align back project the datasets,
     The transformation matrices are shown in augmented form using homogenous coordinates.
-    }\label{fig:flopt_algorithm} %TODO tidy
+  }\label{fig:flopt_algorithm} %TODO tidy
 \end{figure*}
 
 % The second approach is robust against compound errors but an additional programatic step is needed to know which beads in the first image correspond to beads in the \(n^{\text{th}}\) image.
@@ -315,7 +353,7 @@ In both cases, a decomposed \gls*{F} matrix will produce four possible transform
 Once the transformation matrix between the current view (\(n\)) and the first view is calculated, the proceeding transformation matrices are then easily chosen by similarity to the previously collected matrix and general direction of motion.
 An example of this type of selection would be:
 \begin{align}
-\min_{I(n)}\left[I(n) = \left(\begin{bmatrix}[c|c] \gls*{R}_n&\gls*{T}_n \end{bmatrix} - \begin{bmatrix}[c|c] \gls*{R}_{n-1}&\gls*{T}_{n-1} \end{bmatrix}\right)^2\right]
+  \min_{I(n)}\left[I(n) = \left(\begin{bmatrix}[c|c] \gls*{R}_n&\gls*{T}_n \end{bmatrix} - \begin{bmatrix}[c|c] \gls*{R}_{n-1}&\gls*{T}_{n-1} \end{bmatrix}\right)^2\right]
 \end{align}
 To find the correct matrix between the \(n=0\) and \(n=1\) orientations, each of the four matrices are compared to an ideal matrix which is composed using \emph{a priori} knowledge of the likely angle of rotation of the system's imaging properties.
 
@@ -345,83 +383,83 @@ This is repeated for each angle,  with each line projection stacked to create a 
 % \end{figure*}
 
 \begin{figure}
-    % \begin{subfigure}[t]{\linewidth}
-        \centering
-        \includegraphics[width=0.4\linewidth]{./figures/ortho_3d_correct}
-        \caption{Ground truth 3D object for reconstruction, based on the Cameraman and Lena testcard images.}\label{fig:ortho_3d_correct}
-    % \end{subfigure}
+  % \begin{subfigure}[t]{\linewidth}
+  \centering
+  \includegraphics[width=0.4\linewidth]{./figures/ortho_3d_correct}
+  \caption{Ground truth 3D object for reconstruction, based on the Cameraman and Lena testcard images.}\label{fig:ortho_3d_correct}
+  % \end{subfigure}
 \end{figure}
 \begin{figure*}
-% \ContinuedFloat{}
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/xy}\caption{Raw\\Frame (\(n\)): 0\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 0\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/zx}\caption{Raw\\Frame (\(n\)): 0\\View: (\(Z,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 0\\View: (\(Z,Y\))}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/xy}\caption{Raw\\Frame (\(n\)): 1\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 1\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/zx}\caption{Raw\\Frame (\(n\)): 1\\View: (\(Z,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 1\\View: (\(Z,Y\))}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/xy}%\caption{Raw data. Frame (\(n\)): , View: \(xy\)}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/xy_recon}%\caption{Reconstructed\\Frame (\(n\)):0, View:\(xy\)}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/zx}%\caption{Raw data. Frame (\(n\)): , View: \(zy\)}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/zx}%\caption{Reconstructed\\Frame (\(n\)):, View:\(zx\)}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/xy}\caption{Raw\\Frame (\(n\)): 31\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 31\\View: (\(X,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/zx}\caption{Raw\\Frame (\(n\)): 31\\View: (\(Z,Y\))}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.2\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 31\\View: (\(Z,Y\))}
-    \end{subfigure}
-    \caption[A 3D test-volume of two orthogonal and different testcard images, was used to verify the reconstructive capabilities of the proposed algorithm]{
+  % \ContinuedFloat{}
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/xy}\caption{Raw\\Frame (\(n\)): 0\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 0\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/zx}\caption{Raw\\Frame (\(n\)): 0\\View: (\(Z,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/0/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 0\\View: (\(Z,Y\))}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/xy}\caption{Raw\\Frame (\(n\)): 1\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 1\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/zx}\caption{Raw\\Frame (\(n\)): 1\\View: (\(Z,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/1/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 1\\View: (\(Z,Y\))}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/xy}%\caption{Raw data. Frame (\(n\)): , View: \(xy\)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/xy_recon}%\caption{Reconstructed\\Frame (\(n\)):0, View:\(xy\)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/zx}%\caption{Raw data. Frame (\(n\)): , View: \(zy\)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/dots/zx}%\caption{Reconstructed\\Frame (\(n\)):, View:\(zx\)}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/xy}\caption{Raw\\Frame (\(n\)): 31\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/xy_recon}\caption{Reconstructed\\Frame (\(n\)): 31\\View: (\(X,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/zx}\caption{Raw\\Frame (\(n\)): 31\\View: (\(Z,Y\))}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.2\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/3D_python/no_drift/31/zx_recon}\caption{Reconstructed\\Frame (\(n\)): 31\\View: (\(Z,Y\))}
+  \end{subfigure}
+  \caption[A 3D test-volume of two orthogonal and different testcard images, was used to verify the reconstructive capabilities of the proposed algorithm]{
     A 3D test-volume of two orthogonal and different testcard images, from \figurename~\ref{fig:ortho_3d_correct}, was used to verify the reconstructive capabilities of the proposed algorithm.
-    The projected image data (b),~(h),~(j) and (d),~(h),~(l), were used to iteratively generate reconstructions where the \(n^\text{th}\) reconstruction incorporates all the information from observation 0 to \(n\).
+    The projected image data (b),~(f),~(j) and (d),~(h),~(l), were used to iteratively generate reconstructions where the \(n^\text{th}\) reconstruction incorporates all the information from observation 0 to \(n\).
     The results are unfiltered for clarity of demonstrating the iterative reconstruction, which is applied in \figurename~\ref{fig:flopt_filter}.
-    }\label{fig:recon_iterative}
+  }\label{fig:recon_iterative}
 \end{figure*}
 
 In the standard approach for OPT reconstruction, the sinogram undergoes the inverse Radon transform, as shown in \figurename~\ref{fig:iradon_nofilter}, followed by post-filtering, as shown in \figurename~\ref{fig:iradon_filter}.
@@ -435,9 +473,9 @@ The mean square errors (MSE, see Equation~\eqref{eq:mse}) of the new algorithm a
 %, see \figurename~\ref{fig:flopt_histogram}
 
 \begin{align}
-    \operatorname{MSE}=\frac{1}{n}\sum_{i=1}^n{(Y_i-\hat{Y_i})}^2 \label{eq:mse} % \intertext{Where \(\hat{Y_i}\) is the ith value and Y_i }
+  \operatorname{MSE}=\frac{1}{n}\sum_{i=1}^n{(Y_i-\hat{Y_i})}^2 \label{eq:mse}
 \end{align}
-
+Where \(\mathbf{Y}\) is the vector of observed values and \(\hat{Y_i}\) is mean of the ith value of the predicted values
 \begin{figure*}
   \centering
   \begin{subfigure}[t]{0.45\linewidth}
@@ -446,7 +484,7 @@ The mean square errors (MSE, see Equation~\eqref{eq:mse}) of the new algorithm a
     % \caption[Line profile comparison of the standard and new algorithms]{Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard Radon transform and the new proposed algorithm.}
     \caption{}\label{fig:flopt_comparison_line_profile}
   \end{subfigure}\quad
- \begin{subfigure}[t]{0.45\linewidth}
+  \begin{subfigure}[t]{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/flopt_histogram}
     % \caption[Histogram of pixel values compared between reconstructions using flOPT and the Radon transform]{Histogram of of pixel values compared between reconstructions using flOPT and the Radon transform.
@@ -463,11 +501,11 @@ The mean square errors (MSE, see Equation~\eqref{eq:mse}) of the new algorithm a
     \caption{}\label{fig:helical_comparison}
   \end{subfigure}
   \caption{
-  (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard Radon transform and the new proposed algorithm.
-  (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using the new proposed flOPT algorithm and the Radon transform.
-  The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the Radon transform
-  (\subref{fig:helical_comparison}): Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift.
-  2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard Radon transform is severely degraded.}
+    (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard Radon transform and the new proposed algorithm.
+    (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using the new proposed flOPT algorithm and the Radon transform.
+    The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the Radon transform
+    (\subref{fig:helical_comparison}): Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift.
+    2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard Radon transform is severely degraded.}
 \end{figure*}
 
 %However, the proposed algorithm fairs worse in terms of contrast compared to a Radon transform.
@@ -483,42 +521,42 @@ As expected, the Radon transform rapidly deteriorates once a systematic drift is
 \begin{figure*}
   \centering
   \hspace*{\fill}
- \begin{subfigure}[t]{0.3\linewidth}
-   \begin{tikzpicture}[node distance=0cm]
-     \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/topdown_bead_paths}};
+  \begin{subfigure}[t]{0.3\linewidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/topdown_bead_paths}};
       \node[below=of img] {\(X\)};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
-   \end{tikzpicture}
-   \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
- \end{subfigure}\hfill
- \begin{subfigure}[t]{0.3\linewidth}
-   \begin{tikzpicture}[node distance=0cm]
-     \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/sinugram_stretch}};
+    \end{tikzpicture}
+    \caption{Top down views (\(X,Y\)) of the source image with the fiducial paths marked.}\label{fig:topdown_bead_paths}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.3\linewidth}
+    \begin{tikzpicture}[node distance=0cm]
+      \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/sinugram_stretch}};
       \node[below=of img] {\(v\)\vphantom{\(X\)}};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(n\)};
-   \end{tikzpicture}
-   \caption{Sinogram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinogram}
- \end{subfigure}\hspace*{\fill}
+    \end{tikzpicture}
+    \caption{Sinogram (\(v,n\)) of a sample whose axis of rotation has a systematic drift}\label{fig:flopt_helix_sinogram}
+  \end{subfigure}\hspace*{\fill}
   \\\vspace{\abovecaptionskip}
   \hspace*{\fill}
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/unfilttered_reconstruction_helix_iradon}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img] {\(X\)};
+      \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption{Unfiltered reconstruction using a Radon transform.}\label{fig:unfilttered_reconstruction_helix_iradon}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img1) {\includegraphics[width=0.8\linewidth]{./figures/results/helix/filtered_recon_helix}};
-       \node[below=of img1] {\(X\)\vphantom{\(X\)}};
-       \node[left=of img1,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img1] {\(X\)\vphantom{\(X\)}};
+      \node[left=of img1,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption{Filtered reconstruction using the new algorithm.}\label{fig:filtered_recon_helix}
   \end{subfigure}
-   \hspace*{\fill}
-   % \caption{}
+  \hspace*{\fill}
+  % \caption{}
   \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D.}\label{fig:flopts}
 \end{figure*}
 
@@ -537,53 +575,53 @@ The translation matrix (\gls*{T}) was consistently more accurately reproduced, w
 %linewidth is \the\linewidth
 
 
-\begin{figure}
+\begin{figure*}
   \centering
-    \begin{subfigure}[t]{0.5\linewidth}
-      \captionsetup{width=0.8\linewidth}
-      \centering
-      \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_rot_alpha}
-      \caption{Rotation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_rot_alpha}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.5\linewidth}
-      \captionsetup{width=0.8\linewidth}
-      \centering
-      \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_trans_alpha}
-      \caption{Translation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_trans_alpha}
-    \end{subfigure}
-    \bigskip
-        \begin{subfigure}[t]{0.5\linewidth}
-          \captionsetup{width=0.8\linewidth}
-          \centering
-          \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_rot_tx}
-          \caption{Rotation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_rot_tx}
-        \end{subfigure}\hfill
-        \begin{subfigure}[t]{0.5\linewidth}
-          \captionsetup{width=0.8\linewidth}
-          \centering
-          \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_trans_tx}
-          \caption{Translation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_trans_tx}
-        \end{subfigure}
-    \bigskip
-        \begin{subfigure}[t]{0.5\linewidth}
-          \captionsetup{width=0.8\linewidth}
-          \centering
-          \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_rot_both}
-          \caption{Rotation matrix, with angular drift in \(\alpha \) and helical drift in \(x\)}\label{fig:pc_sum_rot_both}
-        \end{subfigure}\hfill
-        \begin{subfigure}[t]{0.5\linewidth}
-          \captionsetup{width=0.8\linewidth}
-          \centering
-          \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_trans_both}
-          \caption{Translation matrix, with angular drift in \(\alpha \) and helical drift in \(X\)}\label{fig:pc_sum_trans_both}
-        \end{subfigure}
-          \caption[Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions]{Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions.
-          Panels~(\subref{fig:pc_sum_rot_alpha}) and~(\subref{fig:pc_sum_trans_alpha}) introduce an angular drift during rotation, to an observer at the detector this would appear as a tip of the sample towards them, causing precession.
-          Panels~(\subref{fig:pc_sum_rot_tx}) and~(\subref{fig:pc_sum_trans_tx}) introduce a lateral drift in \(X\) causing a helical path to be drawn out.
-          Panels~(\subref{fig:pc_sum_rot_both}) and~(\subref{fig:pc_sum_trans_both}) combine the two effects.
-          In all cases, the percentage error introduced by the the addition of undesirable additional movements was on the order of \SI{<2}{\percent}.
-          }\label{fig:pc_sum_decompose}
-\end{figure}
+  \begin{subfigure}[t]{0.5\linewidth}
+    \captionsetup{width=0.8\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_alpha_ROT_err}
+    \caption{Rotation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_rot_alpha}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.5\linewidth}
+    \captionsetup{width=0.8\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_alpha_TRANS_err}
+    \caption{Translation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_trans_alpha}
+  \end{subfigure}
+  \par\bigskip
+  \begin{subfigure}[t]{0.5\linewidth}
+    \captionsetup{width=0.8\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_tx_ROT_err}
+    \caption{Rotation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_rot_tx}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.5\linewidth}
+    \captionsetup{width=0.8\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_tx_TRANS_err}
+    \caption{Translation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_trans_tx}
+  \end{subfigure}
+  \bigskip
+  % \begin{subfigure}[t]{0.5\linewidth}
+  %   \captionsetup{width=0.8\linewidth}
+  %   \centering
+  %   \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_rot_both}
+  %   \caption{Rotation matrix, with angular drift in \(\alpha \) and helical drift in \(x\)}\label{fig:pc_sum_rot_both}
+  % \end{subfigure}\hfill
+  % \begin{subfigure}[t]{0.5\linewidth}
+  %   \captionsetup{width=0.8\linewidth}
+  %   \centering
+  %   \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_trans_both}
+  %   \caption{Translation matrix, with angular drift in \(\alpha \) and helical drift in \(X\)}\label{fig:pc_sum_trans_both}
+  % \end{subfigure}
+  \caption[Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions]{Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions.
+    Panels~(\subref{fig:pc_sum_rot_alpha}) and~(\subref{fig:pc_sum_trans_alpha}) introduce an angular drift during rotation, to an observer at the detector this would appear as a tip of the sample towards them, causing precession.
+    Panels~(\subref{fig:pc_sum_rot_tx}) and~(\subref{fig:pc_sum_trans_tx}) introduce a lateral drift in \(X\) causing a helical path to be drawn out.
+    % Panels~(\subref{fig:pc_sum_rot_both}) and~(\subref{fig:pc_sum_trans_both}) combine the two effects.
+    In all cases, the percentage error introduced by the the addition of undesirable additional movements was on the order of \SI{<2}{\percent}.
+  }\label{fig:pc_sum_decompose}
+\end{figure*}
 
 \section*{Discussion}
 
@@ -597,7 +635,7 @@ In the worst-case scenario, a maximum of \SI{2}{\percent} average absolute diffe
 % expected matrices to the recovered matrices a
 % ground truth matrices to the recovered matrices were compared using the average of the element-wise using square differences
 % peak of \SI{2}{\percent} difference is found between the two when considering worst case scenarios;
-suggesting that the technique is robust to various forms of drift and general instability.
+suggesting that the technique is robust to various forms of drift in all dimensions and general instability.
 Such an algorithm could be used to minimise ghosting effects seen in real samples, particularly in samples where slipping is likely to occur, such as in gels or in cheaper OPT systems which tend to be more mechanically unstable and imprecise.
 
 \section*{Future work}
@@ -613,13 +651,15 @@ If such tools were to be developed, it may be possible to have the algorithm des
 % In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
 Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
 To find such correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{loweObjectRecognitionLocal1999} and RANSAC~\cite{fischlerRandomSampleConsensus1981}. %, many of these such correspondences are found
-This was attempted in this work, however, the errors introduced into the transformation matrices make this approach currently inviable.
+This was attempted in this work, however, the errors introduced into the transformation matrices make this approach currently unviable; and so by requiring bright punctuate fiducial markers the burden of collecting the fiducial coordinates is shifted to well established curve fitting algorithms that are robust to noise.
 % This technique is only valid for views with small angles between them, as would be found in OPT.
 
 % \begin{acknowledgements}
 % % \blindtext
 % \end{acknowledgements}
 
+\section*{Code availablity}
+All of the code presented here is FOSS using OpenCV and Python for our simulation, and can be found on GitHub~\cite{craig_russell_2020_4073437}.
 
 \section*{Disclosures}
 The authors declare that there are no conflicts of interest related to this article.
@@ -627,7 +667,7 @@ The authors declare that there are no conflicts of interest related to this arti
 \section*{Bibliography}
 % \bibliography{filler,thesis,xtrareferences}
 % \bibliographystyle{zHenriquesLab-StyleBib}
-\bibliography{thesis,filler,xtrareferences}
+\bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt}
 
 %% You can use these special %TC: tags to ignore certain parts of the text.
 %TC:ignore
@@ -656,7 +696,7 @@ The authors declare that there are no conflicts of interest related to this arti
 \ifdefined\osa
 
 \else
-    \captionsetup*{format=largeformat}
+  \captionsetup*{format=largeformat}
 \fi
 
 
@@ -880,10 +920,10 @@ is the Radon transform.
 % This is defined mathematically as:
 
 \begin{align}
-    \intertext{The equation of a set of parallel rays from a source passing through the specimen to a point \(v\) along the detector is:}
-    &X\cos(\theta) + Y\sin(\theta) - v = 0 \\
-    \intertext{Projecting many such rays through a sample with structure \(f(X,Y)\) gives:}
-    P_\theta(v) = &\int_{\infty}^{\infty} \int_{\infty}^{\infty} f(X,Y)\delta (x\cos(\theta)+y \sin(\theta)-v)dX dY
+  \intertext{The equation of a set of parallel rays from a source passing through the specimen to a point \(v\) along the detector is:}
+                & X\cos(\theta) + Y\sin(\theta) - v = 0                                                            \\
+  \intertext{Projecting many such rays through a sample with structure \(f(X,Y)\) gives:}
+  P_\theta(v) = & \int_{\infty}^{\infty} \int_{\infty}^{\infty} f(X,Y)\delta (x\cos(\theta)+y \sin(\theta)-v)dX dY
 \end{align}
 
 % \begin{figure}
@@ -894,22 +934,22 @@ is the Radon transform.
 % \end{figure}
 
 Where \(P_\theta(v)\) is the Radon transform of \(f(X,Y)\) which represents the contrast image of 2D slice of the specimen.
-The Radon transform of an image produces a sinugram.% as in \figurename~\ref{fig:rawinputs}
+The Radon transform of an image produces a sinogram.% as in \figurename~\ref{fig:rawinputs}
 
 
 % A parallel projection is then just the combination of line integrals  \(f(I) \) for a constant. % for a constant.
 
 An inverse Radon transform is used to recover the original object from the projection data; which is achieved by taking the Fourier transform of each projection measurement, then reordering the information from the sample into the respective position in Fourier space.
-This is valid due to the Fourier Slice theorem%~\cite{bracewellStripIntegrationRadio1956}
+This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRadio1956a}
 , which states that the Fourier transform of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample.
 %A high pass filter such as a ramp filter is commonly used to counter the blurring caused by this oversampling.
 % FBP can be thought of as smearing the projection data across the image plane, and is expressed in equation form as:
 \begin{align}
-f_{\text{fpb}}(X,Y) = \int_{0}^{\pi} Q_\theta (X\cos(\theta)+Y\sin(\theta),\theta)dXdY
+  f_{\text{fpb}}(X,Y) = \int_{0}^{\pi} Q_\theta (X\cos(\theta)+Y\sin(\theta),\theta)dXdY
 \end{align}
 
-Where \(Q_\theta \) is the filtered projection data, and \(f_{\text{fpb}}(X,Y)\) is the back-projected image.
-A spatial filtering step is applied during back-projection to avoid spatial frequency oversampling during the object’s rotation (see \figurename~\ref{fig:iradon_filter})
+Where \(Q_\theta \) is the filtered projection data, and \(f_{\text{fpb}}(X,Y)\) is the back-projected image~\cite{dudgeonMultidimensionalDigitalSignal1984}.
+A spatial filtering step is applied during back-projection  to avoid spatial frequency oversampling during the object’s rotation (see \figurename~\ref{fig:iradon_filter})
 a high pass filter is commonly used to compensate for the perceived blurring.
 The blurring arises as \(Q_\theta \) is back-projected (smeared) across the image plane for each angle of reconstruction; which means that not only does the back-projection contribute at the line it is intended to (along line \(C\) in \figurename~\ref{fig:coordinate_system_flopt}), but all other points along the back-projecting ray.
 % The blurring occurs as \(Q_\theta\) makes the same contribution to the reconstruction for each angle
@@ -920,8 +960,8 @@ Now, suppose we know the relative positions of the two cameras and their respect
 For a single camera and given the camera parameters, we can translate pixel coordinates, \(\gls*{w} = (u, v)\), into the coplanar image plane coordinates \(\gls*{x}=(x, y)\):
 
 \begin{align}
-    u &= u_0 + k_u x \\
-    v &= v_0 + k_v y
+  u & = u_0 + k_u x \\
+  v & = v_0 + k_v y
 \end{align}
 
 Knowing the focal length (\(f\)) of the imaging system, image plane coordinates may be projected into a ray in 3D.
@@ -929,8 +969,8 @@ The ray can be defined by using the point \gls*{p} in camera-centred coordinates
 
 \begin{align}
   \mathbf{p} = \begin{bmatrix}
-        x\\y\\z
-      \end{bmatrix}
+    x \\y
+  \end{bmatrix}
 \end{align}
 
 From the definition of a world point, as observed through an image, we can construct a dual-view model of world points in space as in \figurename~\ref{fig:epi-polar-geom}.
@@ -953,7 +993,7 @@ We can derive an expression for the epipolar line.
 The two camera-centered coordinate systems \gls*{X_c'} and \gls*{X_c} are related by a rotation, \gls*{R} and translation, \gls*{T} (see in \figurename~\ref{fig:epi-polar-geom}) as follows:
 
 \begin{align}
-    \gls*{X_c'} &= \gls*{R}\gls*{X_c'} + \gls*{T} \label{eq:Xprime = RTX}
+  \gls*{X_c'} & = \gls*{R}\gls*{X_c'} + \gls*{T} \label{eq:Xprime = RTX}
 \end{align}
 %       \\
 %     \intertext{Taking the vector product with \(\gls*{T}\), we obtain}
@@ -975,86 +1015,86 @@ The two camera-centered coordinate systems \gls*{X_c'} and \gls*{X_c} are relate
 
 Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls*{X_c'}\), we obtain:
 \begin{align}
-    \gls*{X_c'} \cdot (\gls*{T} \times \gls*{X_c}) &= \gls*{X_c'}\cdot (\gls*{T} \times \gls*{R} \gls*{X_c'}) \\
-    \gls*{X_c'} \cdot (\gls*{T} \times \gls*{R} \gls*{X_c}) &= 0
-    \intertext{A vector product can be expressed as a matrix multiplication:}
-    \gls*{T} \times \gls*{X_c} &= \gls*{T_x} \gls*{X_c}
-    \intertext{where}
-    \gls*{T_x} &=\begin{bmatrix}
-    0    & -T_z  & T_y\\
-    T_z  & 0     & -T_x\\
-    -T_y  & T_x   & 0
-    \end{bmatrix}
+  \gls*{X_c'} \cdot (\gls*{T} \times \gls*{X_c})          & = \gls*{X_c'}\cdot (\gls*{T} \times \gls*{R} \gls*{X_c'}) \\
+  \gls*{X_c'} \cdot (\gls*{T} \times \gls*{R} \gls*{X_c}) & = 0
+  \intertext{A vector product can be expressed as a matrix multiplication:}
+  \gls*{T} \times \gls*{X_c}                              & = \gls*{T_x} \gls*{X_c}
+  \intertext{where}
+  \gls*{T_x}                                              & =\begin{bmatrix}
+    0    & -T_z & T_y  \\
+    T_z  & 0    & -T_x \\
+    -T_y & T_x  & 0
+  \end{bmatrix}
 \end{align}
 So equation~\eqref{eq:Xprime = RTX} can be rewritten as:
 
 \begin{align}
-\gls*{X_c'} \cdot (\gls*{T_x} \gls*{R}\gls*{X_c}) = 0 \\
-\gls*{X_c'} \gls*{T} \gls*{Essential} \gls*{X_c}= 0 \\
-\intertext{where}
-\gls*{Essential} = \gls*{T_x} \gls*{R}
+  \gls*{X_c'} \cdot (\gls*{T_x} \gls*{R}\gls*{X_c}) = 0 \\
+  \gls*{X_c'} \gls*{T} \gls*{Essential} \gls*{X_c}= 0   \\
+  \intertext{where}
+  \gls*{Essential} = \gls*{T_x} \gls*{R}
 \end{align}
 
 \gls*{Essential} is a \(3 \times 3\) matrix known as the \emph{essential matrix}.
 The constraint also holds for rays \gls*{p}, which are parallel to the camera-centered position vectors \gls*{X_c}:
 
 \begin{align}
-\gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}
+  \gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}
 \end{align}
 This is the epipolar constraint.
 If a point \gls*{p} is observed in one image, then its position \gls*{p'} in the other image must lie on the line defined by Equation~\eqref{eq:pEp}.
 The essential matrix can convert from pixels on the detector to rays \gls*{p} in the world, assuming a calibrated camera (intrinsic properties are known), and pixel coordinates can then be converted to image plane coordinates using:
 \begin{align}
-\begin{bmatrix}
-u\\
-v\\
-1
-\end{bmatrix}
-&=
-\begin{bmatrix}
-k_u & 0 & u_0 \\
-0 & k_v & v_0 \\
-0 & 0 & 1
-\end{bmatrix}
-\begin{bmatrix}
-x\\
-y\\
-1
-\end{bmatrix}
-\intertext{We can modify this to derive a relationship between pixel coordinates and rays:}
-\begin{bmatrix}
-u\\
-v\\
-1
-\end{bmatrix}
-&=
-\begin{bmatrix}
-\frac{k_u}{f} & 0 & \frac{u_0}{f} \\
-0 & \frac{k_v}{f} & \frac{v_0}{f} \\
-0 & 0 & \frac{1}{f}
-\end{bmatrix}
-\begin{bmatrix}
-x\\
-y\\
-f
-\end{bmatrix}
-\intertext{\(\widetilde{\gls*{K}}\) is defined as follows:}
-\widetilde{\gls*{K}} &= \begin{bmatrix}
-f k_u & 0 & u_0 \\
-0 & f k_v & v_0 \\
-0 & 0 & 1
-\end{bmatrix}
-\intertext{then we can write pixel coordinates in homogenous coordinates:}
-\widetilde{\gls*{w}} &= \widetilde{\gls*{K}} \gls*{p}
+  \begin{bmatrix}
+    u \\
+    v \\
+    1
+  \end{bmatrix}
+                       & =
+  \begin{bmatrix}
+    k_u & 0   & u_0 \\
+    0   & k_v & v_0 \\
+    0   & 0   & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y \\
+    1
+  \end{bmatrix}
+  \intertext{We can modify this to derive a relationship between pixel coordinates and rays:}
+  \begin{bmatrix}
+    u \\
+    v \\
+    1
+  \end{bmatrix}
+                       & =
+  \begin{bmatrix}
+    \frac{k_u}{f} & 0             & \frac{u_0}{f} \\
+    0             & \frac{k_v}{f} & \frac{v_0}{f} \\
+    0             & 0             & \frac{1}{f}
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    y \\
+    f
+  \end{bmatrix}
+  \intertext{\(\widetilde{\gls*{K}}\) is defined as follows:}
+  \widetilde{\gls*{K}} & = \begin{bmatrix}
+    f k_u & 0     & u_0 \\
+    0     & f k_v & v_0 \\
+    0     & 0     & 1
+  \end{bmatrix}
+  \intertext{then we can write pixel coordinates in homogenous coordinates:}
+  \widetilde{\gls*{w}} & = \widetilde{\gls*{K}} \gls*{p}
 \end{align}
 
 \subsection{The Fundamental matrix}
 
 \begin{align}
-    \intertext{From~\eqref{eq:pEp} the epipolar constraint becomes}
-    % \mathbf{p'}^T E \mathbf{p} &= 0 \\
-    \widetilde{\gls*{w'}} ^T \widetilde{\gls*{K}}^{-T} \gls{Essential} \widetilde{\gls*{K}}^{-1} \widetilde{\gls*{w}}  &= 0 \\
-    \widetilde{\gls*{w'}} ^T F \widetilde{\gls*{w}}  &= 0
+  \intertext{From~\eqref{eq:pEp} the epipolar constraint becomes}
+  % \mathbf{p'}^T E \mathbf{p} &= 0 \\
+  \widetilde{\gls*{w'}} ^T \widetilde{\gls*{K}}^{-T} \gls{Essential} \widetilde{\gls*{K}}^{-1} \widetilde{\gls*{w}} & = 0 \\
+  \widetilde{\gls*{w'}} ^T F \widetilde{\gls*{w}}                                                                   & = 0
 \end{align}
 %\subsubsection{Two views}
 %\paragraph{Mapping from one camera to another}
@@ -1065,23 +1105,23 @@ First, the two projection matrices are obtained via a SVD of the essential matri
 the SVD of the essential matrix is given by:
 
 \begin{align}
-    \gls*{Essential} &= \gls*{K'}^T \gls*{F} \gls*{K} = \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T\\%\gls*{R} = U\LambdaV^T\\
-    \intertext{It can be shown that}
-    \hat{\gls*{T_x}} &= U \begin{bmatrix}
-    0 & 1 & 0 \\
+  \gls*{Essential} & = \gls*{K'}^T \gls*{F} \gls*{K} = \gls*{T_x} \gls*{R} = \mathbf{U}\Lambda \mathbf{V}^T \\%\gls*{R} = U\LambdaV^T\\
+  \intertext{It can be shown that}
+  \hat{\gls*{T_x}} & = U \begin{bmatrix}
+    0  & 1 & 0 \\
     -1 & 0 & 0 \\
-    0 & 0 & 0
-    \end{bmatrix} U^T
-    \intertext{ and }
-    \gls*{R} &= U \begin{bmatrix}
+    0  & 0 & 0
+  \end{bmatrix} U^T
+  \intertext{ and }
+  \gls*{R}         & = U \begin{bmatrix}
     0 & -1 & 0 \\
-    1 & 0 & 0 \\
-    0 & 0 & 1
-    \end{bmatrix} V^T
-    \intertext{Then, aligning the left camera and world coordinate systems gives the projection matrices:}
-    \mathbf{P} &= \gls*{K}    \begin{bmatrix}[c|c]       \mathbf{I} & \mathbf{0}   \end{bmatrix}
-    \intertext{ and }
-    \mathbf{P}' &= \gls*{K'} \begin{bmatrix}[c|c]       \gls*{R} & \gls*{T}   \end{bmatrix}
+    1 & 0  & 0 \\
+    0 & 0  & 1
+  \end{bmatrix} V^T
+  \intertext{Then, aligning the left camera and world coordinate systems gives the projection matrices:}
+  \mathbf{P}       & = \gls*{K}    \begin{bmatrix}[c|c]       \mathbf{I} & \mathbf{0}   \end{bmatrix}
+  \intertext{ and }
+  \mathbf{P}'      & = \gls*{K'} \begin{bmatrix}[c|c]       \gls*{R} & \gls*{T}   \end{bmatrix}
 \end{align}
 Where \( \begin{bmatrix}[c|c] \mathbf{I} & \mathbf{0} \end{bmatrix}\) is the identity matrix augmented column-wise with a zero matrix, and the two projection matrices (\(\mathbf{P}\) and \(\mathbf{P}'\)) project from camera pixel coordinates to world coordinates.
 Given these projection matrices, scene structure can be recovered (only up to scale, since only the magnitude of \gls*{T} (|\gls*{T}|) is unknown) using least squares fitting.
@@ -1176,51 +1216,51 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 
 \begin{figure}
   \centering
-   \hspace*{\fill}
+  \hspace*{\fill}
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/no_helix/iradon_nofilter}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img] {\(X\)};
+      \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption[Unfiltered iRadon]{This is the unfiltered reconstruction of the object using the Radon transform}\label{fig:iradon_nofilter}%TODO equation???
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/no_helix/iradon_filter}};
-       \node[below=of img] {\(v\)\vphantom{\(X\)}};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img] {\(v\)\vphantom{\(X\)}};
+      \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}\label{fig:iradon_filter}
   \end{subfigure}
-   \hspace*{\fill}
+  \hspace*{\fill}
   \caption[Effects of filtering the result of a inverse Radon transform reconstruction]{
-  The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
+    The result of a tomographic reconstruction (using equally spaced angular steps and no translation between frames) requires Fourier filtering to normalise spatial contrast.}\label{fig:irandons}%TODO simulations with no drift and skew and use equation
 \end{figure}
 
 
 \begin{figure}
   \centering
-   \hspace*{\fill}
+  \hspace*{\fill}
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/no_helix/flopt_camerman}};
-       \node[below=of img] {\(Z\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img] {\(Z\)};
+      \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption{Filtered reconstruction Cameraman testcard}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
       \node (img) {\includegraphics[width=0.8\linewidth]{./figures/results/no_helix/flopt_filter}};
-       \node[below=of img] {\(X\)};
-       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
+      \node[below=of img] {\(X\)};
+      \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
     \caption{Filtered reconstruction of Lena testcard}
   \end{subfigure}
-   \hspace*{\fill}
-   \caption[Filtered reconstruction of the ground truth reference image using the new proposed algorithm.]{
-  Filtered reconstruction of the ground truth reference image from \figurename~\ref{fig:recon_iterative} using the new proposed algorithm.
+  \hspace*{\fill}
+  \caption[Filtered reconstruction of the ground truth reference image using the new proposed algorithm.]{
+    Filtered reconstruction of the ground truth reference image from \figurename~\ref{fig:recon_iterative} using the new proposed algorithm.
   }\label{fig:flopt_filter}
 \end{figure}
 

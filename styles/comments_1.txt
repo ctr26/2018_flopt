@@ -1,0 +1,53 @@
+Reviewer 1
+The authors present a new algorithm for reconstruction of objects of size 1 - 10 mm at micrometer resolution from optical projection data. The proposed method is claimed to be robust to jitter and misalignments that are unfortunately common in most imaging systems. The essential idea of the paper is to triangulate points corresponding to fiducial markers between image pairs to determine the unique pose (3D rotation + translation), which could be different from the parameters read out from the digital motors in the imaging system.  The ideas presented in the paper are mathematically sound, and the results on the quality of reconstruction as compared to those obtained from traditional Radon transforms are encouraging. I recommend the publication of the paper in Scientific Reports after the authors have addressed the following points:
+
+1. The authors describe the details of the method in the section labelled "The proposed algorithm". It took me a few read throughs to grasp the order of operations, i.e. F is computed by comparing to 1st image, but ambiguity is resolved by comparing to (n-1)th image. It will be helpful to add a flowchart/pseudo-code either to the main text or supplementary.
+
+    %TODO make a pseudo algorithm
+
+2. Have the authors tested the robustness of the method in the presence of noise? A comment on this in the discussion or section on future work is recommended.
+
+    %TODO Comments more in the text
+    The method presented here is heavily reliant on particle localisation which is as mostly a solved problem, we have attempted to circumvent any reliance on particle tracking that is subject to noise by assuming that the beads are bright and spherical. With this we can be sure to within a pixel where the fiducial is. We also believe this to be a fair assumption given that the field's of view required for OPT are quite large compared to the sample and so large bright beads are not necessarily a hinderence to the process.
+    Noise is definitely a killer when it comes to not using fiducials and just using image texture to localise between angles, which we have commented on attempting but ultimately haven't found a way to make consistent.
+    
+3. The unique {R|T} pair is chosen based on the minimum L2 norm between transformation matrices for successive image pairs. Is this still a good measure if there are large angular gaps?
+
+    %TODO Comments more in the text
+
+    For practical cases large angular steps cause more severe problems for image reconstruction and so we make the assumption that the user is wanting nice clear images. We note that if confusion occurs in the localisation of sister and brother fiducials simple algorithms for particle tracking can be used to mitigate confusion. 
+
+4. The quality of reconstruction is compared between flOPT and tradition Radon transforms. Have the authors attempted to correct for misaligned data with methods commonly used in electron- and X-ray tomography such as cross-correlation and projection-matching before feeding into the reconstruction pipeline?
+
+    %TODO Comments more in the text
+
+    We show the effects of our technique vs the standard radon transform as very slight magnitudes of the effect we're trying to emphasise our technique can address. We're by no means claiming that is can out-pace well established realignment methods that are well developed in tomography but we are claiming that our technique can address all of the of degrees of freedom whereby drift can interfere. As an example, if a re-alignment technique only addressed lateral image plane motion then a confounding motion of angular and spatial drift could lead to that algorithm being lead astray, whereas the presented algorithm would continue to be robust given the assumptions are well localisation and always visible fiducials.
+
+5. Figure 8. shows the most important results of the paper, but its presentation needs major revision. There are missing subtitles and legends which makes it difficult to understand what is being compared. Angle alpha is given in the title, but not mentioned in the text (the angles in the text are theta, phi, psi).
+The subplots are all of different sizes.
+
+        %TODO Fix figures
+
+
+6. Code availability section is missing from the main text.
+
+    %TODO github
+
+Minor points: 
+1. flOPT is mentioned in figures only -- might help to introduce the abbreviation in the abstract.
+2. In general there many punctuation and grammar issues, and typos that will hopefully get corrected during the editing stage. I found the following:
+   a. Typo in Fig 5: "The projected image data (b), (f), (j) ....." 
+   b. In Equation 4., what are Y_i and Y^{hat}_i?
+   c. "Sinugram" line 223
+   d. Is there a typo in SI Eq. 11?
+3. References missing for Fourier Slice Theorem, filtered back-projection, etc.
+4. The authors comment that the accuracy of the recovered matrices deteriorates with additional degrees of freedom. Which particular motions are difficult to recover, i.e. in-plane translations vs translations along optical axis, or rotations about optical axis vs axes perpendicular to it?
+
+    %TODO Figure 8 was supposed to show this
+
+Reviewer 2
+This paper reports on efforts to develop tomographic reconstruction algorithm for OPT. I can see the potential utility in this area. However, the proposed algorithm is demonstrated in a limited sense, with just one simulated data and the comparison with Radon transform. There are a number of publications on OPT algorithms, especially on how to correct the shifts. There is also a technique named Helical optical projection tomography, which uses a translation of the sample in the vertical direction during the image acquisition process with its own reconstruction approach. I suggest that the paper should include a  thorough investigation on the background, at least a number of algorithm developed for OPT reconstruction, especially for the shift correction. The fair comparison of this proposed algorithm with other existing methods should also be included and appropriately discussed. More experimetnal OPT data should be used to evaluate all the methods before the conclusions. The whole presentation should be extensively edited for clarity. 
+
+    %TODO mention hOPT and other reconstruction algorithms
+
+    The work presented here is a purely theoretical exploration of what is possible for OPT. Currently we have no lab space or experimental equipment enough to demonstrate our algorithm, this is why the data used here was all synthetic.
