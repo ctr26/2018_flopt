@@ -1,4 +1,4 @@
-% \def\osa{} %% set to true
+%% \def\osa{} %% set to true
 
 \ifdefined\osa
     \documentclass{osa-article}
@@ -103,13 +103,13 @@
   \shorttitle{flOPT}
   % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
   \author[1,2]{Craig Russell}
-  \author[1,\Letter]{Pedro Vallejo}
+  \author[2,\Letter]{Pedro P Vallejo Ramirez}
   \author[1,\Letter]{Eric Rees}
 
 
 
   \affil[1]{Dept.~of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K.}
-  \affil[2]{European Bioinformatics Institute}
+  \affil[2]{European Bioinformatics Institute, Wellcome Genome Campus, Cambridge CB10 1SD}
 
   \maketitle
 
@@ -173,14 +173,14 @@ Sharpe~\emph{et. al} proposed OPT~\cite{sharpeOpticalProjectionTomography2002}
 using visible light to image transparent or translucent mesoscopic samples, with micrometer resolution.
 OPT addresses the scale gap between photographic techniques (for samples typically larger than \SI{10}{\milli\meter}), and light microscopy techniques (samples smaller than \SI{1}{\milli\meter}) to image biological samples in the \SIrange{1}{10}{\milli\meter} range.
 % OPT is non-invasive optically but may require specialist invasive preparation for its samples.
-
+% TODO: PV photographic
 %Optical Projection Tomography was first proposed by Sharpe in 2002 [30]; it uses visible light to image and create volumetric data of transparent (naturally or artificially) mesoscopic objects (1 - 10 mm) at micron-level resolution.
 
-OPT is based on computerised tomography techniques~\cite{kakPrinciplesComputerizedTomographic2001} in which a set of projections of a specimen are imaged as the specimen travels through a full rotation.
-Typically, a Radon transform is then used to transform this set of images into a 3D image stack in Cartesian coordinates (\(X,Y,Z\)).
+OPT is based on computerised tomography techniques~\cite{kakPrinciplesComputerizedTomographic2001} in which a set of projections of a specimen are acquired as the specimen travels through a full rotation, shown in \figurename~\ref{fig:OPT_digram}.
+Typically, a Radon transform is then used to transform this set of images into a 3D image stack in Cartesian coordinates (\( X,Y,Z \)).
 %A cross-sectional stack of slices from the original object is reconstructed using a back-projection algorithm from the projection images.
 The Radon transform relies heavily on the assumption of circular motion with constant angular steps about a vertical axis.
-Prior to the radon transform an attempt is made to find the centre of rotation (CORs) and correct the image shift~\cite{dongAutomatedRecoveryCenter2013,arranzHelicalOpticalProjection2013,zhangZOPTOpenSource2020}; this step is both computationally expensive, error prone and incomplete with regards to all available degrees of freedom.
+Prior to the Radon transform, an attempt is made to find the centre of rotation (CORs) and correct the image shift~\cite{dongAutomatedRecoveryCenter2013,arranzHelicalOpticalProjection2013,zhangZOPTOpenSource2020}; this step is both computationally expensive, error prone and incomplete with regards to all available degrees of freedom.
 This work presents an improved general reconstruction algorithm that is robust to spatial and angular mechanical drifts during acquisitions, as well as to inconsistent angular steps.
 The proposed algorithm triangulates points between image pairs to extract camera pose using the theoretical framework used in stereoscopic imaging. %TODO reword
 % There are two imaging modalities for OPT, eOPT and tOPT.
@@ -223,7 +223,7 @@ The proposed algorithm triangulates points between image pairs to extract camera
     \gls*{x} = \((x,y)\) is the image plane coordinates.
     \gls*{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls*{x}.
     The optical axis travels along the \(Z_c\) axis through the image plane.}
-  % \label{fig:aa}
+  \label{fig:single-view-coordinates}
 \end{figure*}
 \begin{figure*}
   \centering
@@ -242,12 +242,12 @@ The proposed algorithm triangulates points between image pairs to extract camera
 
 %\subsection{Camera projections}
 
-When the features or fiducial markers in one view are uniquely identifiable, the stereoscopic imaging of scenes allows for the triangulation of individual features in three dimensional space (known as world points), see Figure~\ref{fig:epi-polar-geom} for the coordinate system which describes this geometry. %(such as fluorescent beads).
+When the features or fiducial markers in one view are uniquely identifiable, the stereoscopic imaging of scenes allows for the triangulation of individual features in three dimensional space (known as world points), see \figurename~\ref{fig:epi-polar-geom} and \figurename~\ref{fig:single-view-coordinates} for the coordinate system which describes this geometry. %(such as fluorescent beads).
 Triangulation requires that each feature is detected in both images of a stereo imaging system and for these detections to be correctly associated with one another.
 This is known as the correspondence problem.
 Various methods exist to ensure that features are detected from image data and accurately associated between two cameras or views~\cite{szeliskiComputerVisionAlgorithms2010} and the properties of scale-independent features and their surrounding pixel environment in one image can thus be matched to a similar feature in a second image.
 
-Coordinates in two adjacent views with a common epi-pole (see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
+Coordinates in two adjacent views with a common epi-pole (the vector connecting the \(O\) and \(O'\),see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
 Their properties are described by:
 \begin{gather}
   \gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}\\
@@ -261,8 +261,8 @@ Where \(\gls*{K}\) is a matrix that converts image plane coordinates to camera p
 \begin{algorithm}
   \begin{algorithmic}
     \caption{The proposed flOPT algorithm, where:
-      \emph{localiseFiducials} generates a 2D coordinate list from an image containing punctate fiducials
-      \emph{findHomography} generates \(\mathbf{F}_n\) between a pair of 2D coordinate lists
+      \emph{localiseFiducials} generates a 2D coordinate list from an image containing punctate fiducials.
+      \emph{findHomography} generates \(\mathbf{F}_n\) between a pair of 2D coordinate lists.
       \emph{chooseBestHomography} is a function that chooses the most likely homography matrix \(\mathbf{F}_n\) but minimising the least squares difference between \(\mathbf{F}_{n-1}\) and the four candidate \(\mathbf{F}_{n,\{0,1,2,3\}}\) matrices.
       \emph{decomposeHomography} factorises \(\mathbf{F}_n\) into affine rotation and translation matrices (\(\mathbf{R}_n\) and  \(\mathbf{T}_n\)).
       \emph{affineHomogenise} merges the separate affine matrices into a more manageable homogenous matrix.
@@ -290,12 +290,13 @@ Where \(\gls*{K}\) is a matrix that converts image plane coordinates to camera p
 \end{algorithm}
 
 %The rotation may also not be orthogonal to the plane of detection.
-The motion of a rotating sample, as in an OPT acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) in view of a fixed camera is analogous to the motion of a camera with the inverse transformation matrix around the scene. %TODO reword
+The motion of a rotating sample, as in an OPT acquisition, with a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) in view of a fixed camera is analogous to the motion of a camera around the scene with the inverse transformation matrix . %TODO reword
 % The shift of a camera around a scene separated by a transformation matrix (\( \begin{bmatrix}[c|c] \gls*{R} & \gls*{T} \end{bmatrix}\)) is analogous to transforming the sample in the fixed view of an imaging detector, as in an \gls*{OPT} acquisition.
 During an ideal OPT acquisition, a marker will appear to follow an elliptical path in the \(xy\) image plane.
 For the volume reconstruction procedure, there is a fitting step to recover the path of the fiducial marker, which is used to correct the sinogram before applying the inverse Radon transform.
 This type of reconstruction not only ignores any mechanical jitter of the sample, but also any affine, systematic, mechanical drift (in \(X,Y,Z,\theta,\phi,\psi \)). %TODO is this true?
-Using two adjacent images of a scene, separated by some rotation and translation, world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
+This can be rectified by recovering the complete non-scaling transformation for every projection.
+Now, using two adjacent images of a scene (separated by some rotation and translation) world points in 3D space may be triangulated within the scene given the rotational and translational matrices of the respective camera views.
 
 % The inverse is also possible, given a sufficient number of known fiducial points in a scene the translation and rotation matrices can be recovered.
 
@@ -502,8 +503,8 @@ Where \(\mathbf{Y}\) is the vector of observed values and \(\hat{Y_i}\) is mean 
   \end{subfigure}
   \caption{
     (\subref{fig:flopt_comparison_line_profile}), Line profile comparison of the reconstruction of a reference image computationally rotated, projected and reconstructed using the standard Radon transform and the new proposed algorithm.
-    (\subref{fig:flopt_histogram}), Histogram of of pixel values compared between reconstructions using the new proposed flOPT algorithm and the Radon transform.
-    The shift of the histogram to towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the Radon transform
+    (\subref{fig:flopt_histogram}), Histogram of pixel values compared between reconstructions using the new proposed flOPT algorithm and the Radon transform.
+    The shift of the histogram towards overall lower deviance from the source image suggests the flOPT algorithm outperforms the Radon transform
     (\subref{fig:helical_comparison}): Comparison of standard and proposed OPT reconstruction algorithms for acquisitions with drift.
     2D image correlation of the ground truth and the reconstruction shows that the proposed flOPT algorithm does not degrade with systematic drift, whereas a reconstruction using the standard Radon transform is severely degraded.}
 \end{figure*}
@@ -619,7 +620,7 @@ The translation matrix (\gls*{T}) was consistently more accurately reproduced, w
     Panels~(\subref{fig:pc_sum_rot_alpha}) and~(\subref{fig:pc_sum_trans_alpha}) introduce an angular drift during rotation, to an observer at the detector this would appear as a tip of the sample towards them, causing precession.
     Panels~(\subref{fig:pc_sum_rot_tx}) and~(\subref{fig:pc_sum_trans_tx}) introduce a lateral drift in \(X\) causing a helical path to be drawn out.
     % Panels~(\subref{fig:pc_sum_rot_both}) and~(\subref{fig:pc_sum_trans_both}) combine the two effects.
-    In all cases, the percentage error introduced by the the addition of undesirable additional movements was on the order of \SI{<2}{\percent}.
+    In all cases, the percentage error introduced by the the addition of undesirable additional movements was on the order of \SI{<2}{\percent}.\footnote{Note that errors in recovering translation are much larger given a smaller helical shift as the percentage error of the recovery of the translation matrix is broadly constant.}
   }\label{fig:pc_sum_decompose}
 \end{figure*}
 
@@ -637,6 +638,7 @@ In the worst-case scenario, a maximum of \SI{2}{\percent} average absolute diffe
 % peak of \SI{2}{\percent} difference is found between the two when considering worst case scenarios;
 suggesting that the technique is robust to various forms of drift in all dimensions and general instability.
 Such an algorithm could be used to minimise ghosting effects seen in real samples, particularly in samples where slipping is likely to occur, such as in gels or in cheaper OPT systems which tend to be more mechanically unstable and imprecise.
+In particular the imaging of large mobile gels is set to become more prevalent given the surge of new techniques in Expansion Microscopy~\cite{chenExpansionMicroscopy2015a}, whereby fragile expanded samples embedded in thin lubricious gels.
 
 \section*{Future work}
 
@@ -649,7 +651,7 @@ Beyond three views, there is currently no mathematical framework for four or mor
 If such tools were to be developed, it may be possible to have the algorithm described above be a non-iterative, single-shot reconstruction from pixels to voxels.
 
 % In computer vision, scenes often do not contain known fiducial marks and so such marks are found between views.
-Fiducial markers could also be extracted from the image texture alone, circumventing the need for for the additional beads embedded in the sample.
+Fiducial markers could also be extracted from the image texture alone, circumventing the need for the additional beads embedded in the sample.
 To find such correspondences, points with similar local texture are found and matched in between each image using standard algorithms such as SIFT~\cite{loweObjectRecognitionLocal1999} and RANSAC~\cite{fischlerRandomSampleConsensus1981}. %, many of these such correspondences are found
 This was attempted in this work, however, the errors introduced into the transformation matrices make this approach currently unviable; and so by requiring bright punctuate fiducial markers the burden of collecting the fiducial coordinates is shifted to well established curve fitting algorithms that are robust to noise.
 % This technique is only valid for views with small angles between them, as would be found in OPT.
@@ -667,7 +669,7 @@ The authors declare that there are no conflicts of interest related to this arti
 \section*{Bibliography}
 % \bibliography{filler,thesis,xtrareferences}
 % \bibliographystyle{zHenriquesLab-StyleBib}
-\bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt}
+\bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt,flopt_2020}
 
 %% You can use these special %TC: tags to ignore certain parts of the text.
 %TC:ignore
@@ -908,12 +910,11 @@ The authors declare that there are no conflicts of interest related to this arti
 % % \end{thebibliography}
 %
 % \pagebreak
-
 \section{Supplemental}
 \subsection{Reconstruction}
 
-As the sample is rotated each detector pixel collects an intensity \(I(\theta) = I_{n}e^{-k(\theta)}\) at discrete (\(n\)) angles through a full rotation of the sample; where \(I_{n}\) is the unattenuated radiation intensity from the source to the detector, \(k\) is the attenuation caused by the sample along a detected ray an \(I(n)\) is the measured intensity, see \figurename~\ref{fig:OPT_digram}.
-Rays from the sample to the detector approximate straight lines, and so the the rays reaching the detector with a line integrals.
+As the sample is rotated each detector pixel collects an intensity \(I(\theta) = I_{n}e^{-k(\theta)}\) at discrete (\(n\)) angles through a full rotation of the sample; where \(I_{n}\) is the unattenuated radiation intensity from the source to the detector, \(k\) is the attenuation caused by the sample along a detected ray \(I(n)\) is the measured intensity, see \figurename~\ref{fig:OPT_digram}.
+Rays from the sample to the detector approximate straight lines, and so the rays reaching the detector can be represented with line integrals.
 A projection is then the resulting intensity profile at the detector for a rotation angle, and the integral transform that results in \(P_\theta(v)\)
 % \(f(I_i,\theta_n) \)
 is the Radon transform.
@@ -933,7 +934,7 @@ is the Radon transform.
 %     \label{fig:coordinate_system_flopt}
 % \end{figure}
 
-Where \(P_\theta(v)\) is the Radon transform of \(f(X,Y)\) which represents the contrast image of 2D slice of the specimen.
+Where \(P_\theta(v)\) is the Radon transform of \(f(X,Y)\) which represents the contrast image of a 2D slice of the specimen.
 The Radon transform of an image produces a sinogram.% as in \figurename~\ref{fig:rawinputs}
 
 
@@ -942,6 +943,7 @@ The Radon transform of an image produces a sinogram.% as in \figurename~\ref{fig
 An inverse Radon transform is used to recover the original object from the projection data; which is achieved by taking the Fourier transform of each projection measurement, then reordering the information from the sample into the respective position in Fourier space.
 This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRadio1956a}
 , which states that the Fourier transform of a parallel projection is equivalent to a 2D slice of the Fourier transform of the original sample.
+The back projection step is given by:
 %A high pass filter such as a ramp filter is commonly used to counter the blurring caused by this oversampling.
 % FBP can be thought of as smearing the projection data across the image plane, and is expressed in equation form as:
 \begin{align}
@@ -951,7 +953,7 @@ This is valid due to the Fourier Slice theorem~\cite{bracewellStripIntegrationRa
 Where \(Q_\theta \) is the filtered projection data, and \(f_{\text{fpb}}(X,Y)\) is the back-projected image~\cite{dudgeonMultidimensionalDigitalSignal1984}.
 A spatial filtering step is applied during back-projection  to avoid spatial frequency oversampling during the object’s rotation (see \figurename~\ref{fig:iradon_filter})
 a high pass filter is commonly used to compensate for the perceived blurring.
-The blurring arises as \(Q_\theta \) is back-projected (smeared) across the image plane for each angle of reconstruction; which means that not only does the back-projection contribute at the line it is intended to (along line \(C\) in \figurename~\ref{fig:coordinate_system_flopt}), but all other points along the back-projecting ray.
+The blurring arises as \(Q_\theta \) is back-projected (smeared) across the image plane for each angle of reconstruction; which means that not only does the back-projection contribute at the line it is intended to (along line \(C\) in \figurename~\ref{fig:OPT_digram}), but all other points along the back-projecting ray.
 % The blurring occurs as \(Q_\theta\) makes the same contribution to the reconstruction for each angle
 % will make the same contribution to the reconstruction at all of these points. Therefore, one could say that in the reconstruction process each filtered projection, Qe, is smeared back, or backprojected, over the image plane.
 
@@ -974,14 +976,14 @@ The ray can be defined by using the point \gls*{p} in camera-centred coordinates
 \end{align}
 
 From the definition of a world point, as observed through an image, we can construct a dual-view model of world points in space as in \figurename~\ref{fig:epi-polar-geom}.
-Using a model of a system with two views allows for the triangulation of rays based on image correspondences, this is an important part of stereo-vision.
-The most important matching constraint which can be used the \emph{epipolar constraint}, and follows directly from the fact that the rays must intersect in 3D space.
+Using a model of a system with two views allows for the triangulation of rays based on image correspondences; this is an important part of stereo-vision.
+The most important matching constraint which can be used is the \emph{epipolar constraint}, and follows directly from the fact that the rays must intersect in 3D space.
 Epipolar constraints facilitate the search for correspondences, they constrain the search to a 1D line in each image.
 To derive general epipolar constraints, one should consider the epipolar geometry of two cameras as seen in \figurename~\ref{fig:epi-polar-geom}
 
 
 The \textbf{baseline} is defined as the line joining the optical centres.
-An \textbf{epipole} is the point of intersection of the baseline with the image plan and there are two epipoles per feature, one for each camera.
+An \textbf{epipole} is the point of intersection of the baseline with the image plane and there are two epipoles per feature, one for each camera.
 An \textbf{epipolar line} is a line of intersection of the epipolar plane with an image plane.
 It is the image in one camera of the ray from the other camera’s optical centre to the world point (\gls*{X}).
 For different world points, the epipolar plane rotates about the baseline.
@@ -1013,8 +1015,8 @@ The two camera-centered coordinate systems \gls*{X_c'} and \gls*{X_c} are relate
 
 \subsection{The Essential matrix}
 
-Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls*{X_c'}\), we obtain:
 \begin{align}
+  \intertext{Taking the scalar product of \eqref{eq:Xprime = RTX} with \(\gls*{X_c'}\), we obtain:}
   \gls*{X_c'} \cdot (\gls*{T} \times \gls*{X_c})          & = \gls*{X_c'}\cdot (\gls*{T} \times \gls*{R} \gls*{X_c'}) \\
   \gls*{X_c'} \cdot (\gls*{T} \times \gls*{R} \gls*{X_c}) & = 0
   \intertext{A vector product can be expressed as a matrix multiplication:}
@@ -1231,7 +1233,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
       \node[below=of img] {\(v\)\vphantom{\(X\)}};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption[Filtered iRadon]{Ram-lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}\label{fig:iradon_filter}
+    \caption[Filtered iRadon]{Ram-Lak (Fourier ramp) filter applied to \figurename~\ref{fig:iradon_nofilter}.}\label{fig:iradon_filter}
   \end{subfigure}
   \hspace*{\fill}
   \caption[Effects of filtering the result of a inverse Radon transform reconstruction]{
@@ -1248,7 +1250,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
       \node[below=of img] {\(Z\)};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Filtered reconstruction Cameraman testcard}
+    \caption{Filtered reconstruction of the Cameraman testcard}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.3\linewidth}
     \begin{tikzpicture}[node distance=0cm]
@@ -1256,7 +1258,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
       \node[below=of img] {\(X\)};
       \node[left=of img,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Filtered reconstruction of Lena testcard}
+    \caption{Filtered reconstruction of the Lena testcard}
   \end{subfigure}
   \hspace*{\fill}
   \caption[Filtered reconstruction of the ground truth reference image using the new proposed algorithm.]{
