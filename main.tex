@@ -102,9 +102,9 @@
   \title{Frame Localisation Optical Projection Tomography}
   \shorttitle{flOPT}
   % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-  \author[1,2]{Craig Russell}
-  \author[2,\Letter]{Pedro P Vallejo Ramirez}
-  \author[1,\Letter]{Eric Rees}
+  \author[1,2 \Letter]{Craig Russell}
+  \author[1]{Pedro P Vallejo Ramirez}
+  \author[1]{Eric Rees}
 
 
 
@@ -247,7 +247,7 @@ Triangulation requires that each feature is detected in both images of a stereo 
 This is known as the correspondence problem.
 Various methods exist to ensure that features are detected from image data and accurately associated between two cameras or views~\cite{szeliskiComputerVisionAlgorithms2010} and the properties of scale-independent features and their surrounding pixel environment in one image can thus be matched to a similar feature in a second image.
 
-Coordinates in two adjacent views with a common epi-pole (the vector connecting the \(O\) and \(O'\),see Figure~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
+Coordinates in two adjacent views with a common epi-pole (the vector connecting the \(O\) and \(O'\), see \figurename~~\ref{fig:epi-polar-geom}) are related by the essential matrix (\gls*{Essential}) for uncalibrated cameras and the fundamental matrix (\gls*{F}) for calibrated cameras.
 Their properties are described by:
 \begin{gather}
   \gls*{p'}^T \gls*{Essential} \gls*{p} = 0 \label{eq:pEp}\\
@@ -304,7 +304,8 @@ Now, using two adjacent images of a scene (separated by some rotation and transl
 % Errors may however then be introduced from fiducial markers mechanically slipping and localisation errors.
 % Fiducial markers in this sense refer to an accurately locatable marker common through different views in a sample.
 
-Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, either of the fundamental or essential matrices can be computed. Using the factorisation of one of these matrices, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
+Once a sufficient amount of fiducial markers are reliably tracked from the first to the second image, either one of the fundamental or essential matrices can be computed.
+Using the factorisation of one of these matrices, between each adjacent view of a rotating scene, the translation and rotational matrices can be recovered.
 % Here we will discuss a reconstruction using \gls*{F} but the same principle applies for \gls*{Essential} and \gls*{H}.
 
 % Here are two ways of reconstructing using the fundamental matrix as described above.
@@ -669,8 +670,8 @@ The authors declare that there are no conflicts of interest related to this arti
 \section*{Bibliography}
 % \bibliography{filler,thesis,xtrareferences}
 % \bibliographystyle{zHenriquesLab-StyleBib}
-\bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt,flopt_2020}
-
+% \bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt}
+\bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt,2020_flopt}
 %% You can use these special %TC: tags to ignore certain parts of the text.
 %TC:ignore
 %the command above ignores this section for word count
@@ -910,8 +911,8 @@ The authors declare that there are no conflicts of interest related to this arti
 % % \end{thebibliography}
 %
 % \pagebreak
-\section{Supplemental}
-\subsection{Reconstruction}
+\section{Reconstruction}
+% \subsection{}
 
 As the sample is rotated each detector pixel collects an intensity \(I(\theta) = I_{n}e^{-k(\theta)}\) at discrete (\(n\)) angles through a full rotation of the sample; where \(I_{n}\) is the unattenuated radiation intensity from the source to the detector, \(k\) is the attenuation caused by the sample along a detected ray \(I(n)\) is the measured intensity, see \figurename~\ref{fig:OPT_digram}.
 Rays from the sample to the detector approximate straight lines, and so the rays reaching the detector can be represented with line integrals.
