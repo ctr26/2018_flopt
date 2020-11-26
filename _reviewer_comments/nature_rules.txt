@@ -1,0 +1,67 @@
+ Please upload your manuscript file as a Microsoft Word (.doc/.docx) or .tex file. If you wish to upload a .tex file, please ensure that this file is uploaded as a supplementary material file, with a PDF of the file included as the manuscript file.
+
+Kindly remove the watermark from the manuscript file.
+    Done
+
+Kindly provide the name of the author 'Pedro P Vallejo Ramirez' appropriately on the submission system. The first name of the author is provided twice. Kindly make the necessary changes.
+    Done
+
+Kindly provide the References at the end of the manuscript file.
+    Done
+
+Please reformat references to adhere to our strict referencing style. Scientific Reports uses standard Nature referencing style, for example, “1. Schott, D.H., Collins, R.N. & Bretscher, A. Secretory vesicle transport velocity in living cells depends on the myosin V lever arm length. <i> J.Cell Biol. </i> <b>156</b>, 35-39 (2002).”
+Please ensure that all references are formatted correctly (including the use of commas to separate fields, and bold & italic text). For more information, see the online guide: 
+https://www.nature.com/srep/author-instructions/submission-guidelines#references
+
+    Done
+
+
+Kindly cite all the sub-figures of figure 5 in the figure caption.
+We notice that figure 3 DONE, 4 DONE, 7a, DONE 7d, DONE 9 DONE has not been referenced in the main text of the article. If figures are not cited in the manuscript they will not appear in the html (online) version if your paper is accepted for publication. Therefore, it is essential they are mentioned at least once in the text and, we strongly recommend, in the order in which they are numbered.
+    
+    Done
+
+Please could you clarify if any software was used to create figures 7 in the manuscript, kindly provide the version number and URL link of the software in the respective figure legend.
+
+    The entire paper is simulated results and all the software has been made available in the code availability section. Moreover I've never seen links to simulated data generators being linked in figure captions in Scientific Reports, here is one example where this rule has been flouted:
+
+    https://www.nature.com/articles/s41598-019-42743-4#Sec2
+
+It is the policy of Scientific Reports that we do not send manuscripts containing the "Lena" image to referees, and we ask all authors to replace these images in the manuscript or provide scientific justification for using it. This policy is in line with several other publishers and societies which have acknowledged that Lena, a crop from the November 1972 Playboy centrefold image, is inappropriate for scientific publications. We hope that our policy will help authors and reviewers recognize the importance of searching for suitable alternative images for their work. A list of possible alternatives is available here: http://sipi.usc.edu/database/.
+
+
+
+Please could you clarify where the photographs in Figure 5 and 11 have been obtained from? If these images were taken by you or one of your co-authors, please  send an email to rituparna.bose@springernature.com confirming who took the photographs.
+
+If these images were not taken by you or one of your co-authors, please provide written permission, in English, from the copyright holder of the images to publish them under a CC BY open access license, and ensure that they are acknowledged in your figure legend. Information about this license can be found below:
+https://creativecommons.org/licenses/by/4.0/
+
+Please ensure the permission document adheres to the following requirements:
+- Permissions must be written in English
+- Must explicitly state permission is granted to us (Springer Nature Limited), to publish the images under a CC BY open access license.
+- Permission must be granted to publish the images in all formats i.e. print and digital.
+- Signed by the copyright holder
+
+Please send the permissions document to rituparna.bose@springernature.com
+
+https://www.petitcolas.net/watermarking/image_database/
+
+"Terms of use
+Free for research purpose on image or signal processing and digital watermarks evaluation, including:
+publication in conference proceedings;
+publication of research results on the Web.
+Restriction: any user of the image shall give credit to the copyright owner of the image. All the information regarding the said owner provided on this page shall be reproduced.
+Forbidden to use for: product promotion, advertisement or any commercial purpose."
+
+
+We have noticed that the order of the author list has changed and a new author, 'Pedro P Vallejo Ramirez', has been added. As per Scientific Reports policy, please can you ensure all authors have signed the attached form indicating their approval of the changes, then return it by email? rituparna.bose@springernature.com
+
+
+When completing this form:
+
+- Please ensure the journal name is correct (Scientific Reports) and the title and manuscript number are exactly as listed on the tracking system.
+- Please ensure that the author lists given in the “Previous Author Names” and “Updated Author Names” sections exactly match the author lists (including the author order) on your previous and current manuscripts, respectively.
+- Please ensure that the "Change to Author List" section includes a brief description of the changes made to your author list, rather than stating the full author list.
+- Please ensure that all authors – including all newly ADDED/DELETED authors – have signed and dated this document.
+- Please ensure the signatures on the Authorship Update form are either handwritten or electronic representations of the individual’s handwritten signature.
+(Please see the attachment)

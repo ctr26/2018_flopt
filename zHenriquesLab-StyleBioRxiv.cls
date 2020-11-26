@@ -308,7 +308,8 @@
 \RequirePackage{chapterbib}
 \RequirePackage[sectionbib,numbers,sort&compress,merge,round]{natbib}
 \setlength{\bibsep}{0.0pt}
-\bibliographystyle{zHenriquesLab-StyleBib}
+% \bibliographystyle{zHenriquesLab-StyleBib}
+\bibliographystyle{nature}
 \renewcommand{\bibsection}{} % Remove header
 \renewcommand\bibfont{\normalfont\sffamily\fontsize{6}{8}\selectfont} % set font to be sans serif
 
