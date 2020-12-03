@@ -1,11 +1,23 @@
 %% \def\osa{} %% set to true
 
+\def\nature{} %% set to true
+%% \def\bioarxiv{} %% set to true
+
 \ifdefined\osa
     \documentclass{osa-article}
     \usepackage{subcaption}
     \journal{osac}
+\fi
 
-\else
+\ifdefined\nature
+    \documentclass{wlscirep}
+    \usepackage{subcaption}
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \thispagestyle{empty}
+\fi
+
+\ifdefined\bioarxiv
     \documentclass[times, twoside]{zHenriquesLab-StyleBioRxiv}
     \leadauthor{Russell}
 \fi
@@ -96,14 +108,28 @@
 
 \title{Frame Localisation Optical Projection Tomography}
 
+\ifdefined\nature
 
+  \author[1,*]{Alice Author}
+  \author[2]{Bob Author}
+  \author[1,2,+]{Christine Author}
+  \author[2,+]{Derek Author}
+  \affil[1]{Affiliation, department, city, postcode, country}
+  \affil[2]{Affiliation, department, city, postcode, country}
+
+  \affil[*]{corresponding.author@email.example}
+
+  \affil[+]{these authors contributed equally to this work}
+  \flushbottom
+\fi
 \ifdefined\osa
   \author{Craig Russell,\authormark{1} and Eric Rees,\authormark{2,*}}
 
   \address{\authormark{1}Dept. of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K. \\
     \authormark{2} European Bioinformatics Institute, Wellcome Genome Campus, Cambridge CB10 1SD}
   \email{\authormark{*}ctr26@ebi.ac.uk} %% email address is required
-\else
+\fi
+\ifdefined\bioarxiv
   \title{Frame Localisation Optical Projection Tomography}
   \shorttitle{flOPT}
   % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
@@ -174,7 +200,7 @@
 %Micro-MRI can also achieve resolution in the micron scale, however the cost and size of MRI instruments can be prohibitive for many applications[21].
 %Furthermore, neither of these techniques can exploit the plethora of information that can be extracted through fluorescence microscopy.
 
-Sharpe~\emph{et. al} proposed OPT~\cite{sharpeOpticalProjectionTomography2002}
+Sharpe~\emph{et.~al} proposed OPT~\cite{sharpeOpticalProjectionTomography2002}
 using visible light to image transparent or translucent mesoscopic samples, with micrometer resolution.
 OPT addresses the scale gap between photographic techniques (for samples typically larger than \SI{10}{\milli\meter}), and light microscopy techniques (samples smaller than \SI{1}{\milli\meter}) to image biological samples in the \SIrange{1}{10}{\milli\meter} range.
 % OPT is non-invasive optically but may require specialist invasive preparation for its samples.
@@ -227,8 +253,7 @@ The proposed algorithm triangulates points between image pairs to extract camera
     \gls*{p} = \((x,y,f)\) is the ray vector to point of image plane.
     \gls*{x} = \((x,y)\) is the image plane coordinates.
     \gls*{w} = \((u,v)\) are the pixel coordinates (not shown) corresponding to the point \gls*{x}.
-    The optical axis travels along the \(Z_c\) axis through the image plane.}
-  \label{fig:single-view-coordinates}
+    The optical axis travels along the \(Z_c\) axis through the image plane.}\label{fig:single-view-coordinates}
 \end{figure*}
 \begin{figure*}
   \centering
@@ -694,9 +719,9 @@ The authors declare that there are no conflicts of interest related to this arti
 \pagebreak
 
 
-\ifdefined\osa
-
-\else
+% \ifdefined\osa
+% \fi
+\ifdefined\bioarxiv
   \captionsetup*{format=largeformat}
 \fi
 
@@ -1128,6 +1153,5 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 % \printbibliography
 \section*{Bibliography}
 \bibliography{merge}
-
 % \printbibliography
 \end{document}
