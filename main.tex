@@ -133,14 +133,15 @@
   \title{Frame Localisation Optical Projection Tomography}
   \shorttitle{flOPT}
   % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-  \author[1,2 \Letter]{Craig Russell}
-  \author[1]{Pedro P Vallejo Ramirez}
-  \author[1]{Eric Rees}
+  \author[1,2 \Letter]{Craig T. Russell}
+  \author[1,3]{Pedro P. Vallejo Ramirez}
+  \author[1]{Eric J. Rees}
 
 
 
   \affil[1]{Dept.~of Chemical Engineering and Biotechnology, Cambridge University, Cambridge, U.K.}
   \affil[2]{European Bioinformatics Institute, Wellcome Genome Campus, Cambridge CB10 1SD}
+  \affil[3]{Chemistry Research Laboratory, Oxford University, 12 Mansfield Road, Oxford OX1 3TA}
 
   \maketitle
 
@@ -345,7 +346,7 @@ The image at view \(n+1\) is then back projected along the virtual optical axis 
 The size of this back projection and virtual volume is chosen to be suitably large, preventing the loss of important data.
 % Then, all the prior rotation and translation matrices are serially multiplied from \(\begin{bmatrix}[c|c] \gls*{R}_0&\gls*{T}_0 \end{bmatrix}\) until \(\begin{bmatrix}[c|c] \gls*{R}_n&\gls*{T}_n \end{bmatrix}\) % \([R_n|T_n] \)
 % , this final matrix is inverted and applied to the back projected volume.
-The recovered transformation matrices are then matrix inverted and applied to the back projection of the image to realign the rays in the volume to their respective source positions as shown in \figurename\ref{fig:flopt_algorithm}. %TODO hard sentence.
+The recovered transformation matrices are then matrix inverted and applied to the back projection of the image to realign the rays in the volume to their respective source positions as shown in \figurename~\ref{fig:flopt_algorithm}. %TODO hard sentence.
 % This process is repeated for every angle the sum of these ray projection volumes is filtered using a high-pass filter; here a \gls*{Ram-Lak filter} is used.
 % \footnote{Linear real (amplitude) ramp filter in Fourier space}. %: \(|v|\)}
 % By producing a series of transformation matrices from adjacent acquisitions, errors compound and the reconstruction of volumes degrades with more projections, see \figurename~\ref{fig:irandons}.
@@ -547,7 +548,7 @@ The more challenging case of a sample drifting systematically along the \(X\) ax
 In \figurename~\ref{fig:unfilttered_reconstruction_helix_iradon}, the Radon transform fails to produce a recognisable reproduction of the test image with the addition of a slight helicity to the rotation.
 The proposed algorithm produces an equivalent result to that of a sample rotating without any systematic drift, see \figurename~\ref{fig:iradon_filter}.
 In \figurename~\ref{fig:helical_comparison} the respective reconstructions from each algorithm were compared, as before, while the helical shift was incremented.
-See \figurename~\ref{fig:flopt_helix_sinogram} for a sinogram of a sample wherein a helical shift has been induced.
+See \figurename~\ref{fig:flopt_helix_sinogram} for a sinogram of a sample (shown in \figurename~\ref{fig:topdown_bead_paths}) wherein a helical shift has been induced.
 When using correlation as a metric of reproduction quality, the new algorithm fares slightly worse at zero helicity, with \SI{94}{\percent} correlation compared to the Radon transform at \SI{96}{\percent}.
 As expected, the Radon transform rapidly deteriorates once a systematic drift is applied, whereas the new algorithm maintains the quality of the reconstruction, see \figurename~\ref{fig:helical_comparison}.
 
@@ -586,11 +587,12 @@ As expected, the Radon transform rapidly deteriorates once a systematic drift is
       \node[below=of img1] {\(X\)\vphantom{\(X\)}};
       \node[left=of img1,rotate=90,yshift=0.2cm] {\(Y\)};
     \end{tikzpicture}
-    \caption{Filtered reconstruction using the new algorithm.}\label{fig:filtered_recon_helix}\label{fig:flopt_filter}
+    \caption{Filtered reconstruction using the flOPT.}\label{fig:filtered_recon_helix}\label{fig:flopt_filter}
   \end{subfigure}
   \hspace*{\fill}
   % \caption{}
-  \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D. (\subref{fig:topdown_bead_paths}) shows the path of four fiducial markers under helical drift; (\subref{fig:flopt_helix_sinogram}) shows the sinogram of this motion; with (\subref{fig:unfilttered_reconstruction_helix_iradon}) showing the result of the Radon; transform on tomographic dataset that contains this corruption whilst (\subref{fig:flopt_helix_sinogram}) shows the result of the reconstruction using the flOPT algorithm~\cite{craig_russell_2020_4073437}.}\label{fig:flopts}
+  \caption{Comparison of the two reconstructions under sample imaging with a systematic drift, in 3D though represented here in 2D. (\subref{fig:topdown_bead_paths}) shows the path of four fiducial markers under helical drift; (\subref{fig:flopt_helix_sinogram}) shows the sinogram of this motion; with (\subref{fig:unfilttered_reconstruction_helix_iradon}) showing the result of the Radon; transform on tomographic dataset that contains this corruption whilst (\subref{fig:filtered_recon_helix}) shows the result of the reconstruction using the flOPT algorithm~\cite{craig_russell_2020_4073437}, which is robust to systematic drift.
+  }\label{fig:flopts}
 \end{figure*}
 
 \subsection*{Recovery of R and T using matrix decomposition}
@@ -614,26 +616,26 @@ The translation matrix (\gls*{T}) was consistently more accurately reproduced, w
     \captionsetup{width=0.8\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_alpha_ROT_err}
-    \caption{Rotation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_rot_alpha}
+    \caption{Rotation matrix, with angular drift in \(\alpha \)~\cite{craig_russell_2020_4073437}}\label{fig:pc_sum_rot_alpha}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.5\linewidth}
     \captionsetup{width=0.8\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_alpha_TRANS_err}
-    \caption{Translation matrix, with angular drift in \(\alpha \)}\label{fig:pc_sum_trans_alpha}
+    \caption{Translation matrix, with angular drift in \(\alpha \)~\cite{craig_russell_2020_4073437}}\label{fig:pc_sum_trans_alpha}
   \end{subfigure}
   \par\bigskip
   \begin{subfigure}[t]{0.5\linewidth}
     \captionsetup{width=0.8\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_tx_ROT_err}
-    \caption{Rotation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_rot_tx}
+    \caption{Rotation matrix, with helical drift in \(x\) only~\cite{craig_russell_2020_4073437}}\label{fig:pc_sum_rot_tx}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.5\linewidth}
     \captionsetup{width=0.8\linewidth}
     \centering
     \includegraphics[width=\linewidth]{./figures/results/helix/decompose/improved/10082020_bead_simulation_tx_TRANS_err}
-    \caption{Translation matrix, with helical drift in \(x\) only}\label{fig:pc_sum_trans_tx}
+    \caption{Translation matrix, with helical drift in \(x\) only~\cite{craig_russell_2020_4073437}}\label{fig:pc_sum_trans_tx}
   \end{subfigure}
   \bigskip
   % \begin{subfigure}[t]{0.5\linewidth}
@@ -648,7 +650,7 @@ The translation matrix (\gls*{T}) was consistently more accurately reproduced, w
   %   \includegraphics[width=\linewidth]{./figures/results/helix/decompose/pc_sum_trans_both}
   %   \caption{Translation matrix, with angular drift in \(\alpha \) and helical drift in \(X\)}\label{fig:pc_sum_trans_both}
   % \end{subfigure}
-  \caption[Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions]{Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions.
+  \caption[Box plots demonstrating that the rotational and translations matrices can be recovered accurately from fiducial marker positions]{Box plots demonstrating that the rotational and translations matrices can be recovered accurately from 8 fiducial markers located randomly through an image volume of \(128\times128\times128\) pixels.
     Panels~(\subref{fig:pc_sum_rot_alpha}) and~(\subref{fig:pc_sum_trans_alpha}) introduce an angular drift during rotation, to an observer at the detector this would appear as a tip of the sample towards them, causing precession.
     Panels~(\subref{fig:pc_sum_rot_tx}) and~(\subref{fig:pc_sum_trans_tx}) introduce a lateral drift in \(X\) causing a helical path to be drawn out.
     % Panels~(\subref{fig:pc_sum_rot_both}) and~(\subref{fig:pc_sum_trans_both}) combine the two effects.
@@ -697,6 +699,8 @@ All of the code presented here is FOSS using OpenCV and Python for our simulatio
 
 \section*{Disclosures}
 The authors declare that there are no conflicts of interest related to this article.
+Zelda and Cameraman images are both public domain and available at \url{https://www.petitcolas.net/watermarking/image_database/}
+
 
 \onecolumn
 \newpage
@@ -736,21 +740,18 @@ A projection is then the resulting intensity profile at the detector for a rotat
 % \(f(I_i,\theta_n) \)
 is the Radon transform.
 % This is defined mathematically as:
-
-\begin{align}
+\begin{gather}
   \intertext{The equation of a set of parallel rays from a source passing through the specimen to a point \(v\) along the detector is:}
-                & X\cos(\theta) + Y\sin(\theta) - v = 0                                                            \\
+  X\cos(\theta) + Y\sin(\theta) - v = 0
   \intertext{Projecting many such rays through a sample with structure \(f(X,Y)\) gives:}
-  P_\theta(v) = & \int_{\infty}^{\infty} \int_{\infty}^{\infty} f(X,Y)\delta (x\cos(\theta)+y \sin(\theta)-v)dX dY
-\end{align}
-
+  P_\theta(v) = \int_{\infty}^{\infty} \int_{\infty}^{\infty} f(X,Y)\delta (x\cos(\theta)+y \sin(\theta)-v)dX dY
+\end{gather}
 % \begin{figure}
 %     \centering
 %     \includegraphics{coordinate_system}
 %     \caption{Coordinate system}
 %     \label{fig:coordinate_system_flopt}
 % \end{figure}
-
 Where \(P_\theta(v)\) is the Radon transform of \(f(X,Y)\) which represents the contrast image of a 2D slice of the specimen.
 The Radon transform of an image produces a sinogram.% as in \figurename~\ref{fig:rawinputs}
 
@@ -1151,7 +1152,7 @@ The reoriented back projected volumes are summed and finally filtered to remove 
 % \bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt}
 % \bibliography{thesis,filler,xtrareferences,zenodo,2019_flopt,2020_flopt}
 % \printbibliography
-\section*{Bibliography}
+% \section*{Bibliography}
 \bibliography{merge}
 % \printbibliography
 \end{document}

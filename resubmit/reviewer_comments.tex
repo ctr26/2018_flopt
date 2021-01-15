@@ -1,0 +1,22 @@
+
+\documentclass[12pt]{report}
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+\begin{document}
+
+\section*{Reviewer Comments:}
+
+\subsection*{Reviewer 1}
+\begin{lstlisting}
+
+The authors have addressed the questions I posed after the first round of review. I have a minor recommendation: it will be worthwhile if the authors could give the size of the image/volume in pixels that they use in the simulations. This will give some context to the severity of angular and translation misalignments (for example a misalignment of 20 pixels for a 2000 X 2000 pixel image is a lot less severe, than the same misalignment for a 500 X 500 image).
+    
+    Conditions included in Figure caption 7. Image volume used is 128x128x128, errors are typically smaller than e-5 so we considered this to be acceptable. Errors would be smaller using larger image volumes and additional fiducials.
+     
+\end{lstlisting}
+\end{document}
